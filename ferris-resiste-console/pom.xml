@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.ferris</groupId>
+        <artifactId>ferris-resiste</artifactId>
+        <version>1.0.0.0-SNAPSHOT</version>
+    </parent>
+        
+    <artifactId>ferris-resiste-console</artifactId>
+    <packaging>jar</packaging>
+
+    <organization>
+        <name>The Ferris Foundation</name>
+    </organization>
+
+    <name>ferris-resiste-console</name>
+    <description>An RSS to email system</description>
+    <url>http://mjremijan.github.io/ferris-tweial</url>
+
+    <issueManagement>
+        <url>https://github.com/mjremijan/ferris-tweial/issues</url>
+        <system>GitHub</system>
+    </issueManagement>        
+    
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+	
+    <scm>
+        <url>https://github.com/mjremijan/ferris-tweial</url>
+        <connection>scm:git:git@github.com:mjremijan/ferris-tweial.git</connection>
+        <developerConnection>scm:git:git@github.com:mjremijan/ferris-tweial.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <!-- if you have a gravatar image with this email it will show -->
+            <email>mjremijan@yahoo.com</email>
+            <id>mjremijan</id>
+            <name>Michael Remijan</name>
+            <organization>The Ferris Foundation</organization>			
+            <organizationUrl></organizationUrl>
+            <properties>
+                <twitter>@mjremijan</twitter>
+                <!-- picUrl></picUrl> Use this if no gravatar image -->
+            </properties>
+            <roles>
+                <role>Project Owner</role>
+                <role>Architect</role>
+                <role>Lead Developer</role>
+            </roles>
+            <timezone>America/Chicago</timezone>
+            <url>http://www.linkedin.com/in/mjremijan</url>
+        </developer>
+    </developers>
+	
+	<contributors>
+		<contributor>
+			<email>ann.willmore@student.swic.edu</email>
+			<name>Ann L. Willmore</name>
+			<organization></organization>
+			<organizationUrl></organizationUrl>
+			<properties></properties>
+			<roles>
+				<role>Logo designer</role>
+			</roles>
+			<timezone>America/Chicago</timezone>
+			<url></url>				
+		</contributor>
+	</contributors>
+	 
+	<properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
+        <!-- Don't use the "." character for the property names. The site plugin
+             cannot handle user-defined property names that contain "." -->
+        <ferrisJacocoVersion>0.7.5.201505241946</ferrisJacocoVersion>
+        <ferrisWindowsAssemblyId>windows-x86-64-jre</ferrisWindowsAssemblyId>
+        <ferrisLinuxAssemblyId>linux-x86-64-jre</ferrisLinuxAssemblyId>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--
+             | This refers to the Windows specific JAR file created
+             | during the packaging phase.  The Assembly needs this
+             | dependency defined so it can find the JAR file.
+            -->
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${project.artifactId}</artifactId>
+                <version>${project.version}</version>
+                <classifier>windows</classifier>
+            </dependency>
+            <!--
+             | This refers to the Linux specific JAR file created
+             | during the packaging phase.  The Assembly needs this
+             | dependency defined so it can find the JAR file.
+            -->
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${project.artifactId}</artifactId>
+                <version>${project.version}</version>
+                <classifier>linux</classifier>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+	
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>ApplicationMessages.properties</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <excludes>
+                    <exclude>ApplicationMessages.properties</exclude>
+                </excludes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <!--
+             | Configure unit testing.
+             | - Ignore the research stuff
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <executions>
+                    <execution>
+                        <id>default-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>%regex[.*research\.MailWith.*Test.*]</exclude>
+                        <exclude>%regex[.*research\.Twitter.*Test.*]</exclude>
+                    </excludes>
+                    <trimStackTrace>false</trimStackTrace>
+                </configuration>
+            </plugin>
+
+            <!--
+             | Configure how the JAR file(s) are build
+             | - Need a Windows-specific JAR
+             | - Need a Linux-specific JAR
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>                
+                <executions>
+                    <!--
+                     | Don't create the default JAR for the project
+                     | since I need to create two other JAR files
+                     | which are specific to Windows and Linux
+                    -->
+                    <execution>
+                        <id>default-jar</id>
+                        <phase/>
+                    </execution>
+                    <!--
+                     | Windows specific JAR
+                     | - Path to ..\conf\
+                    -->
+                    <execution>
+                        <id>windows-jar-execution</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>windows</classifier>
+                            <archive>
+                                <manifestEntries>
+                                    <Class-Path>..\conf\</Class-Path>
+                                </manifestEntries>
+                                <addMavenDescriptor>false</addMavenDescriptor>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+									<mainClass>org.ferris.tweial.console.main.Main</mainClass>
+                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </execution>
+                    <!--
+                     | Linux specific JAR
+                     | - Path to ../conf/
+                    -->
+                    <execution>
+                        <id>linux-jar-execution</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>linux</classifier>
+                            <archive>
+                                <manifestEntries>
+                                    <Class-Path>../conf/</Class-Path>
+                                </manifestEntries>
+                                <addMavenDescriptor>false</addMavenDescriptor>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <mainClass>org.ferris.tweial.console.main.Main</mainClass>
+                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </execution>
+                </executions>                
+            </plugin>
+        </plugins>
+    </build>
+    
+    <dependencies>
+        <!-- TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST -->
+        <!-- TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST -->
+        <!-- TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST -->
+        <!-- TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST -->
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>1.5.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-easymock</artifactId>
+            <version>1.5.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>1.5.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>3.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE -->
+        <!-- COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE -->
+        <!-- COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE -->
+        <!-- COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE -->
+
+        <!-- MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.3.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+        
+        <!-- ROME ROME ROME ROME ROME ROME ROME ROME ROME ROME ROME ROME ROME ROME ROME ROME ROME -->
+        <dependency>
+            <groupId>com.rometools</groupId>
+            <artifactId>rome</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+
+        <!-- MAIL MAIL MAIL MAIL MAIL MAIL MAIL MAIL MAIL MAIL MAIL MAIL MAIL MAIL MAIL MAIL MAIL -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+        <!-- DERBY DERBY DERBY DERBY DERBY DERBY DERBY DERBY DERBY DERBY DERBY DERBY DERBY DERBY DERBY -->
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbyclient</artifactId>
+            <version>10.11.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.11.1.1</version>
+        </dependency>
+
+        <!-- JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>4.3.4.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>4.3.4.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <!-- CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI -->
+        <dependency>
+            <groupId>org.jboss.weld.se</groupId>
+            <artifactId>weld-se-core</artifactId>
+            <version>3.0.0.Alpha15</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jandex</artifactId>
+            <version>1.2.1.Final</version>
+        </dependency>
+
+
+        <!-- VALIDATION VALIDATION VALIDATION VALIDATION VALIDATION VALIDATION VALIDATION VALIDATION -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>5.1.2.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator-cdi</artifactId>
+            <version>5.1.2.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml</groupId>
+            <artifactId>classmate</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>2.2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>2.2.4</version>
+        </dependency>
+    </dependencies>
+    
+
+    <profiles>
+        <profile>
+            <id>code-coverage</id>
+            <build>
+                <plugins>
+                    <!-- http://www.eclemma.org/jacoco/trunk/doc/check-mojo.html -->
+                    <!-- limit implementation="org.jacoco.report.check.Limit">
+                                    <counter>COMPLEXITY</counter>
+                                    <value>COVEREDRATIO</value>
+                                    <minimum>0.60</minimum>
+                    </limit -->
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${ferrisJacocoVersion}</version>
+                        <configuration>
+                            <excludes>
+                                <exclude>org/ferris/tweial/research/**</exclude>
+                                <!--
+                                  These tools test System static method calls like Thread.sleep().
+                                  This testing involves creating mocks for these tool classes
+                                  so Jacoco does not recognize these classes are being tested
+                                  because, in practice, they really aren't being tested they
+                                  are being mocked and the mocks are being used so System
+                                  static methods can be tested.
+                                -->
+                                <exclude>org/ferris/tweial/consolex/lang/ThreadTool*</exclude>
+                                <exclude>org/ferris/tweial/consolex/lang/SystemTool*</exclude>
+                                <exclude>org/ferris/tweial/consolex/util/concurrent/ExecutorsTool*</exclude>
+                                <exclude>org/ferris/tweial/consoles/persistence/PersistenceTool*</exclude>
+                                <exclude>org/ferris/tweial/consolex/log4j/Log4jLogManagerTool*</exclude>
+                                <exclude>org/ferris/tweial/consolex/log4j/Log4jPropertyConfiguratorTool*</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>default-prepare-agent</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <!--							<execution>
+                                    <id>default-report</id>
+                                    <phase>prepare-package</phase>
+                                    <goals>
+                                            <goal>report</goal>
+                                    </goals>
+                            </execution>-->
+                            <execution>
+                                <id>default-check</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <rule implementation="org.jacoco.maven.RuleConfiguration">
+                                            <element>BUNDLE</element>
+                                            <limits>
+                                                <limit implementation="org.jacoco.report.check.Limit">
+                                                    <counter>INSTRUCTION</counter>
+                                                    <value>COVEREDRATIO</value>
+                                                    <!-- minimum>0.75</minimum -->
+                                                    <minimum>0.25</minimum>
+                                                </limit>
+                                                <limit implementation="org.jacoco.report.check.Limit">
+                                                    <counter>BRANCH</counter>
+                                                    <value>COVEREDRATIO</value>
+                                                    <!-- minimum>0.55</minimum -->
+                                                    <minimum>0.25</minimum>
+                                                </limit>
+                                                <limit implementation="org.jacoco.report.check.Limit">
+                                                    <counter>CLASS</counter>
+                                                    <value>MISSEDCOUNT</value>
+                                                    <!-- maximum>0</maximum -->
+                                                    <maximum>1000</maximum>
+                                                </limit>
+                                            </limits>
+                                        </rule>
+                                    </rules>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>default-report</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.7</version>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <!-- Rename the ".resources" directory -->
+                                        <move file="target/site/jacoco/.resources" tofile="target/site/jacoco/resources"/>
+                                        <!-- Replace ".resources" in HTML files -->
+                                        <replaceregexp flags="g">
+                                            <regexp pattern="\.resources"/>
+                                            <substitution expression="resources"/>
+                                            <fileset dir="target/site/jacoco">
+                                                <include name="**/*.html"/>
+                                                <include name="**/*.css"/>
+                                                <include name="**/*.js"/>
+                                            </fileset>
+                                        </replaceregexp>
+                                    </target>
+                                </configuration>								
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+		
+		
+        <profile>
+            <id>site</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-site-plugin</artifactId>
+                        <version>3.0</version>
+                        <executions>
+                            <execution>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>site</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+        
+        <profile>
+            <id>zip-assemblies</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.5.4</version>
+                        <executions>
+                            <execution>
+                                <id>windows-jre-assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>src/main/assemblies/windows/windows-jre-assembly.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>linux-jre-assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <tarLongFileMode>gnu</tarLongFileMode>
+                                    <descriptors>
+                                        <descriptor>src/main/assemblies/linux/linux-jre-assembly.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+        
+        <profile>
+            <id>windows-jre-unzip</id>
+            <build>
+                <plugins>                    
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.7</version>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <configuration>
+                                    <target>
+                                        <unzip src="${project.build.directory}/${project.artifactId}-${project.version}-${ferrisWindowsAssemblyId}.zip"
+                                                                                       dest="${project.build.directory}/unziped" />
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+		
+		
+        <profile>
+            <id>site-deploy</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <!-- Deploy the web site -->
+                        <groupId>com.github.github</groupId>
+                        <artifactId>site-maven-plugin</artifactId>
+                        <version>0.12</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>site</goal>
+                                </goals>
+                                <!-- select the Maven phase in which the plugin will be executed -->
+                                <phase>verify</phase>
+                                <configuration>
+                                    <!-- this matches a the 'server' tag in settings.xml -->
+                                    <server>github</server>
+                                    <!-- The commit message -->
+                                    <message>Deploying Tweial project site ${project.version}</message>
+                                    <!-- The location where the site is uploaded
+                                    <path>${site.path}</path>  -->
+                                    <!-- Use merge or override the content -->
+                                    <merge>false</merge>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
+    <reporting>
+        <plugins>    
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${ferrisJacocoVersion}</version>                                
+            </plugin>        
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.3</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <links>
+                        <link>https://docs.oracle.com/javase/8/docs/api/</link>
+                    </links>
+                </configuration>
+            </plugin>                        
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.8.1</version>
+                <reportSets>
+                    <reportSet>
+                        <id>Report Set 1</id>
+                        <reports>
+							<report>project-team</report>
+							<report>summary</report>
+							<report>license</report>
+							<report>issue-tracking</report>             
+							<report>scm</report>
+						</reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
+</project>

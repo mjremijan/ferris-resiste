@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+    <properties>
+        <title>Ferris Tweial</title>
+        <author email="mjremijan@yahoo.com">Michael Remijan</author>
+    </properties>
+
+    <body>
+        <section name="1st Public Release">
+            <p>
+                This is a simple screenshot of the Tweial email showing the tweet introducing
+				the 1st public release of Tweial  
+            </p>
+            <p>
+                <img src="images/tweial-email-with-tweet-about-tweial.jpg" alt="1st public release email screenshot"/>
+            </p>
+        </section>
+    </body>
+</document>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+    <properties>
+        <title>Ferris Tweial</title>
+        <author email="mjremijan@yahoo.com">Michael Remijan</author>
+    </properties>
+
+    <!-- Optional HEAD element, which is copied as is into the XHTML <head> element
+<head>
+     <meta ... />
+</head>
+    -->
+
+    <body>
+        <section name="">
+            <div id="twStart">
+                <h2>Start Using Tweial</h2>
+                <span class="nav-header">A Twitter to email client</span>
+                <a href="${project.scm.url}/releases/download/${project.build.finalName}/${project.build.finalName}-${ferrisWindowsAssemblyId}.zip">
+                    <img src="images/windows-icon.png" />Download for Windows
+                </a>
+				&nbsp; &nbsp; &nbsp; &nbsp;
+                <a href="${project.scm.url}/releases/download/${project.build.finalName}/${project.build.finalName}-${ferrisLinuxAssemblyId}.tar.gz">
+                    <img src="images/linux-icon.png" />Download for Linux
+                </a>
+				&nbsp; &nbsp; &nbsp; &nbsp;
+                <a href="${project.scm.url}">
+                    <img src="images/octocat-icon.png" />Visit on GitHub
+                </a>
+            </div>
+        </section>
+		
+        <section name="About">
+            <p>
+                The purpose of Tweial is to be an all-purpose Twitter-to-email client.
+                Schedule Tweial to run at an interval of your choosing (15 minutes, 1 hour, etc.). 
+                When Tweial runs, it will:
+            </p>
+            <ol>
+                <li>Determine the new tweets since it last ran</li>
+                <li>Put together a digest of the new tweets</li>
+                <li>Email the digest to you</li>
+            </ol>
+        </section>
+
+        <section name="Why">
+            <p>
+                You want an application like Tweial because it's the difference between 
+                pulling information and pushing information. I basically check only one thing
+                all day, and that's my email's inbox.  If it comes to my inbox (i.e it's
+                "pushed" to me) I'll read it and respond. However if it doesn't come to
+                my inbox, it's very unlikely I'll remember to go get it (i.e. "pull" it to me).
+                So this is why I created Tweial - to automatically "push" tweets to my inbox.			
+            </p>
+        </section>
+    </body>
+</document>
