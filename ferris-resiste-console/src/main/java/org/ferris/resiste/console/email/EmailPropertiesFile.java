@@ -1,7 +1,6 @@
 package org.ferris.resiste.console.email;
 
 import java.io.File;
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.ferris.resiste.console.application.ApplicationDirectory;
 import org.ferris.resiste.console.io.AbstractPropertiesFile;
@@ -11,7 +10,6 @@ import org.ferris.resiste.console.io.AbstractPropertiesFile;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-@ApplicationScoped
 public class EmailPropertiesFile extends AbstractPropertiesFile {
 
     private static final long serialVersionUID = 140988098234509827L;

@@ -201,7 +201,7 @@
                                 <addMavenDescriptor>false</addMavenDescriptor>
                                 <manifest>
                                     <addClasspath>true</addClasspath>
-									<mainClass>org.ferris.tweial.console.main.Main</mainClass>
+									<mainClass>org.ferris.resiste.console.main.Main</mainClass>
                                     <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                                 </manifest>
                             </archive>
@@ -226,7 +226,7 @@
                                 <addMavenDescriptor>false</addMavenDescriptor>
                                 <manifest>
                                     <addClasspath>true</addClasspath>
-                                    <mainClass>org.ferris.tweial.console.main.Main</mainClass>
+                                    <mainClass>org.ferris.resiste.console.main.Main</mainClass>
                                     <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                                 </manifest>
                             </archive>
@@ -398,20 +398,6 @@
                         <configuration>
                             <excludes>
                                 <exclude>org/ferris/tweial/research/**</exclude>
-                                <!--
-                                  These tools test System static method calls like Thread.sleep().
-                                  This testing involves creating mocks for these tool classes
-                                  so Jacoco does not recognize these classes are being tested
-                                  because, in practice, they really aren't being tested they
-                                  are being mocked and the mocks are being used so System
-                                  static methods can be tested.
-                                -->
-                                <exclude>org/ferris/tweial/consolex/lang/ThreadTool*</exclude>
-                                <exclude>org/ferris/tweial/consolex/lang/SystemTool*</exclude>
-                                <exclude>org/ferris/tweial/consolex/util/concurrent/ExecutorsTool*</exclude>
-                                <exclude>org/ferris/tweial/consoles/persistence/PersistenceTool*</exclude>
-                                <exclude>org/ferris/tweial/consolex/log4j/Log4jLogManagerTool*</exclude>
-                                <exclude>org/ferris/tweial/consolex/log4j/Log4jPropertyConfiguratorTool*</exclude>
                             </excludes>
                         </configuration>
                         <executions>

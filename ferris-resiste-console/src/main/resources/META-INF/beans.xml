@@ -6,7 +6,7 @@
         <exclude name="org.jboss.weld.**" />
     </scan>
     <interceptors>
-        <class>org.ferris.tweial.console.retry.ExceptionRetryInterceptor</class>
+        <class>org.ferris.resiste.console.retry.ExceptionRetryInterceptor</class>
     </interceptors>
 
 </beans>

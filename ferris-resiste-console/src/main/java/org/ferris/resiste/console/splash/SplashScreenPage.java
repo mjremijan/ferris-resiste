@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.log4j.Logger;
 import org.ferris.resiste.console.application.ApplicationDirectory;
-import org.ferris.resiste.console.data.DataDirectory;
+import org.ferris.resiste.console.email.EmailPropertiesFile;
 import org.ferris.resiste.console.io.Console;
 import org.ferris.resiste.console.text.i18n.LocalizedString;
 import org.ferris.resiste.console.text.i18n.LocalizedStringBuilder;
@@ -34,7 +34,7 @@ public class SplashScreenPage extends AbstractPage {
     protected ApplicationDirectory applicationDirectory;
 
     @Inject
-    protected DataDirectory dataDirectory;
+    protected EmailPropertiesFile dataDirectory;
 
     @Inject
     protected Version version;
