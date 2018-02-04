@@ -1,6 +1,5 @@
 package org.ferris.resiste.console.email;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import org.apache.log4j.Logger;
@@ -15,7 +14,6 @@ import org.jboss.weld.experimental.Priority;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-@ApplicationScoped
 public class EmailPage extends AbstractPage {
 
     @Inject

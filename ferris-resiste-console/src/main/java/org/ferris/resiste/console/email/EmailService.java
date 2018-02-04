@@ -1,7 +1,6 @@
 package org.ferris.resiste.console.email;
 
 import java.util.Set;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
@@ -13,7 +12,6 @@ import org.apache.log4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-@ApplicationScoped
 public class EmailService {
 
     @Inject

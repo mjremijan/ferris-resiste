@@ -2,7 +2,6 @@ package org.ferris.resiste.console.io;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.ferris.resiste.console.text.i18n.LocalizedString;
 import org.ferris.resiste.console.text.i18n.LocalizedStringList;
@@ -11,7 +10,6 @@ import org.ferris.resiste.console.text.i18n.LocalizedStringList;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-@ApplicationScoped
 public class Console {
 
     private ConsoleWriter writer;

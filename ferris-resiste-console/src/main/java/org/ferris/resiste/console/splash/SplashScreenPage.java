@@ -2,12 +2,11 @@ package org.ferris.resiste.console.splash;
 
 import java.util.Enumeration;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.log4j.Logger;
 import org.ferris.resiste.console.application.ApplicationDirectory;
-import org.ferris.resiste.console.email.EmailPropertiesFile;
+import org.ferris.resiste.console.data.DataDirectory;
 import org.ferris.resiste.console.io.Console;
 import org.ferris.resiste.console.text.i18n.LocalizedString;
 import org.ferris.resiste.console.text.i18n.LocalizedStringBuilder;
@@ -21,7 +20,6 @@ import org.ferris.resiste.console.view.page.AbstractPage;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-@ApplicationScoped
 public class SplashScreenPage extends AbstractPage {
 
     @Inject
@@ -34,7 +32,7 @@ public class SplashScreenPage extends AbstractPage {
     protected ApplicationDirectory applicationDirectory;
 
     @Inject
-    protected EmailPropertiesFile dataDirectory;
+    protected DataDirectory dataDirectory;
 
     @Inject
     protected Version version;
@@ -99,7 +97,7 @@ public class SplashScreenPage extends AbstractPage {
     }
 
     public void view() {
-        log.info("view()");
+        log.info("ENTER");
         log.info(applicationProperties.toString());
         console.p(applicationProperties);
         console.p(welcome);

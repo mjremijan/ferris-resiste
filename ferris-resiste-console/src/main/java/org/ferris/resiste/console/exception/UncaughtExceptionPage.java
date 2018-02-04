@@ -1,6 +1,5 @@
 package org.ferris.resiste.console.exception;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.apache.log4j.Logger;
 import org.ferris.resiste.console.io.Console;
@@ -12,7 +11,6 @@ import org.ferris.resiste.console.view.page.AbstractPage;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-@ApplicationScoped
 public class UncaughtExceptionPage extends AbstractPage {
 
     @Inject

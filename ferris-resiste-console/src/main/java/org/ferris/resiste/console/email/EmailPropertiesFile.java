@@ -2,7 +2,7 @@ package org.ferris.resiste.console.email;
 
 import java.io.File;
 import javax.inject.Inject;
-import org.ferris.resiste.console.application.ApplicationDirectory;
+import org.ferris.resiste.console.conf.ConfDirectory;
 import org.ferris.resiste.console.io.AbstractPropertiesFile;
 
 /**
@@ -17,11 +17,10 @@ public class EmailPropertiesFile extends AbstractPropertiesFile {
     /**
      * To file "conf/email.properties"
      *
-     * @param appdir An {@link ApplicationDirectory} representing the root
-     * directory Tweials running in.
+     * @param confdir A {@link ConfDirectory}
      */
     @Inject
-    public EmailPropertiesFile(ApplicationDirectory appdir) {
-        super(appdir, String.format("conf/email.properties"));
+    public EmailPropertiesFile(ConfDirectory confdir) {
+        super(confdir, String.format("conf/email.properties"));
     }
 }
