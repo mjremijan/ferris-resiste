@@ -17,13 +17,20 @@ public class FeedRepository {
     protected Logger log;
 
     @Inject
-    protected FeedDataFile file;
+    protected FeedDataFile feedData;
+
+    @Inject
+    protected FeedItemHistoryDataFile itemHistoryData;
 
     @Inject
     protected FeedFactory factory;
 
-    public boolean itemExists(String guid) {
+    public boolean findItemInHistory(String feedId, String itemId) {
+        return itemHistoryData.exists(feedId, itemId);
+    }
 
+    public void storeItemInHistory(String feedId, String itemId) {
+        itemHistoryData.store(feedId, itemId);
     }
 
     public List<Feed> findAll() {
@@ -32,10 +39,10 @@ public class FeedRepository {
         List<String> lines = null;
 
         try {
-            lines = Files.readAllLines(file.toPath());
+            lines = Files.readAllLines(feedData.toPath());
         } catch (Exception e) {
             throw new RuntimeException(
-                String.format("Problem reading file \"%s\"", file.getAbsolutePath()), e
+                String.format("Problem reading file \"%s\"", feedData.getAbsolutePath()), e
             );
         }
 
