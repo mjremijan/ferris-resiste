@@ -6,24 +6,8 @@ package org.ferris.resiste.console.email;
  */
 public class EmailSendEvent {
 
-    private String message;
+    public static final int DRAFT = 100;
+    public static final int VIEW = 200;
+    public static final int SEND = 300;
 
-    private String subject;
-
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getMessage() {
-        return this.message;
-    }
 }
