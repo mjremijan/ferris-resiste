@@ -2,6 +2,7 @@ package org.ferris.resiste.console.feed;
 
 import java.util.Optional;
 import javax.inject.Inject;
+import org.ferris.resiste.console.lang.StringUtils;
 import org.slf4j.Logger;
 
 /**
@@ -14,9 +15,9 @@ public class FeedFactory {
     protected Logger log;
 
     public Optional<Feed> toFeed(String commaSeparatedFeedData) {
-        log.info("ENTER");
+        log.info(String.format("ENTER \"%s\"", commaSeparatedFeedData));
 
-        commaSeparatedFeedData = commaSeparatedFeedData.trim();
+        commaSeparatedFeedData = StringUtils.trimToEmpty(commaSeparatedFeedData);
 
         if (commaSeparatedFeedData.isEmpty()) {
             return Optional.empty();

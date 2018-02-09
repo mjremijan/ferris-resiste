@@ -9,16 +9,16 @@ import java.util.List;
 import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import org.slf4j.Logger;
 import org.ferris.resiste.console.feed.Feed;
 import org.ferris.resiste.console.feed.FeedRepository;
-import static org.ferris.resiste.console.rome.FeedRetrievalEvent.RETRIEVE;
+import static org.ferris.resiste.console.rome.SyndRetrievalEvent.RETRIEVE;
+import org.slf4j.Logger;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-public class FeedRetrievalService {
+public class SyndRetrievalService {
 
     @Inject
     protected Logger log;
@@ -26,12 +26,12 @@ public class FeedRetrievalService {
     @Inject
     protected FeedRepository repository;
 
-    protected void retrieveObserver(
-        @Observes @Priority(RETRIEVE) FeedRetrievalEvent evnt
+    protected void observeRetrieve(
+        @Observes @Priority(RETRIEVE) SyndRetrievalEvent evnt
     ) {
-        log.info("ENTER");
+        log.info(String.format("ENTER %s", evnt));
 
-        log.info("READ: Get the list of all the user's feed URLs");
+        log.info("READ: Get the list of all the user's URLs");
         List<Feed> userFeeds
             = repository.findAll();
 
@@ -44,8 +44,9 @@ public class FeedRetrievalService {
                 );
             } catch (Exception e) {
                 evnt.addError(
-                      f.getUrl().toString()
-                    , Arrays.toString(e.getStackTrace())
+                    f.getUrl().toString()
+                    + ": "
+                    + Arrays.toString(e.getStackTrace())
                 );
             }
         }

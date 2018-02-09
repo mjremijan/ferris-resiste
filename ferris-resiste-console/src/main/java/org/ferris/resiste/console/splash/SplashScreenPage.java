@@ -1,10 +1,14 @@
 package org.ferris.resiste.console.splash;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Priority;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import org.ferris.resiste.console.application.ApplicationDirectory;
 import org.ferris.resiste.console.data.DataDirectory;
 import org.ferris.resiste.console.io.Console;
+import org.ferris.resiste.console.main.StartupEvent;
+import static org.ferris.resiste.console.main.StartupEvent.SPASH_SCREEN;
 import org.ferris.resiste.console.text.i18n.LocalizedString;
 import org.ferris.resiste.console.text.i18n.LocalizedStringBuilder;
 import org.ferris.resiste.console.text.i18n.LocalizedStringKey;
@@ -42,8 +46,10 @@ public class SplashScreenPage extends AbstractPage {
     @Inject
     @Welcome
     @LocalizedStringBuilder({
-        @LocalizedStringKey(buildId = "message", value = "SplashScreenPage.Message"),
-        @LocalizedStringKey(buildId = "width", value = "SplashScreenPage.Width"),
+        @LocalizedStringKey(buildId = "message", value = "SplashScreenPage.Message")
+        ,
+        @LocalizedStringKey(buildId = "width", value = "SplashScreenPage.Width")
+        ,
         @LocalizedStringKey(buildId = "bullet", value = "SplashScreenPage.Bullet")
     })
     protected LocalizedString welcome;
@@ -75,9 +81,11 @@ public class SplashScreenPage extends AbstractPage {
         properties.replace("t{resiste.data}", dataDirectory.getAbsolutePath());
     }
 
-    public void view() {
-        log.info("ENTER");
-        log.info(applicationProperties.toString());
+    public void observesStartup(
+        @Observes @Priority(SPASH_SCREEN) StartupEvent event
+    ) {
+        log.info(String.format("ENTER %s", event));
+
         console.p(applicationProperties);
         console.p(welcome);
     }

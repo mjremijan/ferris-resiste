@@ -6,17 +6,18 @@ import javax.enterprise.event.Event;
 import javax.enterprise.inject.se.SeContainer;
 import javax.enterprise.inject.se.SeContainerInitializer;
 import javax.inject.Inject;
-import org.slf4j.Logger;
 import org.ferris.resiste.console.email.EmailSendEvent;
 import org.ferris.resiste.console.exit.ExitEvent;
-import org.ferris.resiste.console.rome.FeedRetrievalEvent;
+import org.ferris.resiste.console.rome.SyndFilterEvent;
+import org.ferris.resiste.console.rome.SyndRetrievalEvent;
+import org.slf4j.Logger;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
 public class Main {
-    
+
     public static void main(String[] args) {
         SeContainer container
             = SeContainerInitializer.newInstance().initialize();
@@ -40,16 +41,25 @@ public class Main {
     protected Event<ExitEvent> exitEvent;
 
     @Inject
-    protected Event<FeedRetrievalEvent> feedRetrievalEvent;
+    protected Event<SyndRetrievalEvent> retrieval;
 
+    @Inject
+    protected Event<SyndFilterEvent> filter;
 
     protected void main(List<String> args) {
         log.info("Fire StartupEvent");
         startupEvent.fire(new StartupEvent());
 
-        log.info("Fire FeedRetrievalEvent");
-        FeedRetrievalEvent fre = new FeedRetrievalEvent();
-        feedRetrievalEvent.fire(fre);
+        log.info("Fire SyndRetrievalEvent");
+        SyndRetrievalEvent retrievalEvent = new SyndRetrievalEvent();
+        retrieval.fire(retrievalEvent);
+
+        log.info("Fire SyndFilterEvent");
+        SyndFilterEvent filterEvent = new SyndFilterEvent(
+            retrievalEvent.getFeeds(), retrievalEvent.getErrors()
+        );
+        filter.fire(filterEvent);
+
 
         log.info("Fire ExitEvent");
         exitEvent.fire(new ExitEvent());

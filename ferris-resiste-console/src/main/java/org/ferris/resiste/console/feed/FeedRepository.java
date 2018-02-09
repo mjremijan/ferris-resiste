@@ -29,6 +29,7 @@ public class FeedRepository {
     protected FeedFactory factory;
 
     public boolean findItemInHistory(String feedId, String itemId) {
+        log.info(String.format("ENTER \"%s\", \"%s\"", feedId, itemId));
         boolean found = false;
 
         try (
@@ -39,7 +40,8 @@ public class FeedRepository {
             while (!found && input.hasNext()) {
 
                 // Read the line of data from the data file
-                String next = input.next();
+                String next = input.nextLine();
+                log.debug(String.format("LINE: \"%s\"", next));
 
                 // Empty line? typically the last line
                 if (next.isEmpty()) {
@@ -47,7 +49,7 @@ public class FeedRepository {
                 }
 
                 // Data is tab-delimited, so split
-                String[] tokens = next.split("\t");
+                String[] tokens = next.split("\\t");
 
                 // See if line is a match to given feedId and itemId
                 found =
@@ -69,6 +71,8 @@ public class FeedRepository {
 
 
     public void storeItemInHistory(String feedId, String itemId) {
+        log.info(String.format("ENTER \"%s\", \"%s\"", feedId, itemId));
+        
         try (
             // Open data file for appending
             PrintWriter writer = new PrintWriter(
@@ -84,7 +88,7 @@ public class FeedRepository {
             );
         }
     }
-    
+
 
     public List<Feed> findAll() {
         log.info("ENTER");
