@@ -2,7 +2,7 @@ package org.ferris.resiste.console.feed;
 
 import java.util.Optional;
 import javax.inject.Inject;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
 /**
  *

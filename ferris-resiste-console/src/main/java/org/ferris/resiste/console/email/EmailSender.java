@@ -1,8 +1,6 @@
 package org.ferris.resiste.console.email;
 
 import java.io.IOException;
-import java.io.PrintStream;
-import java.util.Enumeration;
 import java.util.Properties;
 import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
@@ -16,9 +14,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import org.apache.log4j.Logger;
-import org.ferris.resiste.console.log4j.Log4jRollingFileAppender;
 import org.ferris.resiste.console.retry.ExceptionRetry;
+import org.slf4j.Logger;
 
 /**
  *
@@ -91,7 +88,7 @@ public class EmailSender {
             });
         }
         smtp.setDebug(true);
-        smtp.setDebugOut(getPrintStream());
+        //smtp.setDebugOut(getPrintStream());
 
         MimeMessage m = new MimeMessage(smtp);
         m.setContent(content);
@@ -106,14 +103,14 @@ public class EmailSender {
         Transport.send(m);
     }
 
-    protected PrintStream getPrintStream() {
-        Enumeration enu = log.getAllAppenders();
-        while (enu.hasMoreElements()) {
-            Object o = enu.nextElement();
-            if (o instanceof Log4jRollingFileAppender) {
-                return ((Log4jRollingFileAppender)o).getPrintStream();
-            }
-        }
-        return System.out;
-    }
+//    protected PrintStream getPrintStream() {
+//        Enumeration enu = log.getAllAppenders();
+//        while (enu.hasMoreElements()) {
+//            Object o = enu.nextElement();
+//            if (o instanceof Log4jRollingFileAppender) {
+//                return ((Log4jRollingFileAppender)o).getPrintStream();
+//            }
+//        }
+//        return System.out;
+//    }
 }

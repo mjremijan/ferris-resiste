@@ -1,7 +1,7 @@
 package org.ferris.resiste.console.exit;
 
 import javax.inject.Inject;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.ferris.resiste.console.io.Console;
 import org.ferris.resiste.console.text.i18n.LocalizedString;
 import org.ferris.resiste.console.text.i18n.LocalizedStringKey;

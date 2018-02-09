@@ -2,7 +2,7 @@ package org.ferris.resiste.console.exit;
 
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
 public class ExitObserver {
 

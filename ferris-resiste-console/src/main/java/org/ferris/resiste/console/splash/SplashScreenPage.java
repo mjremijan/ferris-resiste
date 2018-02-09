@@ -1,10 +1,7 @@
 package org.ferris.resiste.console.splash;
 
-import java.util.Enumeration;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.log4j.Logger;
 import org.ferris.resiste.console.application.ApplicationDirectory;
 import org.ferris.resiste.console.data.DataDirectory;
 import org.ferris.resiste.console.io.Console;
@@ -15,6 +12,7 @@ import org.ferris.resiste.console.text.i18n.LocalizedStringList;
 import org.ferris.resiste.console.text.i18n.qualifier.Welcome;
 import org.ferris.resiste.console.util.version.Version;
 import org.ferris.resiste.console.view.page.AbstractPage;
+import org.slf4j.Logger;
 
 /**
  *
@@ -54,7 +52,6 @@ public class SplashScreenPage extends AbstractPage {
     protected void postConstruct() {
         replaceUser(applicationProperties);
         replaceJava(applicationProperties);
-        replaceLoggers(applicationProperties);
         replaceApplication(applicationProperties);
     }
 
@@ -68,24 +65,6 @@ public class SplashScreenPage extends AbstractPage {
         properties.replace("t{java.home}", System.getProperty("java.home"));
         properties.replace("t{java.vendor}", System.getProperty("java.vendor"));
         properties.replace("t{java.version}", System.getProperty("java.version"));
-    }
-
-    protected void replaceLoggers(LocalizedStringList properties) {
-        StringBuilder sp = new StringBuilder();
-
-        @SuppressWarnings("rawtypes")
-        Enumeration appenders
-                = Logger.getRootLogger().getAllAppenders();
-
-        for (int i = 1; appenders.hasMoreElements(); i++) {
-            Object o = appenders.nextElement();
-            if (i > 1) {
-                sp.append("\n");
-            }
-            sp.append(String.format("#%d\n%s", i, ToStringBuilder.reflectionToString(o)));
-        }
-
-        properties.replace("t{logger.appenders}", sp.toString());
     }
 
     protected void replaceApplication(LocalizedStringList properties) {

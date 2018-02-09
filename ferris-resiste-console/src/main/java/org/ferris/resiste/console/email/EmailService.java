@@ -5,7 +5,7 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidatorFactory;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
 /**
  * This class contains the business logic for handling email related data.
@@ -44,7 +44,7 @@ public class EmailService {
 
         if (!violations.isEmpty()) {
             violations.stream()
-                .forEach(cv -> log.fatal(cv.getMessage()));
+                .forEach(cv -> log.error(cv.getMessage()));
             throw new RuntimeException("Email account information is not valid.  See log files for details.");
         }
 

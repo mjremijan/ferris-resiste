@@ -6,7 +6,7 @@ import javax.enterprise.event.Event;
 import javax.enterprise.inject.se.SeContainer;
 import javax.enterprise.inject.se.SeContainerInitializer;
 import javax.inject.Inject;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.ferris.resiste.console.email.EmailSendEvent;
 import org.ferris.resiste.console.exit.ExitEvent;
 import org.ferris.resiste.console.rome.FeedRetrievalEvent;

@@ -5,7 +5,7 @@ import javax.annotation.Priority;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.ferris.resiste.console.exit.ExitEvent;
 import org.ferris.resiste.console.main.StartupEvent;
 import static org.ferris.resiste.console.main.StartupEvent.EXCEPTION;

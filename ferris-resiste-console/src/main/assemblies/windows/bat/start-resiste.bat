@@ -24,6 +24,6 @@ Echo ------------
 %JAVA_BIN% -version
 Echo.
 
-Echo START TWEIAL
-Echo ------------
+Echo START RESISTE
+Echo -------------
 %JAVA_BIN% -jar %PD%\lib\${project.build.finalName}-windows.jar
