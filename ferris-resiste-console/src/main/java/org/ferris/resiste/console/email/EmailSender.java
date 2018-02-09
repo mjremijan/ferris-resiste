@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Enumeration;
 import java.util.Properties;
+import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.mail.Message;
@@ -16,9 +17,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import org.apache.log4j.Logger;
-import org.ferris.resiste.console.retry.ExceptionRetry;
 import org.ferris.resiste.console.log4j.Log4jRollingFileAppender;
-import org.jboss.weld.experimental.Priority;
+import org.ferris.resiste.console.retry.ExceptionRetry;
 
 /**
  *

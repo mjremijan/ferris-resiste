@@ -242,37 +242,14 @@
         <!-- TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST -->
         <!-- TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST -->
         <!-- TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST -->
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-module-junit4</artifactId>
-            <version>1.5.6</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-easymock</artifactId>
-            <version>1.5.6</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-mockito</artifactId>
-            <version>1.5.6</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymock</artifactId>
-            <version>3.2</version>
-            <scope>test</scope>
-        </dependency>
+        
 
         <!-- COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE -->
         <!-- COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE -->
         <!-- COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE -->
         <!-- COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE -->
 
-        <!-- MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC MISC -->
+        <!-- UTILITIES UTILITIES UTILITIES UTILITIES UTILITIES UTILITIES UTILITIES UTILITIES UTILITIES -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -289,7 +266,7 @@
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
-        
+
         <!-- ROME ROME ROME ROME ROME ROME ROME ROME ROME ROME ROME ROME ROME ROME ROME ROME ROME -->
         <dependency>
             <groupId>com.rometools</groupId>
@@ -303,48 +280,13 @@
             <artifactId>mail</artifactId>
             <version>1.4</version>
         </dependency>
-
-        <!-- DERBY DERBY DERBY DERBY DERBY DERBY DERBY DERBY DERBY DERBY DERBY DERBY DERBY DERBY DERBY -->
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derbyclient</artifactId>
-            <version>10.11.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
-            <version>10.11.1.1</version>
-        </dependency>
-
-        <!-- JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA JPA -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>4.3.4.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>4.3.4.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.transaction</groupId>
-            <artifactId>jta</artifactId>
-            <version>1.1</version>
-        </dependency>
-
-        <!-- CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI -->
+        
+        <!-- CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI CDI -->
         <dependency>
             <groupId>org.jboss.weld.se</groupId>
             <artifactId>weld-se-core</artifactId>
-            <version>3.0.0.Alpha15</version>
+            <version>3.0.2.Final</version>
         </dependency>
-        <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jandex</artifactId>
-            <version>1.2.1.Final</version>
-        </dependency>
-
 
         <!-- VALIDATION VALIDATION VALIDATION VALIDATION VALIDATION VALIDATION VALIDATION VALIDATION -->
         <dependency>

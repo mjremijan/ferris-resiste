@@ -55,11 +55,11 @@ public class LocalizedStringProducer {
     }
 
     private String getResourceBundleValue(String key) {
-        String val = "<missing>";
+        String val = "";
         try {
             val = rb.getString(key);
         } catch (MissingResourceException e) {
-            // do nothing
+            val = String.format("<missing \"%s\">", key);
         }
         return val;
     }

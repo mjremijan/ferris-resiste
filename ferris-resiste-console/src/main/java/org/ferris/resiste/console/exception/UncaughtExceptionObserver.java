@@ -1,6 +1,7 @@
 package org.ferris.resiste.console.exception;
 
 import java.lang.Thread.UncaughtExceptionHandler;
+import javax.annotation.Priority;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -8,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.ferris.resiste.console.exit.ExitEvent;
 import org.ferris.resiste.console.main.StartupEvent;
 import static org.ferris.resiste.console.main.StartupEvent.EXCEPTION;
-import org.jboss.weld.experimental.Priority;
 
 /**
  *

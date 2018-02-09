@@ -1,13 +1,11 @@
 package org.ferris.resiste.console.util.version;
 
-import javax.enterprise.context.ApplicationScoped;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-@ApplicationScoped
 public class Version {
 
     public static final String UNKOWN = "<unknown>";

@@ -21,5 +21,10 @@ public class FeedDataFile extends File {
     @Inject
     public FeedDataFile(ConfDirectory confdir) {
         super(confdir, String.format("feeds.csv"));
+        if (!super.exists()) {
+            throw new RuntimeException(
+                String.format("Data file does not exist: \"%s\"", super.getAbsolutePath())
+            );
+        }
     }
 }

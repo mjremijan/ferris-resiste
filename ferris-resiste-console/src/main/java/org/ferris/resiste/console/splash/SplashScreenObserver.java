@@ -1,11 +1,11 @@
 package org.ferris.resiste.console.splash;
 
+import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import org.apache.log4j.Logger;
 import org.ferris.resiste.console.main.StartupEvent;
 import static org.ferris.resiste.console.main.StartupEvent.SPASH_SCREEN;
-import org.jboss.weld.experimental.Priority;
 
 /**
  *

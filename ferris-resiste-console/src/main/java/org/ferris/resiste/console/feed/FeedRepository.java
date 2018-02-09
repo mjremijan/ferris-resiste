@@ -1,8 +1,11 @@
 package org.ferris.resiste.console.feed;
 
 
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.apache.log4j.Logger;
@@ -26,12 +29,62 @@ public class FeedRepository {
     protected FeedFactory factory;
 
     public boolean findItemInHistory(String feedId, String itemId) {
-        return itemHistoryData.exists(feedId, itemId);
+        boolean found = false;
+
+        try (
+            // Open data file for reading
+            Scanner input = new Scanner(itemHistoryData);
+        ) {
+            // Loop over each line
+            while (!found && input.hasNext()) {
+
+                // Read the line of data from the data file
+                String next = input.next();
+
+                // Empty line? typically the last line
+                if (next.isEmpty()) {
+                    continue;
+                }
+
+                // Data is tab-delimited, so split
+                String[] tokens = next.split("\t");
+
+                // See if line is a match to given feedId and itemId
+                found =
+                    tokens[0].equals(feedId)
+                    &&
+                    tokens[1].equals(itemId)
+                ;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(
+                  String.format("Problem checking if feedId=\"%s\", itemId\"%s\" exists. File=%s", feedId, itemId, itemHistoryData.getAbsolutePath())
+                , e
+            );
+        }
+
+        // Return if found or not
+        return found;
     }
 
+
     public void storeItemInHistory(String feedId, String itemId) {
-        itemHistoryData.store(feedId, itemId);
+        try (
+            // Open data file for appending
+            PrintWriter writer = new PrintWriter(
+                new FileOutputStream(itemHistoryData, true)
+            );
+        ) {
+            writer.printf("%s\t%s%n", feedId, itemId);
+            writer.flush();
+        } catch (Exception e) {
+            throw new RuntimeException(
+                  String.format("Problem appending feedId=\"%s\", itemId\"%s\". File=%s", feedId, itemId, itemHistoryData.getAbsolutePath())
+                , e
+            );
+        }
     }
+    
 
     public List<Feed> findAll() {
         log.info("ENTER");

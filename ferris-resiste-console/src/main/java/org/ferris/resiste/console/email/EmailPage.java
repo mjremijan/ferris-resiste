@@ -1,5 +1,6 @@
 package org.ferris.resiste.console.email;
 
+import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import org.apache.log4j.Logger;
@@ -7,7 +8,6 @@ import org.ferris.resiste.console.io.Console;
 import org.ferris.resiste.console.text.i18n.LocalizedString;
 import org.ferris.resiste.console.text.i18n.LocalizedStringKey;
 import org.ferris.resiste.console.view.page.AbstractPage;
-import org.jboss.weld.experimental.Priority;
 
 /**
  * This is the console view for email related information.
