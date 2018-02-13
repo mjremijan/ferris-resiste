@@ -2,7 +2,13 @@ package org.ferris.resiste.console.text.i18n;
 
 public class LocalizedString {
 
-    private String string;
+    private final String string;
+
+    public static LocalizedString format(String fmt, String...args) {
+        return new LocalizedString(
+            String.format(fmt, args)
+        );
+    }
 
     public LocalizedString(String string) {
         this.string = string;

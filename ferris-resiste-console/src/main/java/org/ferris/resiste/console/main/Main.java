@@ -46,6 +46,9 @@ public class Main {
     @Inject
     protected Event<SyndFilterEvent> filter;
 
+    @Inject
+    protected Event<EmailSendEvent> send;
+
     protected void main(List<String> args) {
         log.info("Fire StartupEvent");
         startupEvent.fire(new StartupEvent());
@@ -59,6 +62,12 @@ public class Main {
             retrievalEvent.getFeeds(), retrievalEvent.getErrors()
         );
         filter.fire(filterEvent);
+
+        log.info("Fire EmailSendEvent");
+        EmailSendEvent sendEvent = new EmailSendEvent(
+            retrievalEvent.getFeeds(), retrievalEvent.getErrors()
+        );
+        send.fire(sendEvent);
 
 
         log.info("Fire ExitEvent");

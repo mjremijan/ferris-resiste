@@ -12,7 +12,7 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-public class EmailService {
+public class EmailAccountService {
 
     @Inject
     protected Logger log;
@@ -34,7 +34,8 @@ public class EmailService {
      * instance is returned with all its properties set to null.
      */
     public EmailAccount getEmailAccount() {
-        log.info("Create EmailAccount from properties");
+        log.info("ENTER");
+        
         EmailAccount account = emailAccountInstance.get().init(
             emailProperties.toProperties()
         );

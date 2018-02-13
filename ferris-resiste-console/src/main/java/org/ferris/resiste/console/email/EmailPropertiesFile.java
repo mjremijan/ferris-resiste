@@ -21,6 +21,6 @@ public class EmailPropertiesFile extends AbstractPropertiesFile {
      */
     @Inject
     public EmailPropertiesFile(ConfDirectory confdir) {
-        super(confdir, String.format("conf/email.properties"));
+        super(confdir, String.format("email.properties"));
     }
 }

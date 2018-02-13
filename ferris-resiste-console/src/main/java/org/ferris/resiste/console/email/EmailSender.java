@@ -1,12 +1,8 @@
 package org.ferris.resiste.console.email;
 
-import java.io.IOException;
 import java.util.Properties;
-import javax.annotation.Priority;
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -27,80 +23,64 @@ public class EmailSender {
     protected Logger log;
 
     @Inject
-    protected EmailService emailHandler;
-
+    protected EmailAccountService emailAccountService;
 
 
     @ExceptionRetry
-    public void sendEmail(
-        @Observes @Priority(EmailSendPriority.SEND_EMAIL_MESSAGE)
-        EmailSendEvent evnt
-    ) throws MessagingException, IOException {
+    public void send(EmailDraft draft)
+    {
+        log.info(String.format("ENTER %s", draft));
 
-        if (evnt.getSubject().isEmpty() || evnt.getMessage().isEmpty()) {
-            return;
-        }
+        try {
+            // Create MimeMultipart
+            MimeMultipart content = new MimeMultipart("related");
 
-        // Create MimeMultipart
-        MimeMultipart content = new MimeMultipart("related");
-
-        // html part
-        {
-            MimeBodyPart textPart = new MimeBodyPart();
-            textPart.setText(evnt.getMessage(), "UTF8", "html");
-            content.addBodyPart(textPart);
-        }
-
-//        // image part
-//        {
-//            MimeBodyPart imagePart = new MimeBodyPart();
-//            ByteArrayDataSource ds =
-//                new ByteArrayDataSource(getClass().getResourceAsStream("/retweet.png"), "image/png");
-//            imagePart.setDataHandler(new DataHandler(ds));
-//            imagePart.setFileName("retweet.png");
-//            imagePart.setContentID("<" + evnt.getCid() + ">");
-//            imagePart.setDisposition(MimeBodyPart.INLINE);
-//
-//            content.addBodyPart(imagePart);
-//        }
-
-        Session smtp = null;
-        EmailAccount emailAccount = emailHandler.getEmailAccount();
-        {
-            Properties props = new Properties();
-            props = new Properties();
-            props.setProperty("mail.smtp.host", emailAccount.getHost());
-            if (emailAccount.isSslEnabled()) {
-                props.setProperty("mail.smtp.socketFactory.port", emailAccount.getPort().toString());
-                props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-            } else {
-                props.setProperty("mail.smtp.socketFactory.port", emailAccount.getPort().toString());
-                props.setProperty("mail.smtp.socketFactory.class", "javax.net.SocketFactory");
+            // html part
+            {
+                MimeBodyPart textPart = new MimeBodyPart();
+                textPart.setText(draft.getBody(), "UTF8", "html");
+                content.addBodyPart(textPart);
             }
-            props.setProperty("mail.smtp.auth", "true");
-            props.setProperty("mail.smtp.port", emailAccount.getPort().toString());
 
-            smtp = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(emailAccount.getUsername(), emailAccount.getPassword());
+            Session smtp = null;
+            EmailAccount emailAccount = emailAccountService.getEmailAccount();
+            {
+                Properties props = new Properties();
+                props = new Properties();
+                props.setProperty("mail.smtp.host", emailAccount.getHost());
+                if (emailAccount.isSslEnabled()) {
+                    props.setProperty("mail.smtp.socketFactory.port", emailAccount.getPort().toString());
+                    props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                } else {
+                    props.setProperty("mail.smtp.socketFactory.port", emailAccount.getPort().toString());
+                    props.setProperty("mail.smtp.socketFactory.class", "javax.net.SocketFactory");
                 }
-            });
+                props.setProperty("mail.smtp.auth", "true");
+                props.setProperty("mail.smtp.port", emailAccount.getPort().toString());
+
+                smtp = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(emailAccount.getUsername(), emailAccount.getPassword());
+                    }
+                });
+            }
+            smtp.setDebug(true);
+            //smtp.setDebugOut(getPrintStream());
+
+            MimeMessage m = new MimeMessage(smtp);
+            m.setContent(content);
+            m.setSubject(draft.getSubject());
+
+            m.setRecipient(Message.RecipientType.TO, new InternetAddress(emailAccount.getEmailAddress()));
+            m.setFrom(new InternetAddress(emailAccount.getEmailAddress()));
+            m.setReplyTo(new InternetAddress[] {new InternetAddress(emailAccount.getEmailAddress())});
+
+            log.info(String.format("Attempt email with %s", emailAccount.toString()));
+            Transport.send(m);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        smtp.setDebug(true);
-        //smtp.setDebugOut(getPrintStream());
-
-        MimeMessage m = new MimeMessage(smtp);
-        m.setContent(content);
-        m.setSubject(evnt.getSubject());
-        m.setRecipient(Message.RecipientType.TO, new InternetAddress(emailAccount.getEmailAddress()));
-        m.setReplyTo(new InternetAddress[] {new InternetAddress(emailAccount.getEmailAddress())});
-        InternetAddress ia = new InternetAddress(emailAccount.getEmailAddress());
-        ia.setPersonal("Tweial");
-        m.setFrom(ia);
-
-        log.info(String.format("Attempt email with %s", emailAccount.toString()));
-        Transport.send(m);
     }
 
 //    protected PrintStream getPrintStream() {

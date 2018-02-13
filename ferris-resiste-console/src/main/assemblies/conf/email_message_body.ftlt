@@ -1,0 +1,35 @@
+<#ftl output_format="plainText">
+<html>
+    <body>
+        <!-- contents -->
+        <div style="border: 0px solid black;">${contents}</div>
+
+        <!-- apa reference -->
+        <div style="clear:both; border: 0px solid black; font-family:Georgia,serif; margin-top:20px;">
+            <p>
+                ${author}.&nbsp;&nbsp;
+                (${publishedDate}).&nbsp;&nbsp;
+                <span style="font-style: italic;">${title}</span>.&nbsp;&nbsp;
+                Retrieved from <a href="${linkHref}">${linkText}</a>.
+            </p>
+        </div>
+
+        <!-- version -->
+        <div style="border: 0px solid black;">
+			<div style="float:left; padding-right:8px;">
+				<p>
+					<img style="" alt="Resiste icon" src="data:image/png;base64,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" />
+				</p>
+			</div>
+			<div style="float: left; font-family: 'Franklin Gothic Book',sans-serif;">
+				<p>
+					${projectFinalName}
+					<br />
+					<a href="${projectUrl}">${projectUrl}</a>
+				</p>
+			</div>
+			<div style="clear: both;"></div>
+			<!-- end version -->
+		</div>
+    </body>
+</html>

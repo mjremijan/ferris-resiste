@@ -16,4 +16,8 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
                 .filter(s -> s != null)
                 .findFirst();
     }
+
+    public static String abbreviate(String str, int maxWidth) {
+        return org.apache.commons.lang3.StringUtils.abbreviate(str, maxWidth);
+    }
 }

@@ -77,6 +77,7 @@ public class SplashScreenPage extends AbstractPage {
         properties.replace("t{resiste.title}", version.getImplementationTitle());
         properties.replace("t{resiste.vender}", version.getImplementationVendor());
         properties.replace("t{resiste.version}", version.getImplementationVersion());
+        properties.replace("t{resiste.url}", version.getImplementationUrl());
         properties.replace("t{resiste.directory}", applicationDirectory.getAbsolutePath());
         properties.replace("t{resiste.data}", dataDirectory.getAbsolutePath());
     }

@@ -22,7 +22,7 @@ public class Console {
 
     public void h1(LocalizedString format, Object... args) {
         writer.println();
-        writer.printf("[%s]", String.format(format.toString(), args));
+        writer.printf("[[ %s ]]", String.format(format.toString(), args));
         writer.println();
     }
 

@@ -1,6 +1,10 @@
 package org.ferris.resiste.console.util.version;
 
-import org.apache.commons.lang3.StringUtils;
+import java.net.JarURLConnection;
+import java.net.URL;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
+import org.ferris.resiste.console.lang.StringUtils;
 
 /**
  *
@@ -60,6 +64,21 @@ public class Version {
             s = StringUtils.trimToEmpty(pack.getImplementationVendor());
         }
         if (s.isEmpty()) {
+            s = UNKOWN;
+        }
+        return s;
+    }
+
+    public String getImplementationUrl() {
+        String s = "";
+        try {
+            URL fileUrl = this.getClass().getProtectionDomain().getCodeSource().getLocation();
+            URL jarUrl = new URL(String.format("jar:%s!/", fileUrl.toString()));
+            JarURLConnection jarConnection = (JarURLConnection) jarUrl.openConnection();
+            Manifest manifest = jarConnection.getManifest();
+            Attributes attributes = manifest.getMainAttributes();
+            s = StringUtils.defaultIfBlank(attributes.getValue("Implementation-URL"), UNKOWN);
+        } catch (Exception e) {
             s = UNKOWN;
         }
         return s;
