@@ -10,7 +10,7 @@ import org.ferris.resiste.console.io.AbstractPropertiesFile;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-public class EmailPropertiesFile extends AbstractPropertiesFile {
+public class EmailAccountPropertiesFile extends AbstractPropertiesFile {
 
     private static final long serialVersionUID = 140988098234509827L;
 
@@ -20,7 +20,7 @@ public class EmailPropertiesFile extends AbstractPropertiesFile {
      * @param confdir A {@link ConfDirectory}
      */
     @Inject
-    public EmailPropertiesFile(ConfDirectory confdir) {
+    public EmailAccountPropertiesFile(ConfDirectory confdir) {
         super(confdir, String.format("email.properties"));
     }
 }

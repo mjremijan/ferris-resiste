@@ -18,7 +18,7 @@ public class EmailAccountService {
     protected Logger log;
 
     @Inject
-    protected EmailPropertiesFile emailProperties;
+    protected EmailAccountPropertiesFile emailProperties;
 
     @Inject
     protected ValidatorFactory validatorFactory;
