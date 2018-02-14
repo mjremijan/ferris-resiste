@@ -1,6 +1,5 @@
 package org.ferris.resiste.console.rome;
 
-import com.rometools.rome.feed.synd.SyndFeed;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringJoiner;

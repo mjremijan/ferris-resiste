@@ -1,6 +1,7 @@
 package org.ferris.resiste.console.feed;
 
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -8,25 +9,35 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
+import org.ferris.resiste.console.conf.ConfDirectory;
 import org.slf4j.Logger;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-public class FeedRepository {
+public class FeedUrlRepository {
 
     @Inject
     protected Logger log;
-
-    @Inject
-    protected FeedDataFile feedData;
 
     @Inject
     protected FeedItemHistoryDataFile itemHistoryData;
 
     @Inject
     protected FeedFactory factory;
+
+    protected File feedData;
+
+    @Inject
+    public void FeedUrlRepository(ConfDirectory confdir) {
+        feedData = new File(confdir, String.format("feeds.csv"));
+        if (!feedData.exists()) {
+            throw new RuntimeException(
+                String.format("Data file does not exist: \"%s\"", feedData.getAbsolutePath())
+            );
+        }
+    }
 
     public boolean findItemInHistory(String feedId, String itemId) {
         log.info(String.format("ENTER \"%s\", \"%s\"", feedId, itemId));
@@ -72,7 +83,7 @@ public class FeedRepository {
 
     public void storeItemInHistory(String feedId, String itemId) {
         log.info(String.format("ENTER \"%s\", \"%s\"", feedId, itemId));
-        
+
         try (
             // Open data file for appending
             PrintWriter writer = new PrintWriter(
@@ -90,7 +101,7 @@ public class FeedRepository {
     }
 
 
-    public List<Feed> findAll() {
+    public List<FeedUrl> findAll() {
         log.info("ENTER");
 
         List<String> lines = null;
@@ -103,7 +114,7 @@ public class FeedRepository {
             );
         }
 
-        List<Feed> feeds =
+        List<FeedUrl> feeds =
             lines.stream()
                 .map(s -> factory.toFeed(s))
                 .filter(o -> o.isPresent())

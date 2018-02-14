@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import org.ferris.resiste.console.feed.FeedRepository;
+import org.ferris.resiste.console.feed.FeedUrlRepository;
 import org.ferris.resiste.console.lang.StringUtils;
 import static org.ferris.resiste.console.rome.SyndFilterEvent.FILTER;
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ public class SyndFilterService {
     protected Logger log;
 
     @Inject
-    protected FeedRepository repository;
+    protected FeedUrlRepository repository;
 
     protected void observeFilter(
         @Observes @Priority(FILTER) SyndFilterEvent evnt

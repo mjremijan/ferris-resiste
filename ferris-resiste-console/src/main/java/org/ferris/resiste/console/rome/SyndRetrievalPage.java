@@ -40,7 +40,7 @@ public class SyndRetrievalPage extends AbstractPage {
         @Observes @Priority(VIEW) SyndRetrievalEvent evnt
     ) {
         log.info(String.format("ENTER %s", evnt));
-        
+
         console.h1(heading);
 
         evnt.getFeeds().stream().forEach(
@@ -48,7 +48,7 @@ public class SyndRetrievalPage extends AbstractPage {
                 console.h2(title, StringUtils.firstTrimToNonNull(sf.getLink(), sf.getTitle()).get());
                 AtomicInteger ai = new AtomicInteger(1);
                 sf.getEntries().stream().forEach(
-                    se -> console.p(entry, ai.getAndIncrement(), se.getUri())
+                    se -> console.p(entry, ai.getAndIncrement(), se.getGuid())
                 );
             }
         );

@@ -14,7 +14,7 @@ public class FeedFactory {
     @Inject
     protected Logger log;
 
-    public Optional<Feed> toFeed(String commaSeparatedFeedData) {
+    public Optional<FeedUrl> toFeed(String commaSeparatedFeedData) {
         log.info(String.format("ENTER \"%s\"", commaSeparatedFeedData));
 
         commaSeparatedFeedData = StringUtils.trimToEmpty(commaSeparatedFeedData);
@@ -50,6 +50,6 @@ public class FeedFactory {
             );
         }
 
-        return Optional.of(new Feed(id, url));
+        return Optional.of(new FeedUrl(id, url));
     }
 }

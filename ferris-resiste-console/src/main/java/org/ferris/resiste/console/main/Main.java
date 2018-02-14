@@ -61,23 +61,23 @@ public class Main {
         SyndRetrievalEvent retrievalEvent = new SyndRetrievalEvent();
         retrieval.fire(retrievalEvent);
 
-        log.info("Fire SyndFilterEvent");
-        SyndFilterEvent filterEvent = new SyndFilterEvent(
-            retrievalEvent.getFeeds(), retrievalEvent.getErrors()
-        );
-        filter.fire(filterEvent);
+//        log.info("Fire SyndFilterEvent");
+//        SyndFilterEvent filterEvent = new SyndFilterEvent(
+//            retrievalEvent.getFeeds(), retrievalEvent.getErrors()
+//        );
+//        filter.fire(filterEvent);
 
-        log.info("Fire EmailSendEvent");
-        EmailSendEvent sendEvent = new EmailSendEvent(
-            retrievalEvent.getFeeds(), retrievalEvent.getErrors()
-        );
-        send.fire(sendEvent);
-
-        log.info("Fire SyndHistoryEvent");
-        SyndHistoryEvent historyEvent = new SyndHistoryEvent(
-            retrievalEvent.getFeeds(), retrievalEvent.getErrors()
-        );
-        history.fire(historyEvent);
+//        log.info("Fire EmailSendEvent");
+//        EmailSendEvent sendEvent = new EmailSendEvent(
+//            retrievalEvent.getFeeds(), retrievalEvent.getErrors()
+//        );
+//        send.fire(sendEvent);
+//
+//        log.info("Fire SyndHistoryEvent");
+//        SyndHistoryEvent historyEvent = new SyndHistoryEvent(
+//            retrievalEvent.getFeeds(), retrievalEvent.getErrors()
+//        );
+//        history.fire(historyEvent);
 
 
         log.info("Fire ExitEvent");

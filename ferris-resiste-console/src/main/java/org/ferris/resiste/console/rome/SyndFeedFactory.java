@@ -1,0 +1,58 @@
+package org.ferris.resiste.console.rome;
+
+import com.rometools.rome.io.FeedException;
+import com.rometools.rome.io.SyndFeedInput;
+import com.rometools.rome.io.XmlReader;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.inject.Inject;
+import org.ferris.resiste.console.feed.FeedUrl;
+import org.slf4j.Logger;
+
+/**
+ *
+ * @author Michael Remijan mjremijan@yahoo.com @mjremijan
+ */
+public class SyndFeedFactory {
+
+    @Inject
+    protected Logger log;
+
+    public SyndFeed build(FeedUrl feedUrl) throws IOException, FeedException {
+        log.info(String.format("ENTER %s", feedUrl));
+
+        com.rometools.rome.feed.synd.SyndFeed romeFeed
+            = new SyndFeedInput().build(new XmlReader(feedUrl.getUrl()));
+
+        List<com.rometools.rome.feed.synd.SyndEntry> romeEntries
+            = romeFeed.getEntries();
+
+        SyndFeed feed = new SyndFeed();
+        feed.setId(feedUrl.getId());
+        feed.setLink(romeFeed.getLink());
+        feed.setTitle(romeFeed.getTitle());
+
+        feed.setOldestPublishedDate(
+            romeEntries.stream()
+                .map(re -> re.getPublishedDate())
+                .filter(d -> d != null)
+                // An Instant is an actual point in time, expressed using UTC – a universal time scale
+                .map(d -> d.toInstant())
+                .min((i1, i2) -> i1.compareTo(i2))
+                .orElseThrow(
+                    () -> new RuntimeException(String.format("Oldest published date not found for feed URL \"%s\"",feedUrl.getUrl())))
+        );
+
+        feed.setEntries(
+            romeEntries.stream()
+                .map(re -> {
+                    SyndEntry e = new SyndEntry();
+                    e.setGuid(re.getUri());
+                    return e;
+                }).collect(Collectors.toList())
+        );
+
+        return feed;
+    }
+}
