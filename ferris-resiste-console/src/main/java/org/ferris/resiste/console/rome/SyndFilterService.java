@@ -1,13 +1,11 @@
 package org.ferris.resiste.console.rome;
 
-import com.rometools.rome.feed.synd.SyndFeed;
 import java.util.List;
 import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import org.ferris.resiste.console.feed.FeedUrlRepository;
-import org.ferris.resiste.console.lang.StringUtils;
 import static org.ferris.resiste.console.rome.SyndFilterEvent.FILTER;
+import org.ferris.resiste.console.rss.RssHistoryService;
 import org.slf4j.Logger;
 
 /**
@@ -20,7 +18,7 @@ public class SyndFilterService {
     protected Logger log;
 
     @Inject
-    protected FeedUrlRepository repository;
+    protected RssHistoryService service;
 
     protected void observeFilter(
         @Observes @Priority(FILTER) SyndFilterEvent evnt
@@ -34,37 +32,11 @@ public class SyndFilterService {
         log.info("PROCESS: Remove entries that exist in history");
         syndFeed.removeIf(
             sf -> {
-                sf.getEntries().removeIf(se -> {
-                    String feedId
-                        = StringUtils.firstTrimToNonNull(
-                            sf.getLink(), sf.getTitle()
-                        ).get();
-
-                    String itemId
-                        = se.getUri();
-
-                    return repository.findItemInHistory(
-                        feedId, itemId
-                    );
-                });
-
+                sf.getEntries().removeIf(se ->
+                    service.exists(sf.getId(), se.getGuid())
+                );
                 return sf.getEntries().isEmpty();
             }
         );
-//        syndFeed.stream().forEach(
-//            sf -> sf.getEntries().removeIf(se -> {
-//                String feedId
-//                    = StringUtils.firstTrimToNonNull(
-//                        sf.getLink(), sf.getTitle()
-//                    ).get();
-//
-//                String itemId
-//                    = se.getUri();
-//
-//                return repository.findItemInHistory(
-//                    feedId, itemId
-//                );
-//            })
-//        );
     }
 }

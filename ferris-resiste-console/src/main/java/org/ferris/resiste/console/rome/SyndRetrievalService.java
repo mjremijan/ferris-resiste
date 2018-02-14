@@ -6,9 +6,9 @@ import java.util.List;
 import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import org.ferris.resiste.console.feed.FeedUrl;
-import org.ferris.resiste.console.feed.FeedUrlRepository;
 import static org.ferris.resiste.console.rome.SyndRetrievalEvent.RETRIEVE;
+import org.ferris.resiste.console.rss.RssUrl;
+import org.ferris.resiste.console.rss.RssUrlService;
 import org.slf4j.Logger;
 
 /**
@@ -21,7 +21,7 @@ public class SyndRetrievalService {
     protected Logger log;
 
     @Inject
-    protected FeedUrlRepository repository;
+    protected RssUrlService service;
 
     @Inject
     protected SyndFeedFactory factory;
@@ -32,8 +32,8 @@ public class SyndRetrievalService {
         log.info(String.format("ENTER %s", evnt));
 
         log.info("READ: Get the list of all the user's URLs");
-        List<FeedUrl> userFeeds
-            = repository.findAll();
+        List<RssUrl> userFeeds
+            = service.findAll();
 
         log.info("PROCESS: Convert the URLs to feed data");
         List<SyndFeed> feeds = new ArrayList<>(userFeeds.size());
@@ -51,7 +51,6 @@ public class SyndRetrievalService {
             }
         });
 
-        // WRITE
         log.info("WRITE: Store feed data for next step");
         evnt.setFeeds(feeds);
     }

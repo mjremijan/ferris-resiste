@@ -1,4 +1,4 @@
-package org.ferris.resiste.console.feed;
+package org.ferris.resiste.console.rss;
 
 import java.util.Optional;
 import javax.inject.Inject;
@@ -9,12 +9,12 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-public class FeedFactory {
+public class RssUrlFactory {
 
     @Inject
     protected Logger log;
 
-    public Optional<FeedUrl> toFeed(String commaSeparatedFeedData) {
+    public Optional<RssUrl> parse(String commaSeparatedFeedData) {
         log.info(String.format("ENTER \"%s\"", commaSeparatedFeedData));
 
         commaSeparatedFeedData = StringUtils.trimToEmpty(commaSeparatedFeedData);
@@ -50,6 +50,6 @@ public class FeedFactory {
             );
         }
 
-        return Optional.of(new FeedUrl(id, url));
+        return Optional.of(new RssUrl(id, url));
     }
 }

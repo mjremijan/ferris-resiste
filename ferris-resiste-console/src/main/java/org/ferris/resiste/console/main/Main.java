@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import org.ferris.resiste.console.email.EmailSendEvent;
 import org.ferris.resiste.console.exit.ExitEvent;
 import org.ferris.resiste.console.rome.SyndFilterEvent;
-import org.ferris.resiste.console.rome.SyndHistoryEvent;
 import org.ferris.resiste.console.rome.SyndRetrievalEvent;
 import org.slf4j.Logger;
 
@@ -50,9 +49,6 @@ public class Main {
     @Inject
     protected Event<EmailSendEvent> send;
 
-    @Inject
-    protected Event<SyndHistoryEvent> history;
-
     protected void main(List<String> args) {
         log.info("Fire StartupEvent");
         startupEvent.fire(new StartupEvent());
@@ -61,11 +57,11 @@ public class Main {
         SyndRetrievalEvent retrievalEvent = new SyndRetrievalEvent();
         retrieval.fire(retrievalEvent);
 
-//        log.info("Fire SyndFilterEvent");
-//        SyndFilterEvent filterEvent = new SyndFilterEvent(
-//            retrievalEvent.getFeeds(), retrievalEvent.getErrors()
-//        );
-//        filter.fire(filterEvent);
+        log.info("Fire SyndFilterEvent");
+        SyndFilterEvent filterEvent = new SyndFilterEvent(
+            retrievalEvent.getFeeds()
+        );
+        filter.fire(filterEvent);
 
 //        log.info("Fire EmailSendEvent");
 //        EmailSendEvent sendEvent = new EmailSendEvent(

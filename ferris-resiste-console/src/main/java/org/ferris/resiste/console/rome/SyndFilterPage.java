@@ -48,7 +48,7 @@ public class SyndFilterPage extends AbstractPage {
                 console.h2(title, StringUtils.firstTrimToNonNull(sf.getLink(), sf.getTitle()).get());
                 AtomicInteger ai = new AtomicInteger(1);
                 sf.getEntries().stream().forEach(
-                    se -> console.p(entry, ai.getAndIncrement(), se.getUri())
+                    se -> console.p(entry, ai.getAndIncrement(), se.getGuid())
                 );
             }
         );

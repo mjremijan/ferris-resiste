@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
-import org.ferris.resiste.console.feed.FeedUrl;
+import org.ferris.resiste.console.rss.RssUrl;
 import org.slf4j.Logger;
 
 /**
@@ -19,7 +19,7 @@ public class SyndFeedFactory {
     @Inject
     protected Logger log;
 
-    public SyndFeed build(FeedUrl feedUrl) throws IOException, FeedException {
+    public SyndFeed build(RssUrl feedUrl) throws IOException, FeedException {
         log.info(String.format("ENTER %s", feedUrl));
 
         com.rometools.rome.feed.synd.SyndFeed romeFeed
@@ -41,7 +41,7 @@ public class SyndFeedFactory {
                 .map(d -> d.toInstant())
                 .min((i1, i2) -> i1.compareTo(i2))
                 .orElseThrow(
-                    () -> new RuntimeException(String.format("Oldest published date not found for feed URL \"%s\"",feedUrl.getUrl())))
+                    () -> new RuntimeException("Oldest published date not found"))
         );
 
         feed.setEntries(
