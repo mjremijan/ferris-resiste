@@ -1,7 +1,6 @@
 package org.ferris.resiste.console.email;
 
-import com.rometools.rome.feed.synd.SyndEntry;
-import com.rometools.rome.feed.synd.SyndFeed;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
@@ -20,6 +19,8 @@ import javax.inject.Inject;
 import org.ferris.resiste.console.conf.ConfDirectory;
 import static org.ferris.resiste.console.email.EmailSendEvent.DRAFT_MAP;
 import org.ferris.resiste.console.lang.StringUtils;
+import org.ferris.resiste.console.rome.SyndEntry;
+import org.ferris.resiste.console.rome.SyndFeed;
 import org.ferris.resiste.console.text.i18n.LocalizedString;
 import org.ferris.resiste.console.text.i18n.LocalizedStringKey;
 import org.ferris.resiste.console.util.version.Version;
@@ -90,10 +91,10 @@ public class EmailDraftService {
         cfg.setLogTemplateExceptions(false);
 
         // Subject template
-        subjectTemplate = cfg.getTemplate("email_message_subject.ftlt");
+        subjectTemplate = cfg.getTemplate("rss_email_subject.ftlt");
 
         // Body template
-        bodyTemplate = cfg.getTemplate("email_message_body.ftlt");
+        bodyTemplate = cfg.getTemplate("rss_email_body.ftlt");
     }
 
 
@@ -134,17 +135,8 @@ public class EmailDraftService {
         log.debug(String.format("TITLE = \"%s\"", title));
 
         // Contents
-        StringBuilder sp = new StringBuilder();
-        if (se.getContents() != null && !se.getContents().isEmpty()) {
-            se.getContents().stream()
-                .forEach(sc -> sp.append(sc.getValue()));
-        }
-        else
-        if (se.getDescription() != null) {
-            sp.append(se.getDescription().getValue());
-        }
         String contents
-            = (sp.length() > 0) ? sp.toString() : noContents.toString();
+            = (se.getContents().length() > 0) ? se.getContents() : noContents.toString();
 
         // Author
         String author = Optional.ofNullable(StringUtils.trimToNull(se.getAuthor())).orElse(noAuthor.toString());

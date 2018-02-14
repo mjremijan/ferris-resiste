@@ -63,12 +63,12 @@ public class Main {
         );
         filter.fire(filterEvent);
 
-//        log.info("Fire EmailSendEvent");
-//        EmailSendEvent sendEvent = new EmailSendEvent(
-//            retrievalEvent.getFeeds(), retrievalEvent.getErrors()
-//        );
-//        send.fire(sendEvent);
-//
+        log.info("Fire EmailSendEvent");
+        EmailSendEvent sendEvent = new EmailSendEvent(
+            retrievalEvent.getFeeds()
+        );
+        send.fire(sendEvent);
+
 //        log.info("Fire SyndHistoryEvent");
 //        SyndHistoryEvent historyEvent = new SyndHistoryEvent(
 //            retrievalEvent.getFeeds(), retrievalEvent.getErrors()

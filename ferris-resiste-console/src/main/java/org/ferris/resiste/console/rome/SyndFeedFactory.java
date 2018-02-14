@@ -49,6 +49,22 @@ public class SyndFeedFactory {
                 .map(re -> {
                     SyndEntry e = new SyndEntry();
                     e.setGuid(re.getUri());
+                    e.setTitle(re.getTitle());
+                    e.setAuthor(re.getAuthor());
+                    e.setLink(re.getLink());
+                    e.setPublishedDate(re.getPublishedDate());
+
+                    StringBuilder sp = new StringBuilder("");
+                    if (re.getContents() != null && !re.getContents().isEmpty()) {
+                        re.getContents().stream()
+                            .forEach(sc -> sp.append(sc.getValue()));
+                    }
+                    else
+                    if (re.getDescription() != null) {
+                        sp.append(re.getDescription().getValue());
+                    }
+                    e.setContents(sp.toString());
+
                     return e;
                 }).collect(Collectors.toList())
         );
