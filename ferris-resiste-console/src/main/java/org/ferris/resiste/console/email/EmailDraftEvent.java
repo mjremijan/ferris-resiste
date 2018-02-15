@@ -12,7 +12,7 @@ public class EmailDraftEvent {
 
     public static final int DRAFT_MAP = 100;
     public static final int DRAFT_VIEW = 200;
-    public static final int SEND = 300;
+    public static final int DRAFT_SEND = 300;
 
     @Override
     public String toString() {

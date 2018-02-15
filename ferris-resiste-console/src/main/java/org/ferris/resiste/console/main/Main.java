@@ -7,6 +7,7 @@ import javax.enterprise.inject.se.SeContainer;
 import javax.enterprise.inject.se.SeContainerInitializer;
 import javax.inject.Inject;
 import org.ferris.resiste.console.email.EmailDraftEvent;
+import org.ferris.resiste.console.email.EmailErrorEvent;
 import org.ferris.resiste.console.exit.ExitEvent;
 import org.ferris.resiste.console.rome.SyndFilterEvent;
 import org.ferris.resiste.console.rome.SyndRetrievalEvent;
@@ -53,6 +54,9 @@ public class Main {
     @Inject
     protected Event<RssHistoryEvent> history;
 
+    @Inject
+    protected Event<EmailErrorEvent> error;
+
     protected void main(List<String> args) {
         log.info("Fire StartupEvent");
         startupEvent.fire(new StartupEvent());
@@ -78,6 +82,12 @@ public class Main {
             sendEvent.getFeeds()
         );
         history.fire(historyEvent);
+
+        log.info("Fire EmailErrorEvent");
+        EmailErrorEvent errorEvent = new EmailErrorEvent(
+            retrievalEvent.getErrors()
+        );
+        error.fire(errorEvent);
 
 
         log.info("Fire ExitEvent");

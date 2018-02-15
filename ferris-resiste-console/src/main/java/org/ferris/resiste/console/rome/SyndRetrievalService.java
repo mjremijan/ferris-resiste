@@ -1,6 +1,5 @@
 package org.ferris.resiste.console.rome;
 
-import org.ferris.resiste.console.rss.RssFeed;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +7,7 @@ import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import static org.ferris.resiste.console.rome.SyndRetrievalEvent.RETRIEVE;
+import org.ferris.resiste.console.rss.RssFeed;
 import org.ferris.resiste.console.rss.RssUrl;
 import org.ferris.resiste.console.rss.RssUrlService;
 import org.slf4j.Logger;
@@ -26,6 +26,7 @@ public class SyndRetrievalService {
 
     @Inject
     protected SyndFeedFactory factory;
+
 
     protected void observeRetrieve(
         @Observes @Priority(RETRIEVE) SyndRetrievalEvent evnt
