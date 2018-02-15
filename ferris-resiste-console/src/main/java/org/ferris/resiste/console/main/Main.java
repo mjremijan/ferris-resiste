@@ -10,6 +10,7 @@ import org.ferris.resiste.console.email.EmailSendEvent;
 import org.ferris.resiste.console.exit.ExitEvent;
 import org.ferris.resiste.console.rome.SyndFilterEvent;
 import org.ferris.resiste.console.rome.SyndRetrievalEvent;
+import org.ferris.resiste.console.rss.RssHistoryEvent;
 import org.slf4j.Logger;
 
 /**
@@ -49,6 +50,9 @@ public class Main {
     @Inject
     protected Event<EmailSendEvent> send;
 
+    @Inject
+    protected Event<RssHistoryEvent> history;
+
     protected void main(List<String> args) {
         log.info("Fire StartupEvent");
         startupEvent.fire(new StartupEvent());
@@ -65,15 +69,15 @@ public class Main {
 
         log.info("Fire EmailSendEvent");
         EmailSendEvent sendEvent = new EmailSendEvent(
-            retrievalEvent.getFeeds()
+            filterEvent.getFeeds()
         );
         send.fire(sendEvent);
 
-//        log.info("Fire SyndHistoryEvent");
-//        SyndHistoryEvent historyEvent = new SyndHistoryEvent(
-//            retrievalEvent.getFeeds(), retrievalEvent.getErrors()
-//        );
-//        history.fire(historyEvent);
+        log.info("Fire RssHistoryEvent");
+        RssHistoryEvent historyEvent = new RssHistoryEvent(
+            sendEvent.getFeeds()
+        );
+        history.fire(historyEvent);
 
 
         log.info("Fire ExitEvent");

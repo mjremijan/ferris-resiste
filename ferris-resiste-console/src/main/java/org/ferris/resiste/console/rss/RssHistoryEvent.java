@@ -1,32 +1,31 @@
-package org.ferris.resiste.console.email;
+package org.ferris.resiste.console.rss;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
+import org.ferris.resiste.console.email.*;
 import org.ferris.resiste.console.rome.SyndFeed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-public class EmailSendEvent {
+public class RssHistoryEvent {
 
-    public static final int DRAFT_MAP = 100;
-    public static final int DRAFT_VIEW = 200;
-    public static final int SEND = 300;
+    public static final int STORE = 100;
 
     @Override
     public String toString() {
-        StringJoiner sj = new StringJoiner(", ", "[EmailSendEvent ", "]");
+        StringJoiner sj = new StringJoiner(", ", "[RssHistoryEvent ", "]");
         sj.add(String.format("feeds:%s", (feeds == null) ? "null" : feeds.size()));
-        sj.add(String.format("drafts:%s", (drafts == null) ? "null" : drafts.size()));
         return sj.toString();
     }
 
     protected List<SyndFeed> feeds;
     protected List<EmailDraft> drafts;
 
-    public EmailSendEvent(List<SyndFeed> feeds) {
-        this.feeds = feeds;
+    public RssHistoryEvent(List<SyndFeed> feeds) {
+        this.feeds = new ArrayList<>(feeds);
     }
 
     public List<SyndFeed> getFeeds() {

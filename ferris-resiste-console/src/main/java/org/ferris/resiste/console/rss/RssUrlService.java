@@ -1,12 +1,10 @@
 package org.ferris.resiste.console.rss;
 
 
-import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
-import org.ferris.resiste.console.conf.ConfDirectory;
 import org.slf4j.Logger;
 
 /**
@@ -21,17 +19,9 @@ public class RssUrlService {
     @Inject
     protected RssUrlFactory factory;
 
-    protected File dataFile;
-
     @Inject
-    public RssUrlService(ConfDirectory confdir) {
-        dataFile = new File(confdir, String.format("rss_urls.csv"));
-        if (!dataFile.exists()) {
-            throw new RuntimeException(
-                String.format("Data file does not exist: \"%s\"", dataFile.getAbsolutePath())
-            );
-        }
-    }
+    protected RssUrlDataSource dataFile;
+
 
     public List<RssUrl> findAll() {
         log.info("ENTER");

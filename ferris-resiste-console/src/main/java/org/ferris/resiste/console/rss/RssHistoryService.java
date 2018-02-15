@@ -1,10 +1,8 @@
 package org.ferris.resiste.console.rss;
 
 
-import java.io.File;
 import java.util.Scanner;
 import javax.inject.Inject;
-import org.ferris.resiste.console.data.DataDirectory;
 import org.slf4j.Logger;
 
 /**
@@ -16,20 +14,8 @@ public class RssHistoryService {
     @Inject
     protected Logger log;
 
-    protected File dataFile;
-
     @Inject
-    public RssHistoryService(DataDirectory datadir) {
-        dataFile = new File(datadir, String.format("rss_history.dat"));
-        try {
-            dataFile.createNewFile();
-        } catch (Exception e) {
-            throw new RuntimeException(
-                  String.format("Problem creating the data file \"%s\"", dataFile.getAbsolutePath())
-                , e
-            );
-        }
-    }
+    protected RssHistoryDataSource dataFile;
 
     public boolean exists(String feedId, String itemGuid) {
         log.info(String.format("ENTER \"%s\", \"%s\"", feedId, itemGuid));
