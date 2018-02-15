@@ -11,6 +11,7 @@ import java.util.StringJoiner;
 public class RssHistoryEvent {
 
     public static final int STORE = 100;
+    public static final int VACUUM = 200;
 
     @Override
     public String toString() {

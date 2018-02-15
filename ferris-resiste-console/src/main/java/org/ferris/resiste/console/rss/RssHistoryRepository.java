@@ -141,9 +141,24 @@ public class RssHistoryRepository extends File {
         }
     }
 
+
     protected void store(RssHistory h) {
         log.info(String.format("ENTER %s", h));
         this.cache(h);
+        this.write();
+    }
+
+
+    protected void removeOlderThan(String feedId, Instant instant) {
+        log.info(String.format("ENTER \"%s\" %s", feedId, instant.toString()));
+
+        cache.entrySet().stream()
+            .filter(es -> es.getKey().equals(feedId))
+            .findFirst()
+            .map(es -> es.getValue()).get()
+            .removeIf(h -> h.getPublished().isBefore(instant))
+        ;
+
         this.write();
     }
 }
