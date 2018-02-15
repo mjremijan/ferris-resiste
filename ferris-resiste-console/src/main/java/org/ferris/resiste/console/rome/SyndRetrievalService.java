@@ -1,5 +1,6 @@
 package org.ferris.resiste.console.rome;
 
+import org.ferris.resiste.console.rss.RssFeed;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +37,7 @@ public class SyndRetrievalService {
             = service.findAll();
 
         log.info("PROCESS: Convert the URLs to feed data");
-        List<SyndFeed> feeds = new ArrayList<>(userFeeds.size());
+        List<RssFeed> feeds = new ArrayList<>(userFeeds.size());
         userFeeds.forEach(f -> {
             try {
                 feeds.add(

@@ -2,7 +2,7 @@ package org.ferris.resiste.console.email;
 
 import java.util.List;
 import java.util.StringJoiner;
-import org.ferris.resiste.console.rome.SyndFeed;
+import org.ferris.resiste.console.rss.RssFeed;
 
 /**
  *
@@ -22,14 +22,14 @@ public class EmailSendEvent {
         return sj.toString();
     }
 
-    protected List<SyndFeed> feeds;
+    protected List<RssFeed> feeds;
     protected List<EmailDraft> drafts;
 
-    public EmailSendEvent(List<SyndFeed> feeds) {
+    public EmailSendEvent(List<RssFeed> feeds) {
         this.feeds = feeds;
     }
 
-    public List<SyndFeed> getFeeds() {
+    public List<RssFeed> getFeeds() {
         return feeds;
     }
 

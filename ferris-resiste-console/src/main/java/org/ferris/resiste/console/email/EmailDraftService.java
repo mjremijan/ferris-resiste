@@ -19,8 +19,8 @@ import javax.inject.Inject;
 import org.ferris.resiste.console.conf.ConfDirectory;
 import static org.ferris.resiste.console.email.EmailSendEvent.DRAFT_MAP;
 import org.ferris.resiste.console.lang.StringUtils;
-import org.ferris.resiste.console.rome.SyndEntry;
-import org.ferris.resiste.console.rome.SyndFeed;
+import org.ferris.resiste.console.rss.RssEntry;
+import org.ferris.resiste.console.rss.RssFeed;
 import org.ferris.resiste.console.text.i18n.LocalizedString;
 import org.ferris.resiste.console.text.i18n.LocalizedStringKey;
 import org.ferris.resiste.console.util.version.Version;
@@ -107,7 +107,7 @@ public class EmailDraftService {
             = new LinkedList<>();
 
         log.info(String.format("READ: Get list of SyndFeed"));
-        List<SyndFeed> feeds
+        List<RssFeed> feeds
             = evnt.getFeeds();
 
         log.info(String.format("PROCESS: Convert SyndFeed to EmailDraft"));
@@ -127,7 +127,7 @@ public class EmailDraftService {
         evnt.setDrafts(drafts);
     }
 
-    protected String renderBody(SyndEntry se) {
+    protected String renderBody(RssEntry se) {
         log.info("ENTER");
 
         // Title
@@ -194,7 +194,7 @@ public class EmailDraftService {
     }
 
 
-    protected String renderSubject(SyndFeed sf) {
+    protected String renderSubject(RssFeed sf) {
         log.info("ENTER");
 
         // Title

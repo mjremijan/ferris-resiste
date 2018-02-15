@@ -1,5 +1,7 @@
 package org.ferris.resiste.console.rome;
 
+import org.ferris.resiste.console.rss.RssEntry;
+import org.ferris.resiste.console.rss.RssFeed;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
@@ -19,7 +21,7 @@ public class SyndFeedFactory {
     @Inject
     protected Logger log;
 
-    public SyndFeed build(RssUrl feedUrl) throws IOException, FeedException {
+    public RssFeed build(RssUrl feedUrl) throws IOException, FeedException {
         log.info(String.format("ENTER %s", feedUrl));
 
         com.rometools.rome.feed.synd.SyndFeed romeFeed
@@ -28,7 +30,7 @@ public class SyndFeedFactory {
         List<com.rometools.rome.feed.synd.SyndEntry> romeEntries
             = romeFeed.getEntries();
 
-        SyndFeed feed = new SyndFeed();
+        RssFeed feed = new RssFeed();
         feed.setId(feedUrl.getId());
         feed.setLink(romeFeed.getLink());
         feed.setTitle(romeFeed.getTitle());
@@ -47,7 +49,7 @@ public class SyndFeedFactory {
         feed.setEntries(
             romeEntries.stream()
                 .map(re -> {
-                    SyndEntry e = new SyndEntry();
+                    RssEntry e = new RssEntry();
                     e.setGuid(re.getUri());
                     e.setTitle(re.getTitle());
                     e.setAuthor(re.getAuthor());

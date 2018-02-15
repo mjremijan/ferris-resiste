@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 import org.ferris.resiste.console.email.*;
-import org.ferris.resiste.console.rome.SyndFeed;
 
 /**
  *
@@ -21,14 +20,14 @@ public class RssHistoryEvent {
         return sj.toString();
     }
 
-    protected List<SyndFeed> feeds;
+    protected List<RssFeed> feeds;
     protected List<EmailDraft> drafts;
 
-    public RssHistoryEvent(List<SyndFeed> feeds) {
+    public RssHistoryEvent(List<RssFeed> feeds) {
         this.feeds = new ArrayList<>(feeds);
     }
 
-    public List<SyndFeed> getFeeds() {
+    public List<RssFeed> getFeeds() {
         return feeds;
     }
 

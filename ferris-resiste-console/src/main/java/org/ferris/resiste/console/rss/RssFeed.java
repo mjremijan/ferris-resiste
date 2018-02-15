@@ -1,4 +1,4 @@
-package org.ferris.resiste.console.rome;
+package org.ferris.resiste.console.rss;
 
 import java.time.Instant;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-public class SyndFeed {
+public class RssFeed {
     protected String id;
 
     public String getId() {
@@ -38,13 +38,13 @@ public class SyndFeed {
         this.link = link;
     }
 
-    protected List<SyndEntry> entries;
+    protected List<RssEntry> entries;
 
-    public List<SyndEntry> getEntries() {
+    public List<RssEntry> getEntries() {
         return entries;
     }
 
-    public void setEntries(List<SyndEntry> entries) {
+    public void setEntries(List<RssEntry> entries) {
         this.entries = entries;
     }
 

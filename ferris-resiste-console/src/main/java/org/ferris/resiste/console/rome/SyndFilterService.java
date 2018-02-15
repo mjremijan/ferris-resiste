@@ -1,5 +1,6 @@
 package org.ferris.resiste.console.rome;
 
+import org.ferris.resiste.console.rss.RssFeed;
 import java.util.List;
 import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
@@ -26,7 +27,7 @@ public class SyndFilterService {
         log.info(String.format("ENTER %s", evnt));
 
         log.info("READ: Get SyndFeed list from event");
-        List<SyndFeed> syndFeed
+        List<RssFeed> syndFeed
             = evnt.getFeeds();
 
         log.info("PROCESS: Remove entries that exist in history");

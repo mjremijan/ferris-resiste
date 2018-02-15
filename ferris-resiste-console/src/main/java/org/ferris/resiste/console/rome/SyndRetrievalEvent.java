@@ -1,5 +1,6 @@
 package org.ferris.resiste.console.rome;
 
+import org.ferris.resiste.console.rss.RssFeed;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringJoiner;
@@ -16,17 +17,17 @@ public class SyndRetrievalEvent {
 
     protected List<String> errors;
 
-    protected List<SyndFeed> feeds;
+    protected List<RssFeed> feeds;
 
     public SyndRetrievalEvent() {
         errors = new LinkedList<>();
     }
 
-    public void setFeeds(List<SyndFeed> feeds) {
+    public void setFeeds(List<RssFeed> feeds) {
         this.feeds = feeds;
     }
 
-    public List<SyndFeed> getFeeds() {
+    public List<RssFeed> getFeeds() {
         return feeds;
     }
 

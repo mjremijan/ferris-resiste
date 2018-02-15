@@ -1,4 +1,4 @@
-package org.ferris.resiste.console.rome;
+package org.ferris.resiste.console.rss;
 
 import java.util.Date;
 
@@ -6,7 +6,7 @@ import java.util.Date;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-public class SyndEntry {
+public class RssEntry {
     public String guid;
 
     public String getGuid() {
