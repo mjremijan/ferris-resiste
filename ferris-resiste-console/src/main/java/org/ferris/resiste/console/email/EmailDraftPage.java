@@ -3,7 +3,7 @@ package org.ferris.resiste.console.email;
 import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import static org.ferris.resiste.console.email.EmailSendEvent.DRAFT_VIEW;
+import static org.ferris.resiste.console.email.EmailDraftEvent.DRAFT_VIEW;
 import org.ferris.resiste.console.io.Console;
 import org.ferris.resiste.console.text.i18n.LocalizedString;
 import org.ferris.resiste.console.text.i18n.LocalizedStringKey;
@@ -31,7 +31,7 @@ public class EmailDraftPage extends AbstractPage {
     protected LocalizedString draft;
 
     public void observeSend(
-        @Observes @Priority(DRAFT_VIEW) EmailSendEvent evnt
+        @Observes @Priority(DRAFT_VIEW) EmailDraftEvent evnt
     ) {
         log.info(String.format("ENTER %s", evnt.toString()));
         console.h1(heading);

@@ -3,7 +3,7 @@ package org.ferris.resiste.console.email;
 import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import static org.ferris.resiste.console.email.EmailSendEvent.SEND;
+import static org.ferris.resiste.console.email.EmailDraftEvent.SEND;
 import org.slf4j.Logger;
 
 /**
@@ -19,7 +19,7 @@ public class EmailSendService {
     protected EmailSender sender;
 
     protected void observeSend(
-        @Observes @Priority(SEND) EmailSendEvent evnt
+        @Observes @Priority(SEND) EmailDraftEvent evnt
     ) {
         log.info(String.format("ENTER %s", evnt));
 

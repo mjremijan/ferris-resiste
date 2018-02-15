@@ -1,8 +1,12 @@
 package org.ferris.resiste.console.rss;
 
 
-import java.util.Scanner;
+import java.time.Instant;
+import java.util.Optional;
+import javax.annotation.Priority;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import static org.ferris.resiste.console.rss.RssHistoryEvent.STORE;
 import org.slf4j.Logger;
 
 /**
@@ -15,46 +19,31 @@ public class RssHistoryService {
     protected Logger log;
 
     @Inject
-    protected RssHistoryDataSource dataFile;
+    protected RssHistoryRepository repository;
 
-    public boolean exists(String feedId, String itemGuid) {
-        log.info(String.format("ENTER \"%s\", \"%s\"", feedId, itemGuid));
-        boolean found = false;
+    public boolean exists(String feedId, String entryId) {
+        log.info(String.format("ENTER \"%s\", \"%s\"", feedId, entryId));
+        return repository.find(feedId, entryId).isPresent();
+    }
 
-        try (
-            // Open data file for reading
-            Scanner input = new Scanner(dataFile);
-        ) {
-            // Loop over each line
-            while (!found && input.hasNext()) {
 
-                // Read the line of data from the data file
-                String next = input.nextLine();
-                log.debug(String.format("LINE: \"%s\"", next));
+    protected void observeStore(
+        @Observes @Priority(STORE) RssHistoryEvent evnt
+    ) {
+        log.info(String.format("ENTER %s", evnt));
+        evnt.getFeeds().stream().forEach(
+            f -> f.getEntries().forEach(
+                e -> repository.store(
+                    new RssHistory(
+                          f.getId()
+                        , e.getGuid()
+                        , Optional.ofNullable(e.getPublishedDate())
+                            .map(d -> d.toInstant())
+                            .orElse(Instant.now())
+                    )
+                )
+            )
+        );
 
-                // Empty line? typically the last line
-                if (next.isEmpty()) {
-                    continue;
-                }
-
-                // Data is tab-delimited, so split
-                String[] tokens = next.split("\\t");
-
-                // See if line is a match to given feedId and itemId
-                found =
-                    tokens[0].equals(feedId)
-                    &&
-                    tokens[1].equals(itemGuid)
-                ;
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(
-                  String.format("Problem checking if feedId=\"%s\", itemId\"%s\" exists. File=%s", feedId, itemGuid, dataFile.getAbsolutePath())
-                , e
-            );
-        }
-
-        // Return if found or not
-        return found;
     }
 }

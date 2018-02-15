@@ -3,7 +3,6 @@ package org.ferris.resiste.console.rss;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
-import org.ferris.resiste.console.email.*;
 
 /**
  *
@@ -21,7 +20,6 @@ public class RssHistoryEvent {
     }
 
     protected List<RssFeed> feeds;
-    protected List<EmailDraft> drafts;
 
     public RssHistoryEvent(List<RssFeed> feeds) {
         this.feeds = new ArrayList<>(feeds);
@@ -29,13 +27,5 @@ public class RssHistoryEvent {
 
     public List<RssFeed> getFeeds() {
         return feeds;
-    }
-
-    public List<EmailDraft> getDrafts() {
-        return drafts;
-    }
-
-    public void setDrafts(List<EmailDraft> drafts) {
-        this.drafts = drafts;
     }
 }

@@ -17,7 +17,7 @@ import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import org.ferris.resiste.console.conf.ConfDirectory;
-import static org.ferris.resiste.console.email.EmailSendEvent.DRAFT_MAP;
+import static org.ferris.resiste.console.email.EmailDraftEvent.DRAFT_MAP;
 import org.ferris.resiste.console.lang.StringUtils;
 import org.ferris.resiste.console.rss.RssEntry;
 import org.ferris.resiste.console.rss.RssFeed;
@@ -99,7 +99,7 @@ public class EmailDraftService {
 
 
     protected void observeSend(
-        @Observes @Priority(DRAFT_MAP) EmailSendEvent evnt
+        @Observes @Priority(DRAFT_MAP) EmailDraftEvent evnt
     ) {
         log.info(String.format("ENTER %s", evnt));
 

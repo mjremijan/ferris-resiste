@@ -8,7 +8,7 @@ import org.ferris.resiste.console.rss.RssFeed;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-public class EmailSendEvent {
+public class EmailDraftEvent {
 
     public static final int DRAFT_MAP = 100;
     public static final int DRAFT_VIEW = 200;
@@ -16,7 +16,7 @@ public class EmailSendEvent {
 
     @Override
     public String toString() {
-        StringJoiner sj = new StringJoiner(", ", "[EmailSendEvent ", "]");
+        StringJoiner sj = new StringJoiner(", ", "[EmailDraftEvent ", "]");
         sj.add(String.format("feeds:%s", (feeds == null) ? "null" : feeds.size()));
         sj.add(String.format("drafts:%s", (drafts == null) ? "null" : drafts.size()));
         return sj.toString();
@@ -25,7 +25,7 @@ public class EmailSendEvent {
     protected List<RssFeed> feeds;
     protected List<EmailDraft> drafts;
 
-    public EmailSendEvent(List<RssFeed> feeds) {
+    public EmailDraftEvent(List<RssFeed> feeds) {
         this.feeds = feeds;
     }
 
