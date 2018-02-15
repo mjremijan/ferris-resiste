@@ -53,7 +53,7 @@ public class UncaughtExceptionService implements UncaughtExceptionHandler {
         try {
             error.fire(new EmailErrorEvent(
                 new ArrayList<String>(1){{
-                    add(String.format("Uncaught exception: %s", Arrays.toString(e.getStackTrace())));
+                    add(String.format("Uncaught exception: %s - %s", e.getMessage(), Arrays.toString(e.getStackTrace())));
                 }}
             ));
         } catch (Exception ignore){}

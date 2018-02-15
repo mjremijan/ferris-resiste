@@ -46,9 +46,7 @@ public class SyndRetrievalService {
                 );
             } catch (Exception e) {
                 evnt.addError(
-                    f.getUrl().toString()
-                    + ": "
-                    + Arrays.toString(e.getStackTrace())
+                    String.format("%s: %s - %s", f.getUrl().toString(), e.getMessage(), Arrays.toString(e.getStackTrace()))
                 );
             }
         });
