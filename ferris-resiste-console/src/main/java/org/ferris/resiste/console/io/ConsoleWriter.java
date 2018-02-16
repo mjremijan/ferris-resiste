@@ -21,6 +21,11 @@ public class ConsoleWriter {
         writer.flush();
     }
 
+    public void print(String str) {
+        writer.print(str);
+        writer.flush();
+    }
+
     public void println() {
         writer.println();
         writer.flush();

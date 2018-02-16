@@ -43,9 +43,15 @@ public class Console {
     public void p(LocalizedStringList paragraph) {
         writer.println();
         for (String s : paragraph) {
-            writer.printf("%s", s);
+            writer.print(s);
             writer.println();
         }
+    }
+
+    public void p(LocalizedString str) {
+        writer.println();
+        writer.print(str.toString());
+        writer.println();
     }
 
     public void p(LocalizedString format, Object... args) {
