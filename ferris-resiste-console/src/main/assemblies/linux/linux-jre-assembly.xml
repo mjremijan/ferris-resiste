@@ -48,7 +48,7 @@
         </fileSet>
         
         <fileSet>
-            <directory>src/main/assemblies/linux/zulu1.8.0_60-8.9.0.4-x86lx64/jre</directory>
+            <directory>src/main/assemblies/linux/zulu8.25.0.3-jdk8.0.153-linux_i686/jre</directory>
             <outputDirectory>jre</outputDirectory>
             <includes>
                 <include>**</include>
@@ -60,7 +60,7 @@
         </fileSet>
         
         <fileSet>
-            <directory>src/main/assemblies/linux/zulu1.8.0_60-8.9.0.4-x86lx64/jre</directory>
+            <directory>src/main/assemblies/linux/zulu8.25.0.3-jdk8.0.153-linux_i686/jre</directory>
             <outputDirectory>jre</outputDirectory>
             <includes>
                 <include>bin/java</include>

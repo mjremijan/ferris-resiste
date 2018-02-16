@@ -73,7 +73,7 @@ public class EmailDraftService {
         // Create your Configuration instance, and specify if up to what FreeMarker
         // version (here 2.3.25) do you want to apply the fixes that are not 100%
         // backward-compatible. See the Configuration JavaDoc for details.
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_25);
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
 
         // Specify the source where the template files come from. Here I set a
         // plain directory for it, but non-file-system sources are possible too:

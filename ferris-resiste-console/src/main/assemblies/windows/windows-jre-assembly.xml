@@ -16,7 +16,6 @@
         </file>
     </files>    
     <fileSets>
-        
         <fileSet>
             <directory>src/main/assemblies/windows/bat</directory>
             <outputDirectory>bin</outputDirectory>

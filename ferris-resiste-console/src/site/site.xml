@@ -1,4 +1,4 @@
-<project name="Ferris Tweial" xmlns="http://maven.apache.org/DECORATION/1.0.0"
+<project name="Ferris Resiste" xmlns="http://maven.apache.org/DECORATION/1.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
  
@@ -16,7 +16,7 @@
     <skin>
         <groupId>org.apache.maven.skins</groupId>
         <artifactId>maven-fluido-skin</artifactId>
-        <version>1.3.0</version>
+        <version>1.7</version>
     </skin>
     <custom>
         <fluidoSkin>
@@ -27,21 +27,19 @@
     
     <body>
         <head>
-            <!-- because the structure is not flat we must use absolute urls -->
-            <link rel="stylesheet" href="css/tweial.css" type="text/css"/>
+            <![CDATA[
+                <link rel="stylesheet" href="css/resiste.css" type="text/css" />
+            ]]>
         </head>
 
-        <menu name="Ferris Tweial">
+        <menu name="Ferris Resiste">
             <item name="About" href="index.html" />
             <item name="Installation" href="installation.html" />
             <item name="Configuration" href="configuration.html" /> 
 			<item name="Preferences" href="preferences.html" />           
             <item name="Logging" href="logging.html" />                                 
             <item name="Scheduling to Run" href="scheduling.html" />               
-        </menu>
-		<menu name="Miscellaneous">
-            <item name="1st Public Release" href="first-public-release.html" />
-        </menu>
+        </menu>		
         <menu ref="reports"/>
     </body>   
 </project>

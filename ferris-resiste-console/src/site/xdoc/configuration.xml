@@ -4,28 +4,27 @@
           xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
     <properties>
-        <title>Ferris Tweial</title>
+        <title>Ferris Resiste</title>
         <author email="mjremijan@yahoo.com">Michael Remijan</author>
     </properties>
 
     <body>
         <section name="Configuration">
             <p>
-                Configuring Tweial is not that difficult.  This page documents 
-                everything you need to do.
+                Configuring Resiste is not that difficult.  
+                This page documents everything you need to do.
             </p>
         </section>
 		
         <section name="JRE">
             <p>
-                Tweial requires Java 8. The Windows and Linux downloads come embedded
-                with a Java 8 JRE, so Tweial does not depend on the
-                system-level JRE to run.  
+                Resiste requires Java 8. The Windows and Linux downloads come embedded
+                with a Java 8 JRE, so Resiste does not depend on the system-level JRE to run.  
             </p>
             <p>
-                However, if you want to override the JRE which comes embedded
-                with Tweial, you can do so by editing, in the <code>[TWEIAL_HOME]/bin/</code>
-                directory, the <code>start-tweial.sh</code>, <code>start-tweial.bat</code> 
+                However, if you want to override the JRE that comes embedded
+                with Resiste, you can do so by editing, in the <code>[RESISTE_HOME]/bin/</code>
+                directory, the <code>start-resiste.sh</code> and <code>start-resiste.bat</code> 
                 files.
             </p>            
         </section>
@@ -39,12 +38,12 @@
 		
         <section name="SMTP Account">
             <p>
-                Tweial needs the SMTP information for your email provider. Each
+                Resiste needs the SMTP information for your email provider. Each
                 email provider is different so how you get this information is 
                 up to you.  
             </p>
             <p>
-                In the <code>[TWEIAL_HOME]/conf/</code> directory, make a copy
+                In the <code>[RESISTE_HOME]/conf/</code> directory, make a copy
                 of <code>email(example).properties</code> as <code>email.properties</code>.
                 Edit <code>email.properties</code>, adding your SMTP account
                 details.
@@ -58,36 +57,59 @@ password=password                   // Your email account clear-text password
 emailAddress=someone@somewhere.org  // Your email address</source>            
         </section>
 		
-        <section name="Twitter Account">
+        <section name="RSS URLs">
             <p>
-                Tweial uses the <a href="http://twitter4j.org/en/" alt="Twitter4J project">Twitter4J</a>
-                libraries to communicate with Twitter.  In order for this 
-                communication to be successful, you need to add Tweial as an 
-                authorized application on your account.  
+                Resiste will handle any RSS URL you configure.
+                In the <code>[RESISTE_HOME]/conf/</code> directory, add your
+                RSS URLs to <code>rss_urls.csv</code>.
             </p>
             <p>
-                <blockquote>
-                <b>NOTE:</b> 
-                <br />
-                Refer to 
-                <a href="http://mjremijan.blogspot.com/2014/09/how-to-register-twitter-application-for.html" alt="How to Register a Twitter Application for Twitter4J">my blogger article</a>
-                on how to authorize Tweial with your Twitter account.
-                </blockquote>
-            </p>            
-            <p>
-                After you have added Tweial as an authorized applicaiton on your
-                Twitter account, in the <code>[TWEIAL_HOME]/conf/</code> directory, make a copy
-                of <code>twitter(example).properties</code> as <code>twitter.properties</code>. 
-                Edit <code>twitter.properties</code>, adding the OAUTH details.
+                This is a simple comma-separated data file.  Here is an example:
             </p>
             <source>
-oAuthConsumerKey=ABC
-oAuthConsumerSecret=ABC
-oAuthAccessToken=ABC
-oAuthAccessTokenSecret=ABC</source>
-    
+aa312231-8510-422b-8f4d-18e7f4ae4405,https://xkcd.com/rss.xml</source>
             <p>
-                Configuration complete! Next is <a href="preferences.html" alt="preferences">preferences</a>.
+                Each line has 2 fields
+            </p>            
+            <ol>
+                <li>ID</li>
+                <li>URL</li>
+            </ol>
+            <p>
+                <b>ID</b> can be any value you want, as long as it is unique.
+                I suggest using an <a href="https://www.uuidgenerator.net/">Online UUID Generator Tool</a>
+                to generate unique values.  But they can also be as simple as 1,2,3,4.
+            </p>
+            <p>
+                <b>URL</b> is the URL of the RSS feed you want to keep track of.
+                Typically, all you need to do is copy the link from your browser and
+                paste it in.
+            </p>
+        </section>
+        
+        <section name="RSS Email">
+            <p>
+                <b>Configure RSS email subject</b> by editing, in the <code>[RESISTE_HOME]/conf/</code>
+                directory, the <code>rss_email_subject.ftlt</code>.
+            </p>
+            <p>
+                <b>Configure RSS email body</b> by editing, in the <code>[RESISTE_HOME]/conf/</code>
+                directory, the <code>rss_email_body.ftlt</code>.
+            </p>
+        </section>
+        
+        <section name="Error Email">
+            <p>
+                <b>Configure error email subject</b> by editing, in the <code>[RESISTE_HOME]/conf/</code>
+                directory, the <code>error_email_subject.ftlt</code>.
+            </p>
+            <p>
+                <b>Configure error email body</b> by editing, in the <code>[RESISTE_HOME]/conf/</code>
+                directory, the <code>error_email_body.ftlt</code>.
+            </p>
+
+            <p>
+                Configuration complete! Next is <a href="scheduling.html" alt="scheduling">scheduling</a>.
             </p>
         </section>	     
         
