@@ -2,6 +2,27 @@
     <body>
         <!-- contents -->
         <div style="border: 0px solid black;">${contents}</div>
+        
+        <!-- images -->
+        <#if images?size != 0>
+            <#list images as image>
+                <p>
+                    <img src="${image.url}" />
+                </p>
+            </#list>
+        </#if>
+
+        <!-- media files -->
+        <#if mediaFiles?size != 0>
+            <p style="font-size: larger; font-weight: bold;">
+                Media-Files
+            </p>
+            <#list mediaFiles as mediaFile>
+                <p>
+                    ${mediaFile.type}: <a href="${mediaFile.url}">${mediaFile.url}</a>
+                </p>
+            </#list>
+        </#if>
 
         <!-- apa reference -->
         <div style="clear:both; border: 0px solid black; font-family:Georgia,serif; margin-top:20px;">

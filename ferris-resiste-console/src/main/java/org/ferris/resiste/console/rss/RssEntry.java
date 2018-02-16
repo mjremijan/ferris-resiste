@@ -1,6 +1,8 @@
 package org.ferris.resiste.console.rss;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -66,5 +68,28 @@ public class RssEntry {
     public void setPublishedDate(Date publishedDate) {
         this.publishedDate = publishedDate;
     }
+
+    protected List<RssImage> images = new LinkedList<>();
+
+    public List<RssImage> getImages() {
+        return images;
+    }
+
+    public void addImage(RssImage image) {
+        images.add(image);
+    }
+
+    protected List<RssMediaFile> mediaFiles = new LinkedList<>();
+
+    public List<RssMediaFile> getMediaFiles() {
+        return mediaFiles;
+    }
+
+    public void addMediaFile(RssMediaFile mediaFile) {
+        mediaFiles.add(mediaFile);
+    }
+
+
+
 
 }

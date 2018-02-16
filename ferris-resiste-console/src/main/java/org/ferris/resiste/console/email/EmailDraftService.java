@@ -21,6 +21,8 @@ import static org.ferris.resiste.console.email.EmailDraftEvent.DRAFT_MAP;
 import org.ferris.resiste.console.lang.StringUtils;
 import org.ferris.resiste.console.rss.RssEntry;
 import org.ferris.resiste.console.rss.RssFeed;
+import org.ferris.resiste.console.rss.RssImage;
+import org.ferris.resiste.console.rss.RssMediaFile;
 import org.ferris.resiste.console.text.i18n.LocalizedString;
 import org.ferris.resiste.console.text.i18n.LocalizedStringKey;
 import org.ferris.resiste.console.util.version.Version;
@@ -166,6 +168,14 @@ public class EmailDraftService {
         String projectUrl
             = version.getImplementationUrl();
 
+        // Images
+        List<RssImage> images
+            = se.getImages();
+
+        // Media files
+        List<RssMediaFile> mediaFiles
+            = se.getMediaFiles();
+
         // Render
         Writer out = new StringWriter();
         try {
@@ -178,6 +188,8 @@ public class EmailDraftService {
             root.put("linkText", linkText);
             root.put("projectFinalName", projectFinalName);
             root.put("projectUrl", projectUrl);
+            root.put("images", images);
+            root.put("mediaFiles", mediaFiles);
 
             bodyTemplate.process(root, out);
 

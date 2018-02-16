@@ -1,5 +1,6 @@
 package org.ferris.resiste.console.rome;
 
+import org.ferris.resiste.console.rss.RssFeedFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +26,7 @@ public class SyndRetrievalService {
     protected RssUrlService service;
 
     @Inject
-    protected SyndFeedFactory factory;
+    protected RssFeedFactory factory;
 
 
     protected void observeRetrieve(

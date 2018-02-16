@@ -14,17 +14,23 @@ import org.slf4j.Logger;
 @Interceptor
 @ExceptionRetry
 public class ExceptionRetryInterceptor implements Serializable {
- 
+
     @Inject
     protected Logger log;
-    
+
     @AroundInvoke
      public Object retryIfExceptionCaught(InvocationContext ctx) throws Exception {
          Exception caught = null;
          for (int i=1, imax=4; i<=imax; i++) {
              try {
                  return ctx.proceed();
-             } catch (Exception e) {
+             }
+             catch (ExceptionBreak e) {
+                 caught = e;
+                 log.warn(String.format("ExceptionBreak caught on attempt %d of %d", i, imax), e);
+                 break;
+             }
+             catch (Exception e) {
                  caught = e;
                  log.warn(String.format("Exception caught on attempt %d of %d", i, imax), e);
              }

@@ -1,23 +1,23 @@
-package org.ferris.resiste.console.rome;
+package org.ferris.resiste.console.rss;
 
+import com.rometools.rome.feed.synd.SyndEnclosure;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
+import org.ferris.resiste.console.retry.ExceptionBreak;
 import org.ferris.resiste.console.retry.ExceptionRetry;
-import org.ferris.resiste.console.rss.RssEntry;
-import org.ferris.resiste.console.rss.RssFeed;
-import org.ferris.resiste.console.rss.RssUrl;
 import org.slf4j.Logger;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-public class SyndFeedFactory {
+public class RssFeedFactory {
 
     @Inject
     protected Logger log;
@@ -45,7 +45,7 @@ public class SyndFeedFactory {
                 .map(d -> d.toInstant())
                 .min((i1, i2) -> i1.compareTo(i2))
                 .orElseThrow(
-                    () -> new RuntimeException("Oldest published date not found"))
+                    () -> new ExceptionBreak("Oldest published date not found"))
         );
 
         feed.setEntries(
@@ -58,6 +58,21 @@ public class SyndFeedFactory {
                     e.setLink(re.getLink());
                     e.setPublishedDate(re.getPublishedDate());
 
+                    // Enclosures
+                    Optional<List<SyndEnclosure>> enclosures
+                        = Optional.ofNullable(re.getEnclosures());
+                    // Images
+                    enclosures.ifPresent(
+                        se -> se.stream().filter(a -> a.getType().toLowerCase().startsWith("image")).forEach(
+                            b -> e.addImage(new RssImage(b.getType(), b.getUrl())))
+                    );
+                    // Other media files
+                    enclosures.ifPresent(
+                        se -> se.stream().filter(a -> !a.getType().toLowerCase().startsWith("image")).forEach(
+                            b -> e.addMediaFile(new RssMediaFile(b.getType(), b.getUrl())))
+                    );
+
+                    // Content
                     StringBuilder sp = new StringBuilder("");
                     if (re.getContents() != null && !re.getContents().isEmpty()) {
                         re.getContents().stream()

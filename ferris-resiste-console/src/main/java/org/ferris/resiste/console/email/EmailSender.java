@@ -65,7 +65,7 @@ public class EmailSender {
                     }
                 });
             }
-            smtp.setDebug(true);
+            smtp.setDebug(false);
             //smtp.setDebugOut(getPrintStream());
 
             MimeMessage m = new MimeMessage(smtp);
@@ -82,15 +82,4 @@ public class EmailSender {
             throw new RuntimeException(e);
         }
     }
-
-//    protected PrintStream getPrintStream() {
-//        Enumeration enu = log.getAllAppenders();
-//        while (enu.hasMoreElements()) {
-//            Object o = enu.nextElement();
-//            if (o instanceof Log4jRollingFileAppender) {
-//                return ((Log4jRollingFileAppender)o).getPrintStream();
-//            }
-//        }
-//        return System.out;
-//    }
 }
