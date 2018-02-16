@@ -1,4 +1,3 @@
-ferris-tweial
-=============
+# ferris-resiste
 
-A Twitter-to-email client
+A **Re**ally **Si**mple **S**yndication (RSS) **T**o **E**mail client
