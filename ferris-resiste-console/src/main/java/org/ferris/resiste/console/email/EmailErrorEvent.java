@@ -1,6 +1,7 @@
 package org.ferris.resiste.console.email;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.StringJoiner;
 
 /**
@@ -22,7 +23,7 @@ public class EmailErrorEvent {
     }
 
     protected List<String> errors;
-    protected EmailDraft draft;
+    protected Optional<EmailDraft> draft;
 
     public EmailErrorEvent(List<String> errors) {
         this.errors = errors;
@@ -32,11 +33,11 @@ public class EmailErrorEvent {
         return errors;
     }
 
-    public EmailDraft getDraft() {
+    public Optional<EmailDraft> getDraft() {
         return draft;
     }
 
-    public void setDraft(EmailDraft draft) {
+    public void setDraft(Optional<EmailDraft> draft) {
         this.draft = draft;
     }
 }

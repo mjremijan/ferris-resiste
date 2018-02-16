@@ -9,6 +9,7 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import javax.annotation.PostConstruct;
 import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
@@ -72,10 +73,16 @@ public class EmailErrorService {
         log.info(String.format("ENTER %s", evnt));
 
         log.info(String.format("PROCESS: Convert error to EmailDraft"));
-        EmailDraft draft = new EmailDraft(
-              renderSubject()
-            , renderBody(evnt.getErrors())
-        );
+
+        Optional<EmailDraft> draft
+            = Optional.empty();
+
+        if (!evnt.getErrors().isEmpty()) {
+            draft = Optional.of(new EmailDraft(
+                  renderSubject()
+                , renderBody(evnt.getErrors())
+            ));
+        }
 
         evnt.setDraft(draft);
     }

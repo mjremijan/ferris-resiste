@@ -34,6 +34,6 @@ public class EmailSendService {
         @Observes @Priority(ERROR_SEND) EmailErrorEvent evnt
     ) {
         log.info(String.format("ENTER %s", evnt));
-        sender.send(evnt.getDraft());
+        evnt.getDraft().ifPresent(g -> sender.send(g));
     }
 }
