@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../resources/report.gif" type="image/gif"/><title>RssFeed.java</title><link rel="stylesheet" href="../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ferris-resiste-console</a> &gt; <a href="index.source.html" class="el_package">org.ferris.resiste.console.rss</a> &gt; <span class="el_source">RssFeed.java</span></div><h1>RssFeed.java</h1><pre class="source lang-java linenums">package org.ferris.resiste.console.rss;
+
+import java.time.Instant;
+import java.util.List;
+
+/**
+ *
+ * @author Michael Remijan mjremijan@yahoo.com @mjremijan
+ */
+<span class="nc" id="L10">public class RssFeed {</span>
+    protected String id;
+
+    public String getId() {
+<span class="nc" id="L14">        return id;</span>
+    }
+
+    public void setId(String id) {
+<span class="nc" id="L18">        this.id = id;</span>
+<span class="nc" id="L19">    }</span>
+
+    protected String title;
+
+    public String getTitle() {
+<span class="nc" id="L24">        return title;</span>
+    }
+
+    public void setTitle(String title) {
+<span class="nc" id="L28">        this.title = title;</span>
+<span class="nc" id="L29">    }</span>
+
+    protected String link;
+
+    public String getLink() {
+<span class="nc" id="L34">        return link;</span>
+    }
+
+    public void setLink(String link) {
+<span class="nc" id="L38">        this.link = link;</span>
+<span class="nc" id="L39">    }</span>
+
+    protected List&lt;RssEntry&gt; entries;
+
+    public List&lt;RssEntry&gt; getEntries() {
+<span class="nc" id="L44">        return entries;</span>
+    }
+
+    public void setEntries(List&lt;RssEntry&gt; entries) {
+<span class="nc" id="L48">        this.entries = entries;</span>
+<span class="nc" id="L49">    }</span>
+
+    protected Instant oldestPublishedDate;
+
+    public Instant getOldestPublishedDate() {
+<span class="nc" id="L54">        return oldestPublishedDate;</span>
+    }
+
+    public void setOldestPublishedDate(Instant oldestPublishedDate) {
+<span class="nc" id="L58">        this.oldestPublishedDate = oldestPublishedDate;</span>
+<span class="nc" id="L59">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

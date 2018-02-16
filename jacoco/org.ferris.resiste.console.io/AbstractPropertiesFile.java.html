@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../resources/report.gif" type="image/gif"/><title>AbstractPropertiesFile.java</title><link rel="stylesheet" href="../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ferris-resiste-console</a> &gt; <a href="index.source.html" class="el_package">org.ferris.resiste.console.io</a> &gt; <span class="el_source">AbstractPropertiesFile.java</span></div><h1>AbstractPropertiesFile.java</h1><pre class="source lang-java linenums">package org.ferris.resiste.console.io;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import javax.inject.Inject;
+import org.slf4j.Logger;
+
+/**
+ * This class exists to provide common functionality to all the application
+ * objects which are meant to extend {@link File}
+ *
+ * @author Michael Remijan mjremijan@yahoo.com @mjremijan
+ */
+public abstract class AbstractPropertiesFile extends File {
+
+    @Inject
+    protected Logger log;
+
+    /**
+     * Pass to super constructor w/o error checking
+     *
+     * @param parent The parent, relative to the {@code relativePath} parameter
+     * @param relativePath The relative path to the resource from the {@code parent}
+     */
+    public AbstractPropertiesFile(File parent, String relativePath) {
+<span class="nc" id="L29">        super(parent, relativePath);</span>
+<span class="nc" id="L30">    }</span>
+
+    /**
+     * Return a {@link Properties} object representation of this file.
+     *
+     * @return Return a {@link Properties} object, never return {@code null}
+     * @throws RuntimeException Wraps any other exception which might be thrown
+     */
+    public Properties toProperties() {
+<span class="nc" id="L39">        log.info(String.format(&quot;Create Properties object from \&quot;%s\&quot;&quot;, this));</span>
+<span class="nc" id="L40">        Properties props = new Properties();</span>
+<span class="nc" id="L41">        try (InputStream is = new FileInputStream(this);) {</span>
+<span class="nc" id="L42">            props.load(is);</span>
+<span class="nc bnc" id="L43" title="All 8 branches missed.">        } catch (IOException e) {</span>
+<span class="nc" id="L44">            throw new RuntimeException(e);</span>
+<span class="nc" id="L45">        }</span>
+<span class="nc" id="L46">        return props;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

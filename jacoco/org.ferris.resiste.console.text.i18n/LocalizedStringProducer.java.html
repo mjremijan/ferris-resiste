@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../resources/report.gif" type="image/gif"/><title>LocalizedStringProducer.java</title><link rel="stylesheet" href="../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ferris-resiste-console</a> &gt; <a href="index.source.html" class="el_package">org.ferris.resiste.console.text.i18n</a> &gt; <span class="el_source">LocalizedStringProducer.java</span></div><h1>LocalizedStringProducer.java</h1><pre class="source lang-java linenums">package org.ferris.resiste.console.text.i18n;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.Annotated;
+import javax.enterprise.inject.spi.InjectionPoint;
+import org.apache.commons.lang3.StringUtils;
+import org.ferris.resiste.console.text.i18n.qualifier.Welcome;
+
+public class LocalizedStringProducer {
+
+<span class="nc" id="L15">    protected static String bundleName = &quot;ApplicationMessages&quot;;</span>
+
+    protected static final int DEFAULT_WIDTH = 100;
+
+    protected ResourceBundle rb;
+
+<span class="nc" id="L21">    public LocalizedStringProducer() {</span>
+<span class="nc" id="L22">        rb = ResourceBundle.getBundle(bundleName);</span>
+<span class="nc" id="L23">    }</span>
+
+    protected Annotated getAnnotated(InjectionPoint ip) {
+<span class="nc" id="L26">        Annotated annotated = ip.getAnnotated();</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        if (annotated == null) {</span>
+<span class="nc" id="L28">            throw new RuntimeException(&quot;InjectionPoint annotated is null&quot;);</span>
+        }
+<span class="nc" id="L30">        return annotated;</span>
+    }
+
+    protected String getResourceBundleKey(Annotated annotated) {
+<span class="nc" id="L34">        LocalizedStringKey messageKey = annotated.getAnnotation(LocalizedStringKey.class);</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (messageKey == null) {</span>
+<span class="nc" id="L36">            throw new RuntimeException(&quot;InjectionPoint has no @LocalizedStringKey annotation&quot;);</span>
+        }
+<span class="nc" id="L38">        return messageKey.value();</span>
+    }
+
+    protected Map&lt;String, String&gt; getResourceBundleKeyMap(Annotated annotated) {
+<span class="nc" id="L42">        LocalizedStringBuilder builder = annotated.getAnnotation(LocalizedStringBuilder.class);</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (builder == null) {</span>
+<span class="nc" id="L44">            throw new RuntimeException(&quot;InjectionPoint has no @LocalizedStringBuilder annotation&quot;);</span>
+        }
+
+<span class="nc" id="L47">        Map&lt;String, String&gt; map</span>
+                = new HashMap&lt;&gt;();
+
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        for (LocalizedStringKey key : builder.value()) {</span>
+<span class="nc" id="L51">            map.put(key.buildId(), key.value());</span>
+        }
+
+<span class="nc" id="L54">        return map;</span>
+    }
+
+    private String getResourceBundleValue(String key) {
+<span class="nc" id="L58">        String val = &quot;&quot;;</span>
+        try {
+<span class="nc" id="L60">            val = rb.getString(key);</span>
+<span class="nc" id="L61">        } catch (MissingResourceException e) {</span>
+<span class="nc" id="L62">            val = String.format(&quot;&lt;missing \&quot;%s\&quot;&gt;&quot;, key);</span>
+<span class="nc" id="L63">        }</span>
+<span class="nc" id="L64">        return val;</span>
+    }
+
+    @Produces
+    public LocalizedString getLocalizedString(InjectionPoint ip) {
+<span class="nc" id="L69">        return new LocalizedString(</span>
+<span class="nc" id="L70">                getResourceBundleValue(</span>
+<span class="nc" id="L71">                        getResourceBundleKey(getAnnotated(ip))</span>
+                )
+        );
+    }
+
+    @Produces
+    public LocalizedStringList getLocalizedStringList(InjectionPoint ip) {
+<span class="nc" id="L78">        String rbKey</span>
+<span class="nc" id="L79">                = getResourceBundleKey(getAnnotated(ip));</span>
+
+<span class="nc" id="L81">        LocalizedStringList lsl = new LocalizedStringList();</span>
+<span class="nc" id="L82">        for (int i = 1; true; i++) {</span>
+            try {
+<span class="nc" id="L84">                String key = String.format(&quot;%s.%d&quot;, rbKey, i);</span>
+<span class="nc" id="L85">                lsl.add(rb.getString(key));</span>
+<span class="nc" id="L86">            } catch (MissingResourceException e) {</span>
+<span class="nc" id="L87">                break;</span>
+<span class="nc" id="L88">            }</span>
+        }
+<span class="nc" id="L90">        return lsl;</span>
+    }
+
+    @Produces
+    @Welcome
+    public LocalizedString buildWelcomeLocalizedString(InjectionPoint ip) {
+<span class="nc" id="L96">        Map&lt;String, String&gt; map</span>
+<span class="nc" id="L97">                = getResourceBundleKeyMap(getAnnotated(ip));</span>
+
+<span class="nc" id="L99">        LocalizedString m = new LocalizedString(getResourceBundleValue(map.get(&quot;message&quot;)));</span>
+<span class="nc" id="L100">        LocalizedString w = new LocalizedString(getResourceBundleValue(map.get(&quot;width&quot;)));</span>
+<span class="nc" id="L101">        LocalizedString b = new LocalizedString(getResourceBundleValue(map.get(&quot;bullet&quot;)));</span>
+
+<span class="nc" id="L103">        int messageWidth = m.length();</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        int width = (w.intValue(DEFAULT_WIDTH) &lt; messageWidth) ? messageWidth + 4 : w.intValue(DEFAULT_WIDTH);</span>
+
+<span class="nc" id="L106">        StringBuilder sp = new StringBuilder();</span>
+        {
+            // top bullets
+<span class="nc" id="L109">            sp.append(String.format(&quot;%s\n&quot;, StringUtils.leftPad(&quot;&quot;, width, b.toString())));</span>
+            // top side bullets
+<span class="nc" id="L111">            sp.append(String.format(&quot;%s%&quot; + (width - 1) + &quot;s\n&quot;, b.toString(), b.toString()));</span>
+            // message
+<span class="nc" id="L113">            sp.append(String.format(</span>
+<span class="nc" id="L114">                    &quot;%s %s%&quot; + (width - messageWidth - 2) + &quot;s\n&quot;, b.toString(), m.toString(), b.toString()</span>
+            ));
+            // bottom side bullets
+<span class="nc" id="L117">            sp.append(String.format(&quot;%s%&quot; + (width - 1) + &quot;s\n&quot;, b.toString(), b.toString()));</span>
+            // bottom bullets
+<span class="nc" id="L119">            sp.append(String.format(&quot;%s&quot;, StringUtils.leftPad(&quot;&quot;, width, b.toString())));</span>
+        }
+
+<span class="nc" id="L122">        return new LocalizedString(sp.toString());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
