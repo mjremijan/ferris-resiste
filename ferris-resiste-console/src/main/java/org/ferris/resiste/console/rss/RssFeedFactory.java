@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
+import org.ferris.resiste.console.lang.StringUtils;
 import org.ferris.resiste.console.retry.ExceptionBreak;
 import org.ferris.resiste.console.retry.ExceptionRetry;
+import org.jdom2.Element;
 import org.slf4j.Logger;
 
 /**
@@ -61,16 +63,32 @@ public class RssFeedFactory {
                     // Enclosures
                     Optional<List<SyndEnclosure>> enclosures
                         = Optional.ofNullable(re.getEnclosures());
+                    // Foreign markup
+                    Optional<List<Element>> foreignMarkups
+                        = Optional.ofNullable(re.getForeignMarkup());
+
+
                     // Images
                     enclosures.ifPresent(
                         se -> se.stream().filter(a -> a.getType().toLowerCase().startsWith("image")).forEach(
                             b -> e.addImage(new RssImage(b.getType(), b.getUrl())))
                     );
+                    foreignMarkups.ifPresent(
+                        fm -> fm.stream()
+                            .filter(el -> el.getName().toLowerCase().equals("thumbnail"))
+                            .map(el -> el.getAttribute("url"))
+                            .filter(at -> at != null)
+                            .map(at -> StringUtils.trimToNull(at.getValue()))
+                            .filter(s -> s != null)
+                            .forEach(s -> e.addImage(new RssImage("image/thumbnail", s)))
+                    );
+
                     // Other media files
                     enclosures.ifPresent(
                         se -> se.stream().filter(a -> !a.getType().toLowerCase().startsWith("image")).forEach(
                             b -> e.addMediaFile(new RssMediaFile(b.getType(), b.getUrl())))
                     );
+
 
                     // Content
                     StringBuilder sp = new StringBuilder("");

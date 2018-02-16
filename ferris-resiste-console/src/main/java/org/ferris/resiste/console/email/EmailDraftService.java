@@ -134,6 +134,8 @@ public class EmailDraftService {
 
         // Title
         String title = Optional.ofNullable(StringUtils.trimToNull(se.getTitle())).orElse(noTitle.toString());
+        title = title.replaceAll("\\n", " ");
+        title = StringUtils.abbreviate(title, 70);
         log.debug(String.format("TITLE = \"%s\"", title));
 
         // Contents
