@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
@@ -69,6 +70,8 @@ public class EmailDraftService {
 
     private Template subjectTemplate, bodyTemplate;
 
+    private Pattern flickrPattern, widthHeightPattern;
+
     @PostConstruct
     protected void postConstruct() throws Exception {
         // -------------------- Create a configuration instance
@@ -97,6 +100,10 @@ public class EmailDraftService {
 
         // Body template
         bodyTemplate = cfg.getTemplate("rss_email_body.ftlt");
+
+        // Patterns
+        flickrPattern = Pattern.compile("farm[\\d]+\\.staticflickr.com");
+        widthHeightPattern = Pattern.compile("(width|height)=[\"]?[\\d]+[\"]?");;
     }
 
 
@@ -139,8 +146,13 @@ public class EmailDraftService {
         log.debug(String.format("TITLE = \"%s\"", title));
 
         // Contents
-        String contents
-            = (se.getContents().length() > 0) ? se.getContents() : noContents.toString();
+        String contents = (se.getContents().length() > 0) ? se.getContents() : noContents.toString();
+        if (flickrPattern.matcher(contents).find()) {
+            contents = widthHeightPattern.matcher(contents)
+                .replaceAll("")
+                .replaceAll("_m\\.jpg", "_z.jpg")
+            ;
+        }
 
         // Author
         String author = Optional.ofNullable(StringUtils.trimToNull(se.getAuthor())).orElse(noAuthor.toString());
