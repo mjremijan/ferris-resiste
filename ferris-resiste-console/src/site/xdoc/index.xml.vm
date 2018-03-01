@@ -33,33 +33,17 @@
             </div>
         </section>
 		
-        <section name="About">
-            <p>
-                Resiste...<br />
-                <b>RE</b>ally <b>SI</b>mple <b>S</b>yndication <b>T</b>o <b>E</b>mail
-            </p>
-            <p>
-                The purpose of Resiste is to be an all-purpose RSS-to-email client.
-                Schedule Resiste to run at an interval of your choosing (15 minutes, 1 hour, etc.). 
-                When Resiste runs, it will:
-            </p>
+        <section name="Get Started">
             <ol>
-                <li>Loop over each RSS/ATOM feed you've configured</li>
-                <li>Determine the new posts since it last ran</li>
-                <li>Email you the new posts</li>
+                <li>
+                    Click one of the <span style="font-style:italic;">download</span>
+                    links above. <br /><br />
+                </li>
+                <li>
+                    Start with <a href="installation.html">installation</a>
+                </li>
             </ol>
         </section>
 
-        <section name="Why">
-            <p>
-                You want an application like Resiste because it's the difference between 
-                pulling information and pushing information.  RSS was created to pull information.
-                Unfortunately, most email clients no longer support RSS.  I basically check only one thing
-                all day, and that's my email.  If it comes to my inbox (i.e it's
-                "pushed" to me) I'll read it and respond. However if it doesn't come to
-                my inbox, it's very unlikely I'll remember to go get it (i.e. "pull" it to me).
-                So this is why I created Resiste - to automatically "push" new posts to my inbox.			
-            </p>
-        </section>
     </body>
 </document>

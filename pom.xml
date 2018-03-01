@@ -2,17 +2,169 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
    
+    <organization>
+        <name>The Ferris Foundation</name>
+        <url>https://github.com/mjremijan</url>
+    </organization>
+    
     <groupId>org.ferris</groupId>
     <artifactId>ferris-resiste</artifactId>
     <version>1.0.0.0-SNAPSHOT</version>
-
     <packaging>pom</packaging>
-
+    <name>ferris-resiste</name>
+    
+    <description>
+        An RSS to email system.
+    </description>
+    
+    <url>
+        https://${ferrisUrlHostName}/${project.artifactId}/
+    </url>
+    
     <modules>
         <module>ferris-resiste-console</module>
     </modules>
+    
+    <distributionManagement>
+        <site>
+            <id>github.gh-pages</id>
+            <url>${project.url}</url>
+        </site>
+    </distributionManagement>
+    
+    <issueManagement>
+        <url>https://github.com/mjremijan/ferris-resiste/issues</url>
+        <system>GitHub</system>
+    </issueManagement>
+    
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+    
+    <scm>
+        <url>https://github.com/mjremijan/ferris-resiste</url>             
+        <connection>scm:git:git@github.com:mjremijan/ferris-resiste.git</connection>
+        <developerConnection>scm:git:git@github.com:mjremijan/ferris-resiste.git</developerConnection>
+    </scm>
+    
+    <developers>
+        <developer>
+            <!-- if you have a gravatar image with this email it will show -->
+            <email>mjremijan@yahoo.com</email>
+            <id>mjremijan</id>
+            <name>Michael Remijan</name>
+            <organization>The Ferris Foundation</organization>			
+            <organizationUrl></organizationUrl>
+            <properties>
+                <twitter>@mjremijan</twitter>
+                <!-- picUrl></picUrl> Use this if no gravatar image -->
+            </properties>
+            <roles>
+                <role>Project Owner</role>
+                <role>Architect</role>
+                <role>Lead Developer</role>
+            </roles>
+            <timezone>America/Chicago</timezone>
+            <url>http://www.linkedin.com/in/mjremijan</url>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
+        <ferrisUrlHostName>mjremijan.github.io</ferrisUrlHostName>
     </properties>
+    
+    <profiles>
+        <profile>
+            <id>site</id>
+            <reporting>
+                <plugins> 
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <inherited>true</inherited>
+                        <configuration>
+                            <links>
+                                <link>https://docs.oracle.com/javase/8/docs/api/</link>
+                            </links>
+                        </configuration>
+                        <reportSets>
+                            <reportSet>
+                                <id>default</id><!-- by default, id = "default" -->
+                                <reports><!-- select non-aggregate reports -->
+                                    <report>javadoc</report>
+                                </reports>
+                            </reportSet>
+                            <reportSet><!-- aggregate reportSet, to define in poms having modules -->
+                                <id>aggregate</id>
+                                <inherited>false</inherited><!-- don't run aggregate in child modules -->
+                                <reports>
+                                    <report>aggregate</report>
+                                </reports>
+                            </reportSet>
+                        </reportSets>
+                    </plugin> 
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-project-info-reports-plugin</artifactId>
+                        <version>2.9</version>
+                        <reportSets>
+                            <reportSet>
+                                <id>Report Set dependency-convergence</id>
+                                <inherited>false</inherited>
+                                <reports>
+                                    <report>dependency-convergence</report>
+                                </reports>
+                            </reportSet>
+                        </reportSets>
+                    </plugin>
+              
+<!--                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${ferrisJacocoVersion}</version>                                
+                    </plugin> -->
+                   
+                </plugins>
+            </reporting>
+    
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-site-plugin</artifactId>
+                        <version>3.7</version>
+                        <executions>
+                            <execution>
+                                <id>ferris:site:site</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>site</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>ferris:site:stage</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>stage</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
+    
 </project>

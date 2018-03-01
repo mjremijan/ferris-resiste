@@ -11,64 +11,26 @@
         
     <artifactId>ferris-resiste-console</artifactId>
     <packaging>jar</packaging>
-
-    <organization>
-        <name>The Ferris Foundation</name>
-    </organization>
-
     <name>ferris-resiste-console</name>
-    <description>An RSS to email system</description>
-    <url>http://mjremijan.github.io/ferris-resiste-console</url>
-
-    <issueManagement>
-        <url>https://github.com/mjremijan/ferris-resiste/issues</url>
-        <system>GitHub</system>
-    </issueManagement>        
     
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-            <comments>A business-friendly OSS license</comments>
-        </license>
-    </licenses>
-	
-    <scm>
-        <url>https://github.com/mjremijan/ferris-resiste</url>
-        <connection>scm:git:git@github.com:mjremijan/ferris-resiste.git</connection>
-        <developerConnection>scm:git:git@github.com:mjremijan/ferris-resiste.git</developerConnection>
-    </scm>
+    <description>
+        A 100% pure Java stand-alone and self-contained RSS-to-email application (it even comes with its own JRE).
+    </description>
 
-    <developers>
-        <developer>
-            <!-- if you have a gravatar image with this email it will show -->
-            <email>mjremijan@yahoo.com</email>
-            <id>mjremijan</id>
-            <name>Michael Remijan</name>
-            <organization>The Ferris Foundation</organization>			
-            <organizationUrl></organizationUrl>
-            <properties>
-                <twitter>@mjremijan</twitter>
-                <!-- picUrl></picUrl> Use this if no gravatar image -->
-            </properties>
-            <roles>
-                <role>Project Owner</role>
-                <role>Architect</role>
-                <role>Lead Developer</role>
-            </roles>
-            <timezone>America/Chicago</timezone>
-            <url>http://www.linkedin.com/in/mjremijan</url>
-        </developer>
-    </developers>
-	
-	<properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
+    <url>
+        https://${ferrisUrlHostName}/${project.parent.artifactId}/${project.artifactId}/
+    </url>
+
+    <distributionManagement>
+        <site>
+            <id>github.gh-pages</id>
+            <url>${project.url}</url>
+        </site>
+    </distributionManagement>      
+    
+    <properties>
         <!-- Don't use the "." character for the property names. The site plugin
-             cannot handle user-defined property names that contain "." -->
+        cannot handle user-defined property names that contain "." -->
         <ferrisJacocoVersion>0.7.5.201505241946</ferrisJacocoVersion>
         <ferrisWindowsAssemblyId>windows-x86-64-jre</ferrisWindowsAssemblyId>
         <ferrisLinuxAssemblyId>linux-x86-64-jre</ferrisLinuxAssemblyId>
@@ -113,28 +75,6 @@
         </resources>
         <plugins>
             <!--
-             | Configure unit testing.
-             | - Ignore the research stuff
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.20.1</version>
-                <executions>
-                    <execution>
-                        <id>default-test</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <trimStackTrace>false</trimStackTrace>
-                </configuration>
-            </plugin>
-
-            <!--
              | Configure how the JAR file(s) are build
              | - Need a Windows-specific JAR
              | - Need a Linux-specific JAR
@@ -172,7 +112,7 @@
                                 <addMavenDescriptor>false</addMavenDescriptor>
                                 <manifest>
                                     <addClasspath>true</addClasspath>
-									<mainClass>org.ferris.resiste.console.main.Main</mainClass>
+                                    <mainClass>org.ferris.resiste.console.main.Main</mainClass>
                                     <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                                 </manifest>
                             </archive>
@@ -420,30 +360,57 @@
                 </plugins>
             </build>
         </profile>
-		
-		
+        
         <profile>
             <id>site</id>
-            <build>
+            <reporting>
                 <plugins>
+                    <!--
+                      | Use this plugin to change the "Web Browser Access" URL 
+                      | for the "scm" report page.  The default does not generate
+                      | a correct URL for GitHub.
+                    -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-site-plugin</artifactId>
-                        <version>3.7</version>
-                        <executions>
-                            <execution>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>site</goal>
-                                </goals>
-                            </execution>
-                        </executions>
+                        <artifactId>maven-project-info-reports-plugin</artifactId>
+                        <version>2.9</version>
+                        <configuration>
+                            <webAccessUrl>
+                                ${project.parent.scm.url}/tree/master/ferris-resiste-console
+                            </webAccessUrl>
+                        </configuration>
                     </plugin>
+                    
+                    <!--
+                      | Use this plugin to set what reports are
+                      | visible under "Project Information" 
+                    -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-project-info-reports-plugin</artifactId>
+                        <version>2.9</version>
+                        <reportSets>
+                            <reportSet>
+                                <id>Report Set 1</id>
+                                <reports>
+                                    <report>summary</report>                                    
+                                    <report>project-team</report>
+                                    <report>scm</report>
+                                    <report>issue-tracking</report>
+                                    <report>license</report>
+                                    <report>dependencies</report>
+                                    <report>dependency-management</report>
+                                    <report>plugins</report>
+                                    <report>plugin-management</report>
+                                    <report>help</report>
+                                </reports>
+                            </reportSet>
+                        </reportSets>
+                    </plugin> 
                 </plugins>
-            </build>
+            </reporting>
         </profile>
-        
-        
+		
         <profile>
             <id>zip-assemblies</id>
             <build>
@@ -498,7 +465,7 @@
                                 <configuration>
                                     <target>
                                         <unzip src="${project.build.directory}/${project.artifactId}-${project.version}-${ferrisWindowsAssemblyId}.zip"
-                                                                                       dest="${project.build.directory}/unziped" />
+                                               dest="${project.build.directory}/unziped" />
                                     </target>
                                 </configuration>
                                 <goals>
@@ -546,41 +513,4 @@
         </profile>
     </profiles>
     
-    <reporting>
-        <plugins>    
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${ferrisJacocoVersion}</version>                                
-            </plugin>        
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.0</version>
-                <inherited>true</inherited>
-                <configuration>
-                    <links>
-                        <link>https://docs.oracle.com/javase/8/docs/api/</link>
-                    </links>
-                </configuration>
-            </plugin>                        
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.9</version>
-                <reportSets>
-                    <reportSet>
-                        <id>Report Set 1</id>
-                        <reports>
-							<report>project-team</report>
-							<report>summary</report>
-							<report>license</report>
-							<report>issue-tracking</report>             
-							<report>scm</report>
-						</reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-        </plugins>
-    </reporting>
 </project>

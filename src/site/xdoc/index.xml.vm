@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+    <properties>
+        <title>Ferris Resiste</title>
+        <author email="mjremijan@yahoo.com">Michael Remijan</author>
+    </properties>
+
+    <body>        	
+        <section name="About">
+            <p>
+                Resiste is an acronym that stands for:
+            </p>
+            <p>
+                <span style="padding-left:30px; text-decoration: underline; font-weight:bold;">Re</span>ally <span style="text-decoration: underline; font-weight:bold;">Si</span>mple <span style="text-decoration: underline; font-weight:bold;">S</span>yndication <span style="text-decoration: underline; font-weight:bold;">T</span>o <span style="text-decoration: underline; font-weight:bold;">E</span>mail
+            </p>
+        </section>
+        
+        <section name="How It Works">
+            <ol>
+                <li>Loop over each RSS/ATOM feed you've configured</li>
+                <li>Determine the new posts since it last ran</li>
+                <li>Email you the new posts</li>
+            </ol>
+        </section>
+
+        <section name="Modules">
+            <p>
+                <b>ferris-resiste-console</b> is a 100% pure
+                Java stand-alone and self-contained 
+                RSS-to-email application 
+                (it even comes with its own JRE).  
+            </p>
+            <p>
+                Only 3 simple steps to get up and running:  			
+            </p>
+            <ol>
+                <li>Configure your email account</li>
+                <li>Configure the RSS/ATOM feeds</li>
+                <li>Schedule the application to run as often as you want</li>
+            </ol>
+        </section>
+    </body>
+</document>

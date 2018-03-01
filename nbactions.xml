@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-development-site-stage</actionName>
+            <displayName>development-site-stage</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>site:site</goal>
+                <goal>site:stage</goal>
+                
+                
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-development-site-stage (p)</actionName>
+            <displayName>development-site-stage (p)</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>verify</goal>
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>site</activatedProfile>
+            </activatedProfiles>
+        </action>
+    </actions>
