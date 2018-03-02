@@ -17,17 +17,17 @@
     <body>
         <section name="">
             <div id="twStart">
-                <h2>Start Using Resiste</h2>
+                <h2>Start Using Resiste Console</h2>
                 <span class="nav-header">An RSS to email client</span>
-                <a href="${project.scm.url}/releases/download/${project.build.finalName}/${project.build.finalName}-${ferrisWindowsAssemblyId}.zip">
+                <a href="${project.parent.scm.url}/releases/download/${project.build.finalName}/${project.build.finalName}-${ferrisWindowsAssemblyId}.zip">
                     <img src="images/windows-icon.png" />Download for Windows
                 </a>
 				&nbsp; &nbsp; &nbsp; &nbsp;
-                <a href="${project.scm.url}/releases/download/${project.build.finalName}/${project.build.finalName}-${ferrisLinuxAssemblyId}.tar.gz">
+                <a href="${project.parent.scm.url}/releases/download/${project.build.finalName}/${project.build.finalName}-${ferrisLinuxAssemblyId}.tar.gz">
                     <img src="images/linux-icon.png" />Download for Linux
                 </a>
 				&nbsp; &nbsp; &nbsp; &nbsp;
-                <a href="${project.scm.url}">
+                <a href="${project.parent.scm.url}">
                     <img src="images/octocat-icon.png" />Visit on GitHub
                 </a>
             </div>

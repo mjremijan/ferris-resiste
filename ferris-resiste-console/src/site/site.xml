@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
  
     <bannerLeft>
-        <name>Ferris Resiste Console</name>
+        <src>images/site-banner-left.png</src>
         <href>index.html</href>
     </bannerLeft>
     

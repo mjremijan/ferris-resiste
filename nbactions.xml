@@ -22,4 +22,16 @@
                 <activatedProfile>site</activatedProfile>
             </activatedProfiles>
         </action>
+        <action>
+            <actionName>CUSTOM-development-site-state (-p cc,s)</actionName>
+            <displayName>development-site-state (-p cc,s)</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>verify</goal>
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>code-coverage</activatedProfile>
+                <activatedProfile>site</activatedProfile>
+            </activatedProfiles>
+        </action>
     </actions>

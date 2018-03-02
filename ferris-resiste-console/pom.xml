@@ -108,12 +108,13 @@
                             <archive>
                                 <manifestEntries>
                                     <Class-Path>..\conf\</Class-Path>
+                                    <Implementation-URL>${project.parent.scm.url}</Implementation-URL>
                                 </manifestEntries>
                                 <addMavenDescriptor>false</addMavenDescriptor>
                                 <manifest>
                                     <addClasspath>true</addClasspath>
                                     <mainClass>org.ferris.resiste.console.main.Main</mainClass>
-                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>                                    
                                 </manifest>
                             </archive>
                         </configuration>
@@ -379,6 +380,20 @@
                                 ${project.parent.scm.url}/tree/master/ferris-resiste-console
                             </webAccessUrl>
                         </configuration>
+                    </plugin>
+                    
+                    <!--    
+                      | Use this plugin to include the Jacoco unit test coverage report
+                      |
+                      | NOTE: Code coverage statistics needs to be generated
+                      |       first otherwise this plugin produces no report.
+                      |       Configure this plugin in <build><plugins> to
+                      |       generate the statistics.
+                    -->                
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${ferrisJacocoVersion}</version>                                
                     </plugin>
                     
                     <!--
