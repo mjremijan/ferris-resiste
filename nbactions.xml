@@ -5,26 +5,19 @@
             <displayName>development-site-stage</displayName>
             <goals>
                 <goal>clean</goal>
-                <goal>site:site</goal>
-                <goal>site:stage</goal>
-                
-                
-            </goals>
-        </action>
-        <action>
-            <actionName>CUSTOM-development-site-stage (p)</actionName>
-            <displayName>development-site-stage (p)</displayName>
-            <goals>
-                <goal>clean</goal>
                 <goal>verify</goal>
+                
+                
+                
             </goals>
             <activatedProfiles>
+                <activatedProfile>code-coverage</activatedProfile>
                 <activatedProfile>site</activatedProfile>
             </activatedProfiles>
         </action>
         <action>
-            <actionName>CUSTOM-development-site-state (-p cc,s)</actionName>
-            <displayName>development-site-state (-p cc,s)</displayName>
+            <actionName>CUSTOM-production-site-deploy</actionName>
+            <displayName>production-site-deploy</displayName>
             <goals>
                 <goal>clean</goal>
                 <goal>verify</goal>
@@ -32,6 +25,8 @@
             <activatedProfiles>
                 <activatedProfile>code-coverage</activatedProfile>
                 <activatedProfile>site</activatedProfile>
+                <activatedProfile>site-deploy</activatedProfile>
             </activatedProfiles>
         </action>
+        
     </actions>

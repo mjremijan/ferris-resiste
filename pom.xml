@@ -157,6 +157,43 @@
                 </plugins>
             </build>
         </profile>
+        
+        
+        <profile>
+            <id>site-deploy</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <!-- Deploy the web site -->
+                        <groupId>com.github.github</groupId>
+                        <artifactId>site-maven-plugin</artifactId>
+                        <version>0.12</version>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>site</goal>
+                                </goals>
+                                <!-- select the Maven phase in which the plugin will be executed -->
+                                <phase>verify</phase>
+                                <configuration>
+                                    <!-- this matches a the 'server' tag in settings.xml -->
+                                    <server>github</server>
+                                    <!-- The commit message -->
+                                    <message>Deploying Resiste project site ${project.version}</message>
+                                    <!-- The location where the site is uploaded
+                                    <path>${site.path}</path>  -->
+                                    <!-- The base directory to commit files from. target/site by default. -->
+                                    <outputDirectory>${project.build.directory}/staging</outputDirectory>
+                                    <!-- Use merge or override the content -->
+                                    <merge>false</merge>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
     
     
