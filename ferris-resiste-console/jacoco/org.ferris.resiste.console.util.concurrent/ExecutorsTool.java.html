@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ExecutorsTool.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ferris-resiste-console</a> &gt; <a href="index.source.html" class="el_package">org.ferris.resiste.console.util.concurrent</a> &gt; <span class="el_source">ExecutorsTool.java</span></div><h1>ExecutorsTool.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.ferris.resiste.console.util.concurrent;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
+/**
+ * This class exists because it's needed for JUnit testing static methods calls.
+ * To create a ScheduledExecutorService, a static method call is made on the
+ * Executors class. In order to JUnit test this and verify the static method on
+ * the Executors class actually gets called, this wrapper &quot;Tool&quot; class is
+ * required.
+ *
+ * @author Michael Remijan mjremijan@yahoo.com @mjremijan
+ */
+<span class="nc" id="L20">public class ExecutorsTool {</span>
+
+    public ScheduledExecutorService getScheduledExecutorService() {
+<span class="nc" id="L23">        return Executors.newScheduledThreadPool(2);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

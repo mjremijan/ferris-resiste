@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>SplashScreenPage.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ferris-resiste-console</a> &gt; <a href="index.source.html" class="el_package">org.ferris.resiste.console.splash</a> &gt; <span class="el_source">SplashScreenPage.java</span></div><h1>SplashScreenPage.java</h1><pre class="source lang-java linenums">package org.ferris.resiste.console.splash;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Priority;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
+import org.ferris.resiste.console.application.ApplicationDirectory;
+import org.ferris.resiste.console.data.DataDirectory;
+import org.ferris.resiste.console.io.Console;
+import org.ferris.resiste.console.main.StartupEvent;
+import static org.ferris.resiste.console.main.StartupEvent.SPASH_SCREEN;
+import org.ferris.resiste.console.text.i18n.LocalizedString;
+import org.ferris.resiste.console.text.i18n.LocalizedStringBuilder;
+import org.ferris.resiste.console.text.i18n.LocalizedStringKey;
+import org.ferris.resiste.console.text.i18n.LocalizedStringList;
+import org.ferris.resiste.console.text.i18n.qualifier.Welcome;
+import org.ferris.resiste.console.util.version.Version;
+import org.ferris.resiste.console.view.page.AbstractPage;
+import org.slf4j.Logger;
+
+/**
+ *
+ * @author Michael Remijan mjremijan@yahoo.com @mjremijan
+ */
+<span class="nc" id="L25">public class SplashScreenPage extends AbstractPage {</span>
+
+    @Inject
+    protected Logger log;
+
+    @Inject
+    protected Console console;
+
+    @Inject
+    protected ApplicationDirectory applicationDirectory;
+
+    @Inject
+    protected DataDirectory dataDirectory;
+
+    @Inject
+    protected Version version;
+
+    @Inject
+    @LocalizedStringKey(&quot;SplashScreenPage.Properties&quot;)
+    protected LocalizedStringList applicationProperties;
+
+    @Inject
+    @Welcome
+    @LocalizedStringBuilder({
+        @LocalizedStringKey(buildId = &quot;message&quot;, value = &quot;SplashScreenPage.Message&quot;)
+        ,
+        @LocalizedStringKey(buildId = &quot;width&quot;, value = &quot;SplashScreenPage.Width&quot;)
+        ,
+        @LocalizedStringKey(buildId = &quot;bullet&quot;, value = &quot;SplashScreenPage.Bullet&quot;)
+    })
+    protected LocalizedString welcome;
+
+    @PostConstruct
+    protected void postConstruct() {
+<span class="nc" id="L59">        replaceUser(applicationProperties);</span>
+<span class="nc" id="L60">        replaceJava(applicationProperties);</span>
+<span class="nc" id="L61">        replaceApplication(applicationProperties);</span>
+<span class="nc" id="L62">    }</span>
+
+    protected void replaceUser(LocalizedStringList properties) {
+<span class="nc" id="L65">        properties.replace(&quot;t{user.name}&quot;, System.getProperty(&quot;user.name&quot;));</span>
+<span class="nc" id="L66">        properties.replace(&quot;t{user.home}&quot;, System.getProperty(&quot;user.home&quot;));</span>
+<span class="nc" id="L67">        properties.replace(&quot;t{user.directory}&quot;, System.getProperty(&quot;user.dir&quot;));</span>
+<span class="nc" id="L68">    }</span>
+
+    protected void replaceJava(LocalizedStringList properties) {
+<span class="nc" id="L71">        properties.replace(&quot;t{java.home}&quot;, System.getProperty(&quot;java.home&quot;));</span>
+<span class="nc" id="L72">        properties.replace(&quot;t{java.vendor}&quot;, System.getProperty(&quot;java.vendor&quot;));</span>
+<span class="nc" id="L73">        properties.replace(&quot;t{java.version}&quot;, System.getProperty(&quot;java.version&quot;));</span>
+<span class="nc" id="L74">    }</span>
+
+    protected void replaceApplication(LocalizedStringList properties) {
+<span class="nc" id="L77">        properties.replace(&quot;t{resiste.title}&quot;, version.getImplementationTitle());</span>
+<span class="nc" id="L78">        properties.replace(&quot;t{resiste.vender}&quot;, version.getImplementationVendor());</span>
+<span class="nc" id="L79">        properties.replace(&quot;t{resiste.version}&quot;, version.getImplementationVersion());</span>
+<span class="nc" id="L80">        properties.replace(&quot;t{resiste.url}&quot;, version.getImplementationUrl());</span>
+<span class="nc" id="L81">        properties.replace(&quot;t{resiste.directory}&quot;, applicationDirectory.getAbsolutePath());</span>
+<span class="nc" id="L82">        properties.replace(&quot;t{resiste.data}&quot;, dataDirectory.getAbsolutePath());</span>
+<span class="nc" id="L83">    }</span>
+
+    public void observesStartup(
+        @Observes @Priority(SPASH_SCREEN) StartupEvent event
+    ) {
+<span class="nc" id="L88">        log.info(String.format(&quot;ENTER %s&quot;, event));</span>
+
+<span class="nc" id="L90">        console.p(applicationProperties);</span>
+<span class="nc" id="L91">        console.p(welcome);</span>
+<span class="nc" id="L92">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

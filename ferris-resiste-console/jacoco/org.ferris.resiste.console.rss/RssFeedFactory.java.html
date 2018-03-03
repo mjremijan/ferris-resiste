@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>RssFeedFactory.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ferris-resiste-console</a> &gt; <a href="index.source.html" class="el_package">org.ferris.resiste.console.rss</a> &gt; <span class="el_source">RssFeedFactory.java</span></div><h1>RssFeedFactory.java</h1><pre class="source lang-java linenums">package org.ferris.resiste.console.rss;
+
+import com.rometools.rome.feed.synd.SyndEnclosure;
+import com.rometools.rome.io.FeedException;
+import com.rometools.rome.io.SyndFeedInput;
+import com.rometools.rome.io.XmlReader;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import javax.inject.Inject;
+import org.ferris.resiste.console.lang.StringUtils;
+import org.ferris.resiste.console.retry.ExceptionBreak;
+import org.ferris.resiste.console.retry.ExceptionRetry;
+import org.jdom2.Element;
+import org.slf4j.Logger;
+
+/**
+ *
+ * @author Michael Remijan mjremijan@yahoo.com @mjremijan
+ */
+<span class="nc" id="L22">public class RssFeedFactory {</span>
+
+    @Inject
+    protected Logger log;
+
+    @ExceptionRetry
+    public RssFeed build(RssUrl feedUrl) throws IOException, FeedException {
+<span class="nc" id="L29">        log.info(String.format(&quot;ENTER %s&quot;, feedUrl));</span>
+
+<span class="nc" id="L31">        com.rometools.rome.feed.synd.SyndFeed romeFeed</span>
+<span class="nc" id="L32">            = new SyndFeedInput().build(new XmlReader(feedUrl.getUrl()));</span>
+
+<span class="nc" id="L34">        List&lt;com.rometools.rome.feed.synd.SyndEntry&gt; romeEntries</span>
+<span class="nc" id="L35">            = romeFeed.getEntries();</span>
+
+<span class="nc" id="L37">        RssFeed feed = new RssFeed();</span>
+<span class="nc" id="L38">        feed.setId(feedUrl.getId());</span>
+<span class="nc" id="L39">        feed.setLink(romeFeed.getLink());</span>
+<span class="nc" id="L40">        feed.setTitle(romeFeed.getTitle());</span>
+
+<span class="nc" id="L42">        feed.setOldestPublishedDate(</span>
+<span class="nc" id="L43">            romeEntries.stream()</span>
+<span class="nc" id="L44">                .map(re -&gt; re.getPublishedDate())</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">                .filter(d -&gt; d != null)</span>
+                // An Instant is an actual point in time, expressed using UTC – a universal time scale
+<span class="nc" id="L47">                .map(d -&gt; d.toInstant())</span>
+<span class="nc" id="L48">                .min((i1, i2) -&gt; i1.compareTo(i2))</span>
+<span class="nc" id="L49">                .orElseThrow(</span>
+<span class="nc" id="L50">                    () -&gt; new ExceptionBreak(&quot;Oldest published date not found&quot;))</span>
+        );
+
+<span class="nc" id="L53">        feed.setEntries(</span>
+<span class="nc" id="L54">            romeEntries.stream()</span>
+<span class="nc" id="L55">                .map(re -&gt; {</span>
+<span class="nc" id="L56">                    RssEntry e = new RssEntry();</span>
+<span class="nc" id="L57">                    e.setGuid(re.getUri());</span>
+<span class="nc" id="L58">                    e.setTitle(re.getTitle());</span>
+<span class="nc" id="L59">                    e.setAuthor(re.getAuthor());</span>
+<span class="nc" id="L60">                    e.setLink(re.getLink());</span>
+<span class="nc" id="L61">                    e.setPublishedDate(re.getPublishedDate());</span>
+
+                    // Enclosures
+<span class="nc" id="L64">                    Optional&lt;List&lt;SyndEnclosure&gt;&gt; enclosures</span>
+<span class="nc" id="L65">                        = Optional.ofNullable(re.getEnclosures());</span>
+                    // Foreign markup
+<span class="nc" id="L67">                    Optional&lt;List&lt;Element&gt;&gt; foreignMarkups</span>
+<span class="nc" id="L68">                        = Optional.ofNullable(re.getForeignMarkup());</span>
+
+
+                    // Images
+<span class="nc" id="L72">                    enclosures.ifPresent(</span>
+<span class="nc" id="L73">                        se -&gt; se.stream().filter(a -&gt; a.getType().toLowerCase().startsWith(&quot;image&quot;)).forEach(</span>
+<span class="nc" id="L74">                            b -&gt; e.addImage(new RssImage(b.getType(), b.getUrl())))</span>
+                    );
+<span class="nc" id="L76">                    foreignMarkups.ifPresent(</span>
+<span class="nc" id="L77">                        fm -&gt; fm.stream()</span>
+<span class="nc" id="L78">                            .filter(el -&gt; el.getName().toLowerCase().equals(&quot;thumbnail&quot;))</span>
+<span class="nc" id="L79">                            .map(el -&gt; el.getAttribute(&quot;url&quot;))</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">                            .filter(at -&gt; at != null)</span>
+<span class="nc" id="L81">                            .map(at -&gt; StringUtils.trimToNull(at.getValue()))</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">                            .filter(s -&gt; s != null)</span>
+<span class="nc" id="L83">                            .forEach(s -&gt; e.addImage(new RssImage(&quot;image/thumbnail&quot;, s)))</span>
+                    );
+
+                    // Other media files
+<span class="nc" id="L87">                    enclosures.ifPresent(</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">                        se -&gt; se.stream().filter(a -&gt; !a.getType().toLowerCase().startsWith(&quot;image&quot;)).forEach(</span>
+<span class="nc" id="L89">                            b -&gt; e.addMediaFile(new RssMediaFile(b.getType(), b.getUrl())))</span>
+                    );
+
+
+                    // Content
+<span class="nc" id="L94">                    StringBuilder sp = new StringBuilder(&quot;&quot;);</span>
+<span class="nc bnc" id="L95" title="All 4 branches missed.">                    if (re.getContents() != null &amp;&amp; !re.getContents().isEmpty()) {</span>
+<span class="nc" id="L96">                        re.getContents().stream()</span>
+<span class="nc" id="L97">                            .forEach(sc -&gt; sp.append(sc.getValue()));</span>
+                    }
+                    else
+<span class="nc bnc" id="L100" title="All 2 branches missed.">                    if (re.getDescription() != null) {</span>
+<span class="nc" id="L101">                        sp.append(re.getDescription().getValue());</span>
+                    }
+<span class="nc" id="L103">                    e.setContents(sp.toString());</span>
+
+<span class="nc" id="L105">                    return e;</span>
+<span class="nc" id="L106">                }).collect(Collectors.toList())</span>
+        );
+
+<span class="nc" id="L109">        return feed;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

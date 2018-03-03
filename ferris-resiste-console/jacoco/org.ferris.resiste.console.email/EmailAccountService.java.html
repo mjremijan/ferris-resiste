@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>EmailAccountService.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ferris-resiste-console</a> &gt; <a href="index.source.html" class="el_package">org.ferris.resiste.console.email</a> &gt; <span class="el_source">EmailAccountService.java</span></div><h1>EmailAccountService.java</h1><pre class="source lang-java linenums">package org.ferris.resiste.console.email;
+
+import java.util.Set;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+import javax.validation.ConstraintViolation;
+import javax.validation.ValidatorFactory;
+import org.slf4j.Logger;
+
+/**
+ * This class contains the business logic for handling email related data.
+ *
+ * @author Michael Remijan mjremijan@yahoo.com @mjremijan
+ */
+<span class="nc" id="L15">public class EmailAccountService {</span>
+
+    @Inject
+    protected Logger log;
+
+    @Inject
+    protected EmailAccountPropertiesFile emailProperties;
+
+    @Inject
+    protected ValidatorFactory validatorFactory;
+
+    @Inject
+    protected Instance&lt;EmailAccount&gt; emailAccountInstance;
+
+    /**
+     * Get email account information
+     *
+     * @return Return an {@link EmailAccount} instance. Never returns
+     * {@code null}. If no account data is found, an {@link EmailAccount}
+     * instance is returned with all its properties set to null.
+     */
+    public EmailAccount getEmailAccount() {
+<span class="nc" id="L37">        log.info(&quot;ENTER&quot;);</span>
+        
+<span class="nc" id="L39">        EmailAccount account = emailAccountInstance.get().init(</span>
+<span class="nc" id="L40">            emailProperties.toProperties()</span>
+        );
+
+<span class="nc" id="L43">        Set&lt;ConstraintViolation&lt;EmailAccount&gt;&gt; violations</span>
+<span class="nc" id="L44">                = validatorFactory.getValidator().validate(account);</span>
+
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        if (!violations.isEmpty()) {</span>
+<span class="nc" id="L47">            violations.stream()</span>
+<span class="nc" id="L48">                .forEach(cv -&gt; log.error(cv.getMessage()));</span>
+<span class="nc" id="L49">            throw new RuntimeException(&quot;Email account information is not valid.  See log files for details.&quot;);</span>
+        }
+
+<span class="nc" id="L52">        return account;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
