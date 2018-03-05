@@ -19,14 +19,15 @@
             <actionName>CUSTOM-production-site-deploy</actionName>
             <displayName>production-site-deploy</displayName>
             <goals>
-                <goal>clean</goal>
-                <goal>verify</goal>
+                <goal>validate</goal>
+                
             </goals>
             <activatedProfiles>
-                <activatedProfile>code-coverage</activatedProfile>
-                <activatedProfile>site</activatedProfile>
                 <activatedProfile>site-deploy</activatedProfile>
+                
+                
             </activatedProfiles>
         </action>
+        
         
     </actions>

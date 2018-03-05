@@ -271,18 +271,9 @@
                                     <goal>prepare-agent</goal>
                                 </goals>
                             </execution>
-                            <!--							
-                            <execution>
-                                <id>default-report</id>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>report</goal>
-                                </goals>
-                            </execution>
-                            -->
                             <execution>
                                 <id>default-check</id>
-                                <phase>verify</phase>
+                                <phase>test</phase>
                                 <goals>
                                     <goal>check</goal>
                                 </goals>
@@ -314,29 +305,33 @@
                                     </rules>
                                 </configuration>
                             </execution>
+                            <!--
                             <execution>
                                 <id>default-report</id>
-                                <phase>verify</phase>
+                                <phase>test</phase>
                                 <goals>
                                     <goal>report</goal>
                                 </goals>
                             </execution>
+                            -->
                         </executions>
                     </plugin>
+                    
+                    <!--
                     <plugin>
                         <artifactId>maven-antrun-plugin</artifactId>
                         <version>1.8</version>
                         <executions>
                             <execution>
-                                <phase>verify</phase>
+                                <phase>test</phase>
                                 <goals>
                                     <goal>run</goal>
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <!-- Rename the ".resources" directory -->
+                                         Rename the ".resources" directory 
                                         <move file="target/site/jacoco/.resources" tofile="target/site/jacoco/resources"/>
-                                        <!-- Replace ".resources" in HTML files -->
+                                         Replace ".resources" in HTML files 
                                         <replaceregexp flags="g">
                                             <regexp pattern="\.resources"/>
                                             <substitution expression="resources"/>
@@ -351,6 +346,7 @@
                             </execution>
                         </executions>
                     </plugin>
+                    -->
                 </plugins>
             </build>
         </profile>
@@ -382,11 +378,16 @@
                       |       first otherwise this plugin produces no report.
                       |       Configure this plugin in <build><plugins> to
                       |       generate the statistics.
-                    -->                
+                    -->               
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>${ferrisJacocoVersion}</version>                                
+                        <version>${ferrisJacocoVersion}</version> 
+                        <configuration>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>   
+                        </configuration>                                                   
                     </plugin>
                     
                     <!--
@@ -410,7 +411,6 @@
                                     <report>dependency-management</report>
                                     <report>plugins</report>
                                     <report>plugin-management</report>
-                                    <report>help</report>
                                 </reports>
                             </reportSet>
                         </reportSets>
