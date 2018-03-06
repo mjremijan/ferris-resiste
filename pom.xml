@@ -26,6 +26,13 @@
     </properties>
     
     <!--
+     | Modules in this project
+    -->
+    <modules>
+        <module>ferris-resiste-console</module>
+    </modules>
+    
+    <!--
      | Organization info
      | Site - Project Information - Summary
     -->
@@ -35,17 +42,10 @@
     </organization>
     
     <!--
-     | For multi-module site generation, this URL
-     | needs to be set set to the "parent" value.
+     | For multi-module site generation, this
+     | URL needs to be set to a "parent" value.
     -->    
     <url>https://${ferrisUrlHostName}/${project.artifactId}/</url>
-    
-    <!--
-     | Modules in this project
-    -->
-    <modules>
-        <module>ferris-resiste-console</module>
-    </modules>
     
     <!--
      | For multi-module site generation, this URL needs 

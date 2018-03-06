@@ -8,26 +8,19 @@
         <artifactId>ferris-resiste</artifactId>
         <version>1.0.0.0-SNAPSHOT</version>
     </parent>
-        
+    
+    <!--
+     | Project info
+     | Site - Project Information - Summary
+    -->
     <artifactId>ferris-resiste-console</artifactId>
     <packaging>jar</packaging>
-    <name>ferris-resiste-console</name>
-    
-    <description>
-        A 100% pure Java stand-alone and self-contained RSS-to-email application (it even comes with its own JRE).
-    </description>
+    <name>ferris-resiste-console</name>    
+    <description>A 100% pure Java stand-alone and self-contained RSS-to-email application (it even comes with its own JRE).</description>
 
-    <url>
-        https://${ferrisUrlHostName}/${project.parent.artifactId}/${project.artifactId}/
-    </url>
-
-    <distributionManagement>
-        <site>
-            <id>github.gh-pages</id>
-            <url>${project.url}</url>
-        </site>
-    </distributionManagement>      
-    
+    <!--
+     | Project properties
+    -->
     <properties>
         <!-- Don't use the "." character for the property names. The site plugin
         cannot handle user-defined property names that contain "." -->
@@ -36,11 +29,31 @@
         <ferrisLinuxAssemblyId>linux-x86-64-jre</ferrisLinuxAssemblyId>
     </properties>
 
+    <!--
+     | For multi-module site generation, this
+     | URL needs to be set to a "parent"/"module" value.
+    -->
+    <url>https://${ferrisUrlHostName}/${project.parent.artifactId}/${project.artifactId}/</url>
+
+    <!--
+     | For multi-module site generation, this URL needs 
+     | to be set to the "parent"/"module" directory of the URL
+    -->
+    <distributionManagement>
+        <site>
+            <id>github.gh-pages</id>
+            <url>${project.url}</url>
+        </site>
+    </distributionManagement>      
+    
+    <!--
+     | Configure dependency management
+    -->
     <dependencyManagement>
         <dependencies>
             <!--
              | This refers to the Windows specific JAR file created
-             | during the packaging phase.  The Assembly needs this
+             | during the packaging phase.  The assembly needs this
              | dependency defined so it can find the JAR file.
             -->
             <dependency>
@@ -49,9 +62,10 @@
                 <version>${project.version}</version>
                 <classifier>windows</classifier>
             </dependency>
+            
             <!--
              | This refers to the Linux specific JAR file created
-             | during the packaging phase.  The Assembly needs this
+             | during the packaging phase.  The assembly needs this
              | dependency defined so it can find the JAR file.
             -->
             <dependency>
@@ -63,6 +77,9 @@
         </dependencies>
     </dependencyManagement>
 	
+    <!--
+     | Configure build options
+    -->
     <build>
         <resources>
             <resource>
