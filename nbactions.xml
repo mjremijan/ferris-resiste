@@ -6,7 +6,6 @@
             <goals>
                 <goal>clean</goal>
                 <goal>verify</goal>
-                
             </goals>
         </action>
         <action>
@@ -14,10 +13,6 @@
             <displayName>Site</displayName>
             <goals>
                 <goal>site</goal>
-                
-                
-                
-                
             </goals>
         </action>
         <action>
@@ -25,7 +20,16 @@
             <displayName>Site Deploy</displayName>
             <goals>
                 <goal>site-deploy</goal>
-                
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-All</actionName>
+            <displayName>All</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>verify</goal>
+                <goal>site</goal>
+                <goal>site-deploy</goal>
             </goals>
         </action>
         
