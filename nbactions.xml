@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actions>
         <action>
-            <actionName>CUSTOM-development-site-stage</actionName>
-            <displayName>development-site-stage</displayName>
+            <actionName>CUSTOM-Clean and Verify</actionName>
+            <displayName>Clean and Verify</displayName>
             <goals>
                 <goal>clean</goal>
                 <goal>verify</goal>
                 
-                
-                
             </goals>
-            <activatedProfiles>
-                <activatedProfile>code-coverage</activatedProfile>
-                <activatedProfile>site</activatedProfile>
-            </activatedProfiles>
         </action>
         <action>
-            <actionName>CUSTOM-production-site-deploy</actionName>
-            <displayName>production-site-deploy</displayName>
+            <actionName>CUSTOM-Site</actionName>
+            <displayName>Site</displayName>
             <goals>
-                <goal>validate</goal>
+                <goal>site</goal>
+                
+                
+                
                 
             </goals>
-            <activatedProfiles>
-                <activatedProfile>site-deploy</activatedProfile>
-                
-                
-            </activatedProfiles>
         </action>
+        <action>
+            <actionName>CUSTOM-Site Deploy</actionName>
+            <displayName>Site Deploy</displayName>
+            <goals>
+                <goal>site-deploy</goal>
+                
+            </goals>
+        </action>
+        
+        
+        
+        
         
         
     </actions>
