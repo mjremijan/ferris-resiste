@@ -8,7 +8,7 @@
     -->
     <groupId>org.ferris</groupId>
     <artifactId>ferris-resiste</artifactId>
-    <version>1.0.0.0-SNAPSHOT</version>
+    <version>1.0.0.0</version>
     <packaging>pom</packaging>
     <name>ferris-resiste</name>
     <description>An RSS to email system.</description>
@@ -101,7 +101,7 @@
             <id>mjremijan</id>
             <name>Michael Remijan</name>
             <organization>The Ferris Foundation</organization>			
-            <organizationUrl></organizationUrl>
+            <organizationUrl />
             <properties>
                 <twitter>@mjremijan</twitter>
                 <!-- picUrl></picUrl> Use this if no gravatar image -->
@@ -187,15 +187,15 @@
                         <configuration>
                             <target>
                                 Rename the ".resources" directory 
-                                <move file="target/staging/ferris-resiste-console/jacoco/.resources" tofile="target/staging/ferris-resiste-console/jacoco/resources"/>
+                                <move file="target/staging/ferris-resiste-console/jacoco/.resources" tofile="target/staging/ferris-resiste-console/jacoco/resources" />
                                 Replace ".resources" in HTML files 
                                 <replaceregexp flags="g">
-                                    <regexp pattern="\.resources"/>
-                                    <substitution expression="resources"/>
+                                    <regexp pattern="\.resources" />
+                                    <substitution expression="resources" />
                                     <fileset dir="target/staging/ferris-resiste-console/jacoco">
-                                        <include name="**/*.html"/>
-                                        <include name="**/*.css"/>
-                                        <include name="**/*.js"/>
+                                        <include name="**/*.html" />
+                                        <include name="**/*.css" />
+                                        <include name="**/*.js" />
                                     </fileset>
                                 </replaceregexp>
                             </target>

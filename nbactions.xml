@@ -1,41 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actions>
-        <action>
-            <actionName>CUSTOM-Clean and Verify</actionName>
-            <displayName>Clean and Verify</displayName>
-            <goals>
-                <goal>clean</goal>
-                <goal>verify</goal>
-            </goals>
-        </action>
-        <action>
-            <actionName>CUSTOM-Site</actionName>
-            <displayName>Site</displayName>
-            <goals>
-                <goal>site</goal>
-            </goals>
-        </action>
-        <action>
-            <actionName>CUSTOM-Site Deploy</actionName>
-            <displayName>Site Deploy</displayName>
-            <goals>
-                <goal>site-deploy</goal>
-            </goals>
-        </action>
-        <action>
-            <actionName>CUSTOM-All</actionName>
-            <displayName>All</displayName>
-            <goals>
-                <goal>clean</goal>
-                <goal>verify</goal>
-                <goal>site</goal>
-                <goal>site-deploy</goal>
-            </goals>
-        </action>
+    <action>
+        <actionName>CUSTOM-Clean and Verify</actionName>
+        <displayName>Clean and Verify</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>verify</goal>
+        </goals>
+    </action>
+    <action>
+        <actionName>CUSTOM-Site</actionName>
+        <displayName>Site</displayName>
+        <goals>
+            <goal>site</goal>
+        </goals>
+    </action>
+    <action>
+        <actionName>CUSTOM-Site Deploy</actionName>
+        <displayName>Site Deploy</displayName>
+        <goals>
+            <goal>site-deploy</goal>
+        </goals>
+    </action>
+    <action>
+        <actionName>CUSTOM-Update Versions</actionName>
+        <displayName>Update Versions</displayName>
+        <goals>
+            <goal>release:update-versions</goal>
+            
+            
+            
+        </goals>
+        <properties>
+                <autoVersionSubmodules>true</autoVersionSubmodules>
+            </properties>
+    </action>
         
         
         
         
         
         
-    </actions>
+</actions>

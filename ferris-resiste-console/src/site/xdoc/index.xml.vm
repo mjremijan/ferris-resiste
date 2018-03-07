@@ -27,7 +27,7 @@
                     <img src="images/linux-icon.png" />Download for Linux
                 </a>
 				&nbsp; &nbsp; &nbsp; &nbsp;
-                <a href="${project.parent.scm.url}">
+                <a href="${project.parent.scm.url}/tree/master/${project.artifactId}">
                     <img src="images/octocat-icon.png" />Visit on GitHub
                 </a>
             </div>
