@@ -19,11 +19,11 @@
             <div id="twStart">
                 <h2>Start Using Resiste Console</h2>
                 <span class="nav-header">An RSS to email client</span>
-                <a href="${project.parent.scm.url}/releases/download/${project.build.finalName}/${project.build.finalName}-${ferrisWindowsAssemblyId}.zip">
+                <a href="${project.parent.scm.url}/releases/download/${project.parent.build.finalName}/${project.build.finalName}-${ferrisWindowsAssemblyId}.zip">
                     <img src="images/windows-icon.png" />Download for Windows
                 </a>
 				&nbsp; &nbsp; &nbsp; &nbsp;
-                <a href="${project.parent.scm.url}/releases/download/${project.build.finalName}/${project.build.finalName}-${ferrisLinuxAssemblyId}.tar.gz">
+                <a href="${project.parent.scm.url}/releases/download/${project.parent.build.finalName}/${project.build.finalName}-${ferrisLinuxAssemblyId}.tar.gz">
                     <img src="images/linux-icon.png" />Download for Linux
                 </a>
 				&nbsp; &nbsp; &nbsp; &nbsp;
