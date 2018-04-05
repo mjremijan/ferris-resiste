@@ -50,6 +50,8 @@ public class RssFeedFactory {
                     () -> new ExceptionBreak("Oldest published date not found"))
         );
 
+        log.info(String.format("%s oldest publication date is \"%s\"", feed.getTitle(), feed.getOldestPublishedDate().toString()));
+
         feed.setEntries(
             romeEntries.stream()
                 .map(re -> {

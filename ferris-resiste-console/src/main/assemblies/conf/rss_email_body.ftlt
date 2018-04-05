@@ -30,7 +30,8 @@
                 ${author}.&nbsp;&nbsp;
                 (${publishedDate}).&nbsp;&nbsp;
                 <span style="font-style: italic;">${title}</span>.&nbsp;&nbsp;
-                Retrieved from <a href="${linkHref}">${linkText}</a>.
+                Retrieved from <a href="${linkHref}">${linkText}</a>.&nbsp;&nbsp;
+                GUID ${guid}
             </p>
         </div>
 

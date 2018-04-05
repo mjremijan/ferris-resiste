@@ -1,11 +1,11 @@
 package org.ferris.resiste.console.rome;
 
-import org.ferris.resiste.console.rss.RssFeed;
 import java.util.List;
 import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import static org.ferris.resiste.console.rome.SyndFilterEvent.FILTER;
+import org.ferris.resiste.console.rss.RssFeed;
 import org.ferris.resiste.console.rss.RssHistoryService;
 import org.slf4j.Logger;
 
@@ -33,9 +33,13 @@ public class SyndFilterService {
         log.info("PROCESS: Remove entries that exist in history");
         syndFeed.removeIf(
             sf -> {
-                sf.getEntries().removeIf(se ->
-                    service.exists(sf.getId(), se.getGuid())
-                );
+                sf.getEntries().removeIf(se -> {
+                    String feedId = sf.getId();
+                    String entryId = se.getGuid();
+                    boolean b = service.exists(feedId, entryId);
+                    log.info(String.format("PROCESS: Remove \"%s\", \"%s\"? %b", feedId, entryId, b));
+                    return b;
+                });
                 return sf.getEntries().isEmpty();
             }
         );

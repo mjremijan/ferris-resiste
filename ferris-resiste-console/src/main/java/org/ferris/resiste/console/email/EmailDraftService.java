@@ -190,6 +190,10 @@ public class EmailDraftService {
         List<RssMediaFile> mediaFiles
             = se.getMediaFiles();
 
+        // GUID
+        String guid = se.getGuid();
+
+
         // Render
         Writer out = new StringWriter();
         try {
@@ -204,6 +208,7 @@ public class EmailDraftService {
             root.put("projectUrl", projectUrl);
             root.put("images", images);
             root.put("mediaFiles", mediaFiles);
+            root.put("guid", guid);
 
             bodyTemplate.process(root, out);
 
