@@ -1,8 +1,8 @@
 package org.ferris.resiste.console.rome;
 
-import org.ferris.resiste.console.rss.RssFeed;
 import java.util.List;
 import java.util.StringJoiner;
+import org.ferris.resiste.console.rss.RssFeed;
 
 /**
  *

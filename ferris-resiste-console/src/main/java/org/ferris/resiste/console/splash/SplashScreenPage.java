@@ -85,8 +85,6 @@ public class SplashScreenPage extends AbstractPage {
     public void observesStartup(
         @Observes @Priority(SPASH_SCREEN) StartupEvent event
     ) {
-        log.info(String.format("ENTER %s", event));
-
         console.p(applicationProperties);
         console.p(welcome);
     }

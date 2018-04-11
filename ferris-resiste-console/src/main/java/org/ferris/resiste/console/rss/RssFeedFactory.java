@@ -5,6 +5,7 @@ import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,7 +27,7 @@ public class RssFeedFactory {
 
     @ExceptionRetry
     public RssFeed build(RssUrl feedUrl) throws IOException, FeedException {
-        log.info(String.format("ENTER %s", feedUrl));
+        log.debug(String.format("ENTER %s", feedUrl));
 
         com.rometools.rome.feed.synd.SyndFeed romeFeed
             = new SyndFeedInput().build(new XmlReader(feedUrl.getUrl()));
@@ -49,8 +50,6 @@ public class RssFeedFactory {
                 .orElseThrow(
                     () -> new ExceptionBreak("Oldest published date not found"))
         );
-
-        log.info(String.format("%s oldest publication date is \"%s\"", feed.getTitle(), feed.getOldestPublishedDate().toString()));
 
         feed.setEntries(
             romeEntries.stream()
@@ -105,7 +104,7 @@ public class RssFeedFactory {
                     e.setContents(sp.toString());
 
                     return e;
-                }).collect(Collectors.toList())
+                }).collect(Collectors.toCollection(LinkedList::new))
         );
 
         return feed;

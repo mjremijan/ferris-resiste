@@ -33,9 +33,7 @@ public class EmailDraftPage extends AbstractPage {
     public void observeSend(
         @Observes @Priority(DRAFT_VIEW) EmailDraftEvent evnt
     ) {
-        log.info(String.format("ENTER %s", evnt.toString()));
         console.h1(heading);
-
         evnt.getDrafts().stream().forEach(
             d -> console.p(LocalizedString.format(
                   draft.toString()

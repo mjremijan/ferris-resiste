@@ -13,16 +13,19 @@
     
     <shutdownHook />
     
-<!--    <appender name="STDOUT"
+    <!--    
+    <appender name="STDOUT"
               class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>
                 %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
             </pattern>
         </encoder>
-    </appender> -->
+    </appender> 
+    -->
     
     <appender name="FILE" class="org.ferris.resiste.console.logger.LoggerFileAppender">
+        <append>true</append>
         <encoder>
             <charset>UTF-8</charset>
             <!-- %date{yyyy-MM-dd HH:mm:ss}  %class{0}.M(): %msg%n -->

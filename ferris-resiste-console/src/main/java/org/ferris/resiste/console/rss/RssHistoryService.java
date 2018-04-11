@@ -23,7 +23,6 @@ public class RssHistoryService {
     protected RssHistoryRepository repository;
 
     public boolean exists(String feedId, String entryId) {
-        log.info(String.format("ENTER \"%s\", \"%s\"", feedId, entryId));
         return repository.find(feedId, entryId).isPresent();
     }
 
@@ -31,7 +30,7 @@ public class RssHistoryService {
     protected void observeStore(
         @Observes @Priority(STORE) RssHistoryEvent evnt
     ) {
-        log.info(String.format("ENTER %s", evnt));
+        log.info(String.format("Store feeds in history %s", evnt));
         evnt.getFeeds().stream().forEach(
             f -> f.getEntries().forEach(
                 e -> repository.store(
@@ -51,7 +50,7 @@ public class RssHistoryService {
     protected void observeVacuum(
         @Observes @Priority(VACUUM) RssHistoryEvent evnt
     ) {
-        log.info(String.format("ENTER %s", evnt));
+        log.info(String.format("Vacuum feeds from history %s", evnt));
         evnt.getFeeds().stream().forEach(
             f -> repository.removeOlderThan(
                 f.getId(), f.getOldestPublishedDate()

@@ -71,7 +71,7 @@ public class Main {
         );
         filter.fire(filterEvent);
 
-        log.info("Fire EmailSendEvent");
+        log.info("Fire EmailDraftEvent");
         EmailDraftEvent sendEvent = new EmailDraftEvent(
             filterEvent.getFeeds()
         );

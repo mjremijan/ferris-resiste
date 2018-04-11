@@ -19,7 +19,6 @@ public class RssUrlService {
 
 
     public List<RssUrl> findAll() {
-        log.info("ENTER");
         return repository.findAll();
     }
 }

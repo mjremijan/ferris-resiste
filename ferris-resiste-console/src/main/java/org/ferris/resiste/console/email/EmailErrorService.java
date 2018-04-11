@@ -37,33 +37,38 @@ public class EmailErrorService {
     private Template subjectTemplate, bodyTemplate;
 
     @PostConstruct
-    protected void postConstruct() throws Exception {
-        // -------------------- Create a configuration instance
-        // Create your Configuration instance, and specify if up to what FreeMarker
-        // version (here 2.3.25) do you want to apply the fixes that are not 100%
-        // backward-compatible. See the Configuration JavaDoc for details.
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
+    protected void postConstruct() {
 
-        // Specify the source where the template files come from. Here I set a
-        // plain directory for it, but non-file-system sources are possible too:
-        cfg.setDirectoryForTemplateLoading(confDirectory);
+        try {
+            // -------------------- Create a configuration instance
+            // Create your Configuration instance, and specify if up to what FreeMarker
+            // version (here 2.3.25) do you want to apply the fixes that are not 100%
+            // backward-compatible. See the Configuration JavaDoc for details.
+            Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
 
-        // Set the preferred charset template files are stored in. UTF-8 is
-        // a good choice in most applications:
-        cfg.setDefaultEncoding("UTF-8");
+            // Specify the source where the template files come from. Here I set a
+            // plain directory for it, but non-file-system sources are possible too:
+            cfg.setDirectoryForTemplateLoading(confDirectory);
 
-        // Sets how errors will appear.
-        // During web page *development* TemplateExceptionHandler.HTML_DEBUG_HANDLER is better.
-        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+            // Set the preferred charset template files are stored in. UTF-8 is
+            // a good choice in most applications:
+            cfg.setDefaultEncoding("UTF-8");
 
-        // Don't log exceptions inside FreeMarker that it will thrown at you anyway:
-        cfg.setLogTemplateExceptions(false);
+            // Sets how errors will appear.
+            // During web page *development* TemplateExceptionHandler.HTML_DEBUG_HANDLER is better.
+            cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 
-        // Subject template
-        subjectTemplate = cfg.getTemplate("error_email_subject.ftlt");
+            // Don't log exceptions inside FreeMarker that it will thrown at you anyway:
+            cfg.setLogTemplateExceptions(false);
 
-        // Body template
-        bodyTemplate = cfg.getTemplate("error_email_body.ftlt");
+            // Subject template
+            subjectTemplate = cfg.getTemplate("error_email_subject.ftlt");
+
+            // Body template
+            bodyTemplate = cfg.getTemplate("error_email_body.ftlt");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -71,8 +76,6 @@ public class EmailErrorService {
         @Observes @Priority(ERROR_MAP) EmailErrorEvent evnt
     ) {
         log.info(String.format("ENTER %s", evnt));
-
-        log.info(String.format("PROCESS: Convert error to EmailDraft"));
 
         Optional<EmailDraft> draft
             = Optional.empty();
@@ -87,8 +90,8 @@ public class EmailErrorService {
         evnt.setDraft(draft);
     }
 
-    protected String renderBody(List<String> errors) {
-        log.info("ENTER");
+    private String renderBody(List<String> errors) {
+        log.debug("ENTER");
 
         // Project final name
         String projectFinalName
@@ -115,14 +118,14 @@ public class EmailErrorService {
                 , ex
             );
         }
-        log.info(String.format("RENERED = %n%s", out.toString()));
+        log.debug(String.format("RENERED = %n%s", out.toString()));
 
         return out.toString();
     }
 
 
-    protected String renderSubject() {
-        log.info("ENTER");
+    private String renderSubject() {
+        log.debug("ENTER");
 
         // Render
         Writer out = new StringWriter();
@@ -135,7 +138,7 @@ public class EmailErrorService {
                 , ex
             );
         }
-        log.info(String.format("RENERED = \"%s\"", out.toString()));
+        log.debug(String.format("RENERED = \"%s\"", out.toString()));
 
         return out.toString();
     }

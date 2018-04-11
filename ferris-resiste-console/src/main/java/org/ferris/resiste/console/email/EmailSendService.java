@@ -23,10 +23,7 @@ public class EmailSendService {
         @Observes @Priority(DRAFT_SEND) EmailDraftEvent evnt
     ) {
         log.info(String.format("ENTER %s", evnt));
-
-        evnt.getDrafts().forEach(d ->
-                sender.send(d)
-        );
+        evnt.getDrafts().forEach(d -> sender.send(d));
     }
 
 

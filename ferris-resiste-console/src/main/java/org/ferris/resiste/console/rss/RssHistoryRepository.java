@@ -4,6 +4,7 @@ import java.io.File;
 import java.time.Instant;
 import java.util.Formatter;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -40,11 +41,9 @@ public class RssHistoryRepository extends File {
         }
     }
 
-    public Optional<RssHistory> find(String feedId, String entryId)
-    {
-        log.info(String.format("ENTER \"%s\", \"%s\"", feedId, entryId));
-
-        Optional<RssHistory> retval = Optional.empty();
+    public Optional<RssHistory> find(String feedId, String entryId) {
+        Optional<RssHistory> retval
+            = Optional.empty();
 
         if (cache.containsKey(feedId)) {
             retval = cache.get(feedId)
@@ -60,7 +59,7 @@ public class RssHistoryRepository extends File {
 
     @PostConstruct
     public void postConstruct() {
-        log.info("ENTER");
+        log.debug("ENTER");
 
         log.debug("Create data structure for cache");
         cache = new HashMap<>();
@@ -108,8 +107,6 @@ public class RssHistoryRepository extends File {
     }
 
     private void cache(RssHistory h) {
-        log.debug(String.format("ENTER %s", h));
-
         if (cache.containsKey(h.getFeedId())) {
             cache.get(h.getFeedId()).add(h);
         } else {
@@ -120,13 +117,9 @@ public class RssHistoryRepository extends File {
     }
 
     private void write() {
-        log.info("ENTER");
-
-        log.debug("Open data file for writing");
         try (
             Formatter formatter = new Formatter(this.getAbsolutePath(), "UTF-8");
         ) {
-            log.debug("Loop over cache");
             cache.values().stream().forEach(hl -> hl.forEach(h ->
                 formatter.format("%s\t%s\t%s%n"
                     , h.getFeedId(), h.getEntryId(), h.getPublished().toString()
@@ -143,21 +136,40 @@ public class RssHistoryRepository extends File {
 
 
     protected void store(RssHistory h) {
-        log.info(String.format("ENTER %s", h));
+        log.info(String.format("Store feed entry in history %s", h));
         this.cache(h);
         this.write();
     }
 
 
-    protected void removeOlderThan(String feedId, Instant instant) {
-        log.info(String.format("ENTER \"%s\" %s", feedId, instant.toString()));
+    protected void removeOlderThan(String feedId, Instant iAmTheOldest) {
+        log.info(String.format("Remove feed entries from \"%s\" older than %s", feedId, iAmTheOldest.toString()));
 
-        cache.entrySet().stream()
-            .filter(es -> es.getKey().equals(feedId))
-            .findFirst()
-            .map(es -> es.getValue()).get()
-            .removeIf(h -> h.getPublished().isBefore(instant))
-        ;
+        // Find the feed in the cache
+        if (cache.containsKey(feedId)) {
+
+            // Histories will never be null, cache created with histories
+            List<RssHistory> histories = cache.get(feedId);
+
+            // If a history entry is older than iAmTheOldest, then remove the entry
+            for (Iterator<RssHistory> historiesItr = histories.iterator(); historiesItr.hasNext(); ) {
+                RssHistory h = historiesItr.next();
+                if (h.getPublished().isBefore(iAmTheOldest)) {
+                    historiesItr.remove();
+                    log.info(
+                        String.format(
+                             "REMOVE ENTRY! Feed \"%s\" entry \"%s\" published %s is older than %s"
+                            ,feedId, h.getEntryId(), h.getPublished().toString(), iAmTheOldest.toString()
+                        )
+                    );
+                }
+            }
+
+            // If no entires are left, remove it from the cache
+            if (histories.isEmpty()) {
+                cache.remove(feedId);
+            }
+        }
 
         this.write();
     }

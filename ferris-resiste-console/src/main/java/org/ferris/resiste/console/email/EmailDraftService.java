@@ -73,41 +73,45 @@ public class EmailDraftService {
     private Pattern flickrPattern, widthHeightPattern;
 
     @PostConstruct
-    protected void postConstruct() throws Exception {
-        // -------------------- Create a configuration instance
-        // Create your Configuration instance, and specify if up to what FreeMarker
-        // version (here 2.3.25) do you want to apply the fixes that are not 100%
-        // backward-compatible. See the Configuration JavaDoc for details.
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
+    protected void postConstruct() {
+        try {
+            // -------------------- Create a configuration instance
+            // Create your Configuration instance, and specify if up to what FreeMarker
+            // version (here 2.3.25) do you want to apply the fixes that are not 100%
+            // backward-compatible. See the Configuration JavaDoc for details.
+            Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
 
-        // Specify the source where the template files come from. Here I set a
-        // plain directory for it, but non-file-system sources are possible too:
-        cfg.setDirectoryForTemplateLoading(confDirectory);
+            // Specify the source where the template files come from. Here I set a
+            // plain directory for it, but non-file-system sources are possible too:
+            cfg.setDirectoryForTemplateLoading(confDirectory);
 
-        // Set the preferred charset template files are stored in. UTF-8 is
-        // a good choice in most applications:
-        cfg.setDefaultEncoding("UTF-8");
+            // Set the preferred charset template files are stored in. UTF-8 is
+            // a good choice in most applications:
+            cfg.setDefaultEncoding("UTF-8");
 
-        // Sets how errors will appear.
-        // During web page *development* TemplateExceptionHandler.HTML_DEBUG_HANDLER is better.
-        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+            // Sets how errors will appear.
+            // During web page *development* TemplateExceptionHandler.HTML_DEBUG_HANDLER is better.
+            cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 
-        // Don't log exceptions inside FreeMarker that it will thrown at you anyway:
-        cfg.setLogTemplateExceptions(false);
+            // Don't log exceptions inside FreeMarker that it will thrown at you anyway:
+            cfg.setLogTemplateExceptions(false);
 
-        // Subject template
-        subjectTemplate = cfg.getTemplate("rss_email_subject.ftlt");
+            // Subject template
+            subjectTemplate = cfg.getTemplate("rss_email_subject.ftlt");
 
-        // Body template
-        bodyTemplate = cfg.getTemplate("rss_email_body.ftlt");
+            // Body template
+            bodyTemplate = cfg.getTemplate("rss_email_body.ftlt");
 
-        // Patterns
-        flickrPattern = Pattern.compile("farm[\\d]+\\.staticflickr.com");
-        widthHeightPattern = Pattern.compile("(width|height)=[\"]?[\\d]+[\"]?");;
+            // Patterns
+            flickrPattern = Pattern.compile("farm[\\d]+\\.staticflickr.com");
+            widthHeightPattern = Pattern.compile("(width|height)=[\"]?[\\d]+[\"]?");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
-    protected void observeSend(
+    protected void observeDraftMap(
         @Observes @Priority(DRAFT_MAP) EmailDraftEvent evnt
     ) {
         log.info(String.format("ENTER %s", evnt));
@@ -115,11 +119,9 @@ public class EmailDraftService {
         List<EmailDraft> drafts
             = new LinkedList<>();
 
-        log.info(String.format("READ: Get list of SyndFeed"));
         List<RssFeed> feeds
             = evnt.getFeeds();
 
-        log.info(String.format("PROCESS: Convert SyndFeed to EmailDraft"));
         feeds.stream().forEach(
             sf -> sf.getEntries().stream().forEach(se -> {
 
@@ -136,8 +138,8 @@ public class EmailDraftService {
         evnt.setDrafts(drafts);
     }
 
-    protected String renderBody(RssEntry se) {
-        log.info("ENTER");
+    private String renderBody(RssEntry se) {
+        log.debug("ENTER");
 
         // Title
         String title = Optional.ofNullable(StringUtils.trimToNull(se.getTitle())).orElse(noTitle.toString());
@@ -219,14 +221,14 @@ public class EmailDraftService {
                 , ex
             );
         }
-        log.info(String.format("RENERED = %n%s", out.toString()));
+        log.debug(String.format("RENERED = %n%s", out.toString()));
 
         return out.toString();
     }
 
 
-    protected String renderSubject(RssFeed sf) {
-        log.info("ENTER");
+    private String renderSubject(RssFeed sf) {
+        log.debug("ENTER");
 
         // Title
         String title = Optional.ofNullable(StringUtils.trimToNull(sf.getTitle())).orElse(noTitle.toString());
@@ -249,7 +251,7 @@ public class EmailDraftService {
                 , ex
             );
         }
-        log.info(String.format("RENERED = \"%s\"", out.toString()));
+        log.debug(String.format("RENERED = \"%s\"", out.toString()));
 
         return out.toString();
     }
