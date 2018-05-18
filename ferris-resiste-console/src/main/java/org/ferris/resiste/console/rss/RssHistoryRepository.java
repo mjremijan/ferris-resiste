@@ -142,7 +142,7 @@ public class RssHistoryRepository extends File {
     }
 
 
-    protected void removeOlderThan(String feedId, Instant iAmTheOldest) {
+    protected void removeOlderThan(String feedId, Instant iAmTheOldest, String rawXml) {
         log.info(String.format("Remove feed entries from \"%s\" older than %s", feedId, iAmTheOldest.toString()));
 
         // Find the feed in the cache
@@ -158,8 +158,8 @@ public class RssHistoryRepository extends File {
                     historiesItr.remove();
                     log.info(
                         String.format(
-                             "REMOVE ENTRY! Feed \"%s\" entry \"%s\" published %s is older than %s"
-                            ,feedId, h.getEntryId(), h.getPublished().toString(), iAmTheOldest.toString()
+                             "REMOVE ENTRY! Feed \"%s\" entry \"%s\" published %s is older than %s.%n--RAW XML--%n%s"
+                            ,feedId, h.getEntryId(), h.getPublished().toString(), iAmTheOldest.toString(), rawXml
                         )
                     );
                 }

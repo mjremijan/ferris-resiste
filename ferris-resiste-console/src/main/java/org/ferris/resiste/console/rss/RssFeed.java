@@ -57,5 +57,15 @@ public class RssFeed {
     public void setOldestPublishedDate(Instant oldestPublishedDate) {
         this.oldestPublishedDate = oldestPublishedDate;
     }
+
+    protected String rawXml;
+
+    public String getRawXml() {
+        return rawXml;
+    }
+
+    public void setRawXml(String rawXml) {
+        this.rawXml = rawXml;
+    }
     
 }

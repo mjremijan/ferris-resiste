@@ -53,7 +53,7 @@ public class RssHistoryService {
         log.info(String.format("Vacuum feeds from history %s", evnt));
         evnt.getFeeds().stream().forEach(
             f -> repository.removeOlderThan(
-                f.getId(), f.getOldestPublishedDate()
+                f.getId(), f.getOldestPublishedDate(), f.getRawXml()
             )
         );
     }

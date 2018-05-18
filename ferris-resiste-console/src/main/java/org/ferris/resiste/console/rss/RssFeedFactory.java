@@ -4,7 +4,10 @@ import com.rometools.rome.feed.synd.SyndEnclosure;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -29,13 +32,17 @@ public class RssFeedFactory {
     public RssFeed build(RssUrl feedUrl) throws IOException, FeedException {
         log.debug(String.format("ENTER %s", feedUrl));
 
+        String rawXml
+            = new BufferedReader(new InputStreamReader(feedUrl.getUrl().openStream(),"UTF-8")).lines().collect(Collectors.joining("\n"));
+
         com.rometools.rome.feed.synd.SyndFeed romeFeed
-            = new SyndFeedInput().build(new XmlReader(feedUrl.getUrl()));
+            = new SyndFeedInput().build(new XmlReader(new ByteArrayInputStream(rawXml.getBytes("UTF-8"))));
 
         List<com.rometools.rome.feed.synd.SyndEntry> romeEntries
             = romeFeed.getEntries();
 
         RssFeed feed = new RssFeed();
+        feed.setRawXml(rawXml);
         feed.setId(feedUrl.getId());
         feed.setLink(romeFeed.getLink());
         feed.setTitle(romeFeed.getTitle());

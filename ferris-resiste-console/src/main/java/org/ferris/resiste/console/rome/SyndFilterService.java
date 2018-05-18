@@ -1,5 +1,7 @@
 package org.ferris.resiste.console.rome;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Priority;
@@ -35,16 +37,22 @@ public class SyndFilterService {
         for (Iterator<RssFeed> feedsItr = rssFeeds.iterator(); feedsItr.hasNext();) {
             RssFeed rssFeed = feedsItr.next();
             String feedId = rssFeed.getId();
+            Instant oldestDate = rssFeed.getOldestPublishedDate();
 
             // Loop over all entries in a feed
             for (Iterator<RssEntry> entriesItr = rssFeed.getEntries().iterator(); entriesItr.hasNext();) {
                 RssEntry rssEntry = entriesItr.next();
                 String entryId = rssEntry.getGuid();
+                Date entryDate = rssEntry.getPublishedDate();
+
                 boolean exists = historyService.exists(feedId, entryId);
                 if (exists) {
                     entriesItr.remove();
                 } else {
-                    log.info(String.format("History miss! This is new: feed=\"%s\", entry=\"%s\"", feedId, entryId));
+                    log.info(String.format("History miss! This is a new entry: feed=\"%s\", entry=\"%s\", published=%s. Oldest publication date is %s"
+                        , feedId, entryId, entryDate.toInstant().toString()
+                        , oldestDate.toString()
+                    ));
                 }
             }
 
