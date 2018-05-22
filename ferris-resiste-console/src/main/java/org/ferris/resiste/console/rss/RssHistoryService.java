@@ -7,7 +7,6 @@ import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import static org.ferris.resiste.console.rss.RssHistoryEvent.STORE;
-import static org.ferris.resiste.console.rss.RssHistoryEvent.VACUUM;
 import org.slf4j.Logger;
 
 /**
@@ -42,18 +41,6 @@ public class RssHistoryService {
                             .orElse(Instant.now())
                     )
                 )
-            )
-        );
-    }
-
-
-    protected void observeVacuum(
-        @Observes @Priority(VACUUM) RssHistoryEvent evnt
-    ) {
-        log.info(String.format("Vacuum feeds from history %s", evnt));
-        evnt.getFeeds().stream().forEach(
-            f -> repository.removeOlderThan(
-                f.getId(), f.getOldestPublishedDate(), f.getRawXml()
             )
         );
     }

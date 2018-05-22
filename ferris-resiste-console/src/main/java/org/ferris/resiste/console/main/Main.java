@@ -72,14 +72,14 @@ public class Main {
         filter.fire(filterEvent);
 
         log.info("Fire EmailDraftEvent");
-        EmailDraftEvent sendEvent = new EmailDraftEvent(
+        EmailDraftEvent draftEvent = new EmailDraftEvent(
             filterEvent.getFeeds()
         );
-        send.fire(sendEvent);
+        send.fire(draftEvent);
 
         log.info("Fire RssHistoryEvent");
         RssHistoryEvent historyEvent = new RssHistoryEvent(
-            sendEvent.getFeeds()
+            draftEvent.getFeeds()
         );
         history.fire(historyEvent);
 

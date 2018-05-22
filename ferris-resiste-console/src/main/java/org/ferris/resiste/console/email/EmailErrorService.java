@@ -38,7 +38,6 @@ public class EmailErrorService {
 
     @PostConstruct
     protected void postConstruct() {
-
         try {
             // -------------------- Create a configuration instance
             // Create your Configuration instance, and specify if up to what FreeMarker

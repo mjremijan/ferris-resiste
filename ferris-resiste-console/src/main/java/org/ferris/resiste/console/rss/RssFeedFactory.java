@@ -14,12 +14,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.ferris.resiste.console.lang.StringUtils;
-import org.ferris.resiste.console.retry.ExceptionBreak;
 import org.ferris.resiste.console.retry.ExceptionRetry;
 import org.jdom2.Element;
 import org.slf4j.Logger;
 
 /**
+ * RssFeedFactory
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
@@ -42,21 +42,9 @@ public class RssFeedFactory {
             = romeFeed.getEntries();
 
         RssFeed feed = new RssFeed();
-        feed.setRawXml(rawXml);
         feed.setId(feedUrl.getId());
         feed.setLink(romeFeed.getLink());
         feed.setTitle(romeFeed.getTitle());
-
-        feed.setOldestPublishedDate(
-            romeEntries.stream()
-                .map(re -> re.getPublishedDate())
-                .filter(d -> d != null)
-                // An Instant is an actual point in time, expressed using UTC – a universal time scale
-                .map(d -> d.toInstant())
-                .min((i1, i2) -> i1.compareTo(i2))
-                .orElseThrow(
-                    () -> new ExceptionBreak("Oldest published date not found"))
-        );
 
         feed.setEntries(
             romeEntries.stream()

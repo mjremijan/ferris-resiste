@@ -26,6 +26,12 @@
     
     <appender name="FILE" class="org.ferris.resiste.console.logger.LoggerFileAppender">
         <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- monthly rollover -->
+            <fileNamePattern>application.%d{yyyy-MM}.log</fileNamePattern>
+            <!-- keep 6 months worth of history -->
+            <maxHistory>6</maxHistory>
+        </rollingPolicy>
         <encoder>
             <charset>UTF-8</charset>
             <!-- %date{yyyy-MM-dd HH:mm:ss}  %class{0}.M(): %msg%n -->

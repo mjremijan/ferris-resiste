@@ -1,14 +1,10 @@
 package org.ferris.resiste.console.rome;
 
-import java.time.Instant;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import static org.ferris.resiste.console.rome.SyndFilterEvent.FILTER;
-import org.ferris.resiste.console.rss.RssEntry;
 import org.ferris.resiste.console.rss.RssFeed;
 import org.ferris.resiste.console.rss.RssHistoryService;
 import org.slf4j.Logger;
@@ -33,34 +29,25 @@ public class SyndFilterService {
         List<RssFeed> rssFeeds
             = evnt.getFeeds();
 
-        // Loop over all feeds
-        for (Iterator<RssFeed> feedsItr = rssFeeds.iterator(); feedsItr.hasNext();) {
-            RssFeed rssFeed = feedsItr.next();
-            String feedId = rssFeed.getId();
-            Instant oldestDate = rssFeed.getOldestPublishedDate();
-
-            // Loop over all entries in a feed
-            for (Iterator<RssEntry> entriesItr = rssFeed.getEntries().iterator(); entriesItr.hasNext();) {
-                RssEntry rssEntry = entriesItr.next();
-                String entryId = rssEntry.getGuid();
-                Date entryDate = rssEntry.getPublishedDate();
-
-                boolean exists = historyService.exists(feedId, entryId);
-                if (exists) {
-                    entriesItr.remove();
-                } else {
-                    log.info(String.format("History miss! This is a new entry: feed=\"%s\", entry=\"%s\", published=%s. Oldest publication date is %s"
-                        , feedId, entryId, entryDate.toInstant().toString()
-                        , oldestDate.toString()
-                    ));
-                }
+        // Loop over all the feeds, remove feed if it has no more entires
+        rssFeeds.removeIf(
+            rf -> {
+                // Loop over all the entries in a feed, remove entry if it exists in history
+                rf.getEntries().removeIf(re -> {
+                    String feedId = rf.getId();
+                    String entryId = re.getGuid();
+                    boolean exists = historyService.exists(feedId, entryId);
+                    if (!exists) {
+                        log.info(String.format(
+                              "History miss! This is a new entry: feed=\"%s\", entry=\"%s\", published=%s."
+                            , feedId, entryId, re.getPublishedDate().toInstant().toString()
+                        ));
+                    }
+                    return exists;
+                });
+                return rf.getEntries().isEmpty();
             }
+        );
 
-            // If a feed no longer had any entries, remove the feed
-            if (rssFeed.getEntries().isEmpty()) {
-                log.info(String.format("No more entries so remove feed=\"%s\"", feedId));
-                feedsItr.remove();
-            }
-        }
     }
 }

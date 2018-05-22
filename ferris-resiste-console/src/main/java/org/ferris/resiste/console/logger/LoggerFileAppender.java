@@ -12,7 +12,7 @@ import java.net.URL;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-public class LoggerFileAppender extends ch.qos.logback.core.FileAppender {
+public class LoggerFileAppender extends ch.qos.logback.core.rolling.RollingFileAppender {
     public LoggerFileAppender() throws URISyntaxException {
         super();
         // This code assumes the following directory structure
@@ -33,6 +33,5 @@ public class LoggerFileAppender extends ch.qos.logback.core.FileAppender {
         File logFile = new File(logsDir, "application.log");
         System.out.printf("Setting file %s%n", logFile.toString());
         super.setFile(logFile.toString());
-        super.setAppend(false);
     }
 }

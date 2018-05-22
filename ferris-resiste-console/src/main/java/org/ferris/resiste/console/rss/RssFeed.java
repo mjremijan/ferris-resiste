@@ -1,6 +1,5 @@
 package org.ferris.resiste.console.rss;
 
-import java.time.Instant;
 import java.util.List;
 
 /**
@@ -48,24 +47,4 @@ public class RssFeed {
         this.entries = entries;
     }
 
-    protected Instant oldestPublishedDate;
-
-    public Instant getOldestPublishedDate() {
-        return oldestPublishedDate;
-    }
-
-    public void setOldestPublishedDate(Instant oldestPublishedDate) {
-        this.oldestPublishedDate = oldestPublishedDate;
-    }
-
-    protected String rawXml;
-
-    public String getRawXml() {
-        return rawXml;
-    }
-
-    public void setRawXml(String rawXml) {
-        this.rawXml = rawXml;
-    }
-    
 }
