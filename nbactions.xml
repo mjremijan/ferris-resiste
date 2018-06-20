@@ -26,14 +26,11 @@
         <actionName>CUSTOM-Update Versions</actionName>
         <displayName>Update Versions</displayName>
         <goals>
-            <goal>release:update-versions</goal>
+            <goal>versions:set</goal>
             
             
             
         </goals>
-        <properties>
-                <autoVersionSubmodules>true</autoVersionSubmodules>
-            </properties>
     </action>
         
         
