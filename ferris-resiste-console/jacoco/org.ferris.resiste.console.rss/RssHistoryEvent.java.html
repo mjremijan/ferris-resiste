@@ -11,23 +11,22 @@ import java.util.StringJoiner;
 public class RssHistoryEvent {
 
     public static final int STORE = 100;
-    public static final int VACUUM = 200;
 
     @Override
     public String toString() {
-<span class="nc" id="L18">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[RssHistoryEvent &quot;, &quot;]&quot;);</span>
-<span class="nc bnc" id="L19" title="All 2 branches missed.">        sj.add(String.format(&quot;feeds:%s&quot;, (feeds == null) ? &quot;null&quot; : feeds.size()));</span>
-<span class="nc" id="L20">        return sj.toString();</span>
+<span class="nc" id="L17">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[RssHistoryEvent &quot;, &quot;]&quot;);</span>
+<span class="nc bnc" id="L18" title="All 2 branches missed.">        sj.add(String.format(&quot;feeds:%s&quot;, (feeds == null) ? &quot;null&quot; : feeds.size()));</span>
+<span class="nc" id="L19">        return sj.toString();</span>
     }
 
     protected List&lt;RssFeed&gt; feeds;
 
-<span class="nc" id="L25">    public RssHistoryEvent(List&lt;RssFeed&gt; feeds) {</span>
-<span class="nc" id="L26">        this.feeds = new ArrayList&lt;&gt;(feeds);</span>
-<span class="nc" id="L27">    }</span>
+<span class="nc" id="L24">    public RssHistoryEvent(List&lt;RssFeed&gt; feeds) {</span>
+<span class="nc" id="L25">        this.feeds = new ArrayList&lt;&gt;(feeds);</span>
+<span class="nc" id="L26">    }</span>
 
     public List&lt;RssFeed&gt; getFeeds() {
-<span class="nc" id="L30">        return feeds;</span>
+<span class="nc" id="L29">        return feeds;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

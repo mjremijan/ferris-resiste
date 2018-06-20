@@ -23,18 +23,15 @@ import org.slf4j.Logger;
         @Observes @Priority(DRAFT_SEND) EmailDraftEvent evnt
     ) {
 <span class="nc" id="L25">        log.info(String.format(&quot;ENTER %s&quot;, evnt));</span>
-
-<span class="nc" id="L27">        evnt.getDrafts().forEach(d -&gt;</span>
-<span class="nc" id="L28">                sender.send(d)</span>
-        );
-<span class="nc" id="L30">    }</span>
+<span class="nc" id="L26">        evnt.getDrafts().forEach(d -&gt; sender.send(d));</span>
+<span class="nc" id="L27">    }</span>
 
 
     protected void observeSend(
         @Observes @Priority(ERROR_SEND) EmailErrorEvent evnt
     ) {
-<span class="nc" id="L36">        log.info(String.format(&quot;ENTER %s&quot;, evnt));</span>
-<span class="nc" id="L37">        evnt.getDraft().ifPresent(g -&gt; sender.send(g));</span>
-<span class="nc" id="L38">    }</span>
+<span class="nc" id="L33">        log.info(String.format(&quot;ENTER %s&quot;, evnt));</span>
+<span class="nc" id="L34">        evnt.getDraft().ifPresent(g -&gt; sender.send(g));</span>
+<span class="nc" id="L35">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

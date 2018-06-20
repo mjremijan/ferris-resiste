@@ -2,12 +2,8 @@
 
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import org.slf4j.Logger;
 
-<span class="nc" id="L7">public class ExitObserver {</span>
-
-    @Inject
-    protected Logger log;
+<span class="nc" id="L6">public class ExitObserver {</span>
 
     @Inject
     protected ExitTool systemTool;
@@ -16,11 +12,9 @@ import org.slf4j.Logger;
     protected ExitPage exitPage;
 
     public void observes(@Observes ExitEvent exitEvent) {
-<span class="nc" id="L19">        log.info(&quot;View page&quot;);</span>
-<span class="nc" id="L20">        exitPage.view();</span>
-<span class="nc" id="L21">        log.info(&quot;Exit JVM&quot;);</span>
-<span class="nc" id="L22">        systemTool.exitAbnormal();</span>
-<span class="nc" id="L23">    }</span>
+<span class="nc" id="L15">        exitPage.view();</span>
+<span class="nc" id="L16">        systemTool.exitAbnormal();</span>
+<span class="nc" id="L17">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

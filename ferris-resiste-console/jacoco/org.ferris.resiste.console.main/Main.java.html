@@ -71,15 +71,15 @@ import org.slf4j.Logger;
         );
 <span class="nc" id="L72">        filter.fire(filterEvent);</span>
 
-<span class="nc" id="L74">        log.info(&quot;Fire EmailSendEvent&quot;);</span>
-<span class="nc" id="L75">        EmailDraftEvent sendEvent = new EmailDraftEvent(</span>
+<span class="nc" id="L74">        log.info(&quot;Fire EmailDraftEvent&quot;);</span>
+<span class="nc" id="L75">        EmailDraftEvent draftEvent = new EmailDraftEvent(</span>
 <span class="nc" id="L76">            filterEvent.getFeeds()</span>
         );
-<span class="nc" id="L78">        send.fire(sendEvent);</span>
+<span class="nc" id="L78">        send.fire(draftEvent);</span>
 
 <span class="nc" id="L80">        log.info(&quot;Fire RssHistoryEvent&quot;);</span>
 <span class="nc" id="L81">        RssHistoryEvent historyEvent = new RssHistoryEvent(</span>
-<span class="nc" id="L82">            sendEvent.getFeeds()</span>
+<span class="nc" id="L82">            draftEvent.getFeeds()</span>
         );
 <span class="nc" id="L84">        history.fire(historyEvent);</span>
 

@@ -37,107 +37,109 @@ import org.slf4j.Logger;
     private Template subjectTemplate, bodyTemplate;
 
     @PostConstruct
-    protected void postConstruct() throws Exception {
-        // -------------------- Create a configuration instance
-        // Create your Configuration instance, and specify if up to what FreeMarker
-        // version (here 2.3.25) do you want to apply the fixes that are not 100%
-        // backward-compatible. See the Configuration JavaDoc for details.
-<span class="nc" id="L45">        Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);</span>
+    protected void postConstruct() {
+        try {
+            // -------------------- Create a configuration instance
+            // Create your Configuration instance, and specify if up to what FreeMarker
+            // version (here 2.3.25) do you want to apply the fixes that are not 100%
+            // backward-compatible. See the Configuration JavaDoc for details.
+<span class="nc" id="L46">            Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);</span>
 
-        // Specify the source where the template files come from. Here I set a
-        // plain directory for it, but non-file-system sources are possible too:
-<span class="nc" id="L49">        cfg.setDirectoryForTemplateLoading(confDirectory);</span>
+            // Specify the source where the template files come from. Here I set a
+            // plain directory for it, but non-file-system sources are possible too:
+<span class="nc" id="L50">            cfg.setDirectoryForTemplateLoading(confDirectory);</span>
 
-        // Set the preferred charset template files are stored in. UTF-8 is
-        // a good choice in most applications:
-<span class="nc" id="L53">        cfg.setDefaultEncoding(&quot;UTF-8&quot;);</span>
+            // Set the preferred charset template files are stored in. UTF-8 is
+            // a good choice in most applications:
+<span class="nc" id="L54">            cfg.setDefaultEncoding(&quot;UTF-8&quot;);</span>
 
-        // Sets how errors will appear.
-        // During web page *development* TemplateExceptionHandler.HTML_DEBUG_HANDLER is better.
-<span class="nc" id="L57">        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);</span>
+            // Sets how errors will appear.
+            // During web page *development* TemplateExceptionHandler.HTML_DEBUG_HANDLER is better.
+<span class="nc" id="L58">            cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);</span>
 
-        // Don't log exceptions inside FreeMarker that it will thrown at you anyway:
-<span class="nc" id="L60">        cfg.setLogTemplateExceptions(false);</span>
+            // Don't log exceptions inside FreeMarker that it will thrown at you anyway:
+<span class="nc" id="L61">            cfg.setLogTemplateExceptions(false);</span>
 
-        // Subject template
-<span class="nc" id="L63">        subjectTemplate = cfg.getTemplate(&quot;error_email_subject.ftlt&quot;);</span>
+            // Subject template
+<span class="nc" id="L64">            subjectTemplate = cfg.getTemplate(&quot;error_email_subject.ftlt&quot;);</span>
 
-        // Body template
-<span class="nc" id="L66">        bodyTemplate = cfg.getTemplate(&quot;error_email_body.ftlt&quot;);</span>
-<span class="nc" id="L67">    }</span>
+            // Body template
+<span class="nc" id="L67">            bodyTemplate = cfg.getTemplate(&quot;error_email_body.ftlt&quot;);</span>
+<span class="nc" id="L68">        } catch (Exception e) {</span>
+<span class="nc" id="L69">            throw new RuntimeException(e);</span>
+<span class="nc" id="L70">        }</span>
+<span class="nc" id="L71">    }</span>
 
 
     protected void observeSend(
         @Observes @Priority(ERROR_MAP) EmailErrorEvent evnt
     ) {
-<span class="nc" id="L73">        log.info(String.format(&quot;ENTER %s&quot;, evnt));</span>
-
-<span class="nc" id="L75">        log.info(String.format(&quot;PROCESS: Convert error to EmailDraft&quot;));</span>
+<span class="nc" id="L77">        log.info(String.format(&quot;ENTER %s&quot;, evnt));</span>
 
         Optional&lt;EmailDraft&gt; draft
-<span class="nc" id="L78">            = Optional.empty();</span>
+<span class="nc" id="L80">            = Optional.empty();</span>
 
-<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (!evnt.getErrors().isEmpty()) {</span>
-<span class="nc" id="L81">            draft = Optional.of(new EmailDraft(</span>
-<span class="nc" id="L82">                  renderSubject()</span>
-<span class="nc" id="L83">                , renderBody(evnt.getErrors())</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (!evnt.getErrors().isEmpty()) {</span>
+<span class="nc" id="L83">            draft = Optional.of(new EmailDraft(</span>
+<span class="nc" id="L84">                  renderSubject()</span>
+<span class="nc" id="L85">                , renderBody(evnt.getErrors())</span>
             ));
         }
 
-<span class="nc" id="L87">        evnt.setDraft(draft);</span>
-<span class="nc" id="L88">    }</span>
+<span class="nc" id="L89">        evnt.setDraft(draft);</span>
+<span class="nc" id="L90">    }</span>
 
-    protected String renderBody(List&lt;String&gt; errors) {
-<span class="nc" id="L91">        log.info(&quot;ENTER&quot;);</span>
+    private String renderBody(List&lt;String&gt; errors) {
+<span class="nc" id="L93">        log.debug(&quot;ENTER&quot;);</span>
 
         // Project final name
-<span class="nc" id="L94">        String projectFinalName</span>
-<span class="nc" id="L95">            = String.format(&quot;%s-%s&quot;, version.getImplementationTitle(), version.getImplementationVersion());</span>
+<span class="nc" id="L96">        String projectFinalName</span>
+<span class="nc" id="L97">            = String.format(&quot;%s-%s&quot;, version.getImplementationTitle(), version.getImplementationVersion());</span>
 
         // Project url
-<span class="nc" id="L98">        String projectUrl</span>
-<span class="nc" id="L99">            = version.getImplementationUrl();</span>
+<span class="nc" id="L100">        String projectUrl</span>
+<span class="nc" id="L101">            = version.getImplementationUrl();</span>
 
         // Render
-<span class="nc" id="L102">        Writer out = new StringWriter();</span>
+<span class="nc" id="L104">        Writer out = new StringWriter();</span>
         try {
-<span class="nc" id="L104">            Map&lt;String, Object&gt; root = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L105">            root.put(&quot;errors&quot;, errors);</span>
-<span class="nc" id="L106">            root.put(&quot;projectFinalName&quot;, projectFinalName);</span>
-<span class="nc" id="L107">            root.put(&quot;projectUrl&quot;, projectUrl);</span>
+<span class="nc" id="L106">            Map&lt;String, Object&gt; root = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L107">            root.put(&quot;errors&quot;, errors);</span>
+<span class="nc" id="L108">            root.put(&quot;projectFinalName&quot;, projectFinalName);</span>
+<span class="nc" id="L109">            root.put(&quot;projectUrl&quot;, projectUrl);</span>
 
-<span class="nc" id="L109">            bodyTemplate.process(root, out);</span>
+<span class="nc" id="L111">            bodyTemplate.process(root, out);</span>
 
-<span class="nc" id="L111">            out.flush();</span>
-<span class="nc" id="L112">        } catch (Exception ex) {</span>
-<span class="nc" id="L113">            throw new RuntimeException(</span>
-<span class="nc" id="L114">                String.format(&quot;Problem rendering the email body&quot;)</span>
+<span class="nc" id="L113">            out.flush();</span>
+<span class="nc" id="L114">        } catch (Exception ex) {</span>
+<span class="nc" id="L115">            throw new RuntimeException(</span>
+<span class="nc" id="L116">                String.format(&quot;Problem rendering the email body&quot;)</span>
                 , ex
             );
-<span class="nc" id="L117">        }</span>
-<span class="nc" id="L118">        log.info(String.format(&quot;RENERED = %n%s&quot;, out.toString()));</span>
+<span class="nc" id="L119">        }</span>
+<span class="nc" id="L120">        log.debug(String.format(&quot;RENERED = %n%s&quot;, out.toString()));</span>
 
-<span class="nc" id="L120">        return out.toString();</span>
+<span class="nc" id="L122">        return out.toString();</span>
     }
 
 
-    protected String renderSubject() {
-<span class="nc" id="L125">        log.info(&quot;ENTER&quot;);</span>
+    private String renderSubject() {
+<span class="nc" id="L127">        log.debug(&quot;ENTER&quot;);</span>
 
         // Render
-<span class="nc" id="L128">        Writer out = new StringWriter();</span>
+<span class="nc" id="L130">        Writer out = new StringWriter();</span>
         try {
-<span class="nc" id="L130">            subjectTemplate.process(new HashMap&lt;&gt;(), out);</span>
-<span class="nc" id="L131">            out.flush();</span>
-<span class="nc" id="L132">        } catch (Exception ex) {</span>
-<span class="nc" id="L133">            throw new RuntimeException(</span>
-<span class="nc" id="L134">                String.format(&quot;Problem rendering the email subject&quot;)</span>
+<span class="nc" id="L132">            subjectTemplate.process(new HashMap&lt;&gt;(), out);</span>
+<span class="nc" id="L133">            out.flush();</span>
+<span class="nc" id="L134">        } catch (Exception ex) {</span>
+<span class="nc" id="L135">            throw new RuntimeException(</span>
+<span class="nc" id="L136">                String.format(&quot;Problem rendering the email subject&quot;)</span>
                 , ex
             );
-<span class="nc" id="L137">        }</span>
-<span class="nc" id="L138">        log.info(String.format(&quot;RENERED = \&quot;%s\&quot;&quot;, out.toString()));</span>
+<span class="nc" id="L139">        }</span>
+<span class="nc" id="L140">        log.debug(String.format(&quot;RENERED = \&quot;%s\&quot;&quot;, out.toString()));</span>
 
-<span class="nc" id="L140">        return out.toString();</span>
+<span class="nc" id="L142">        return out.toString();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

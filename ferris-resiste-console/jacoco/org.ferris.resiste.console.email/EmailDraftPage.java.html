@@ -33,16 +33,14 @@ import org.slf4j.Logger;
     public void observeSend(
         @Observes @Priority(DRAFT_VIEW) EmailDraftEvent evnt
     ) {
-<span class="nc" id="L36">        log.info(String.format(&quot;ENTER %s&quot;, evnt.toString()));</span>
-<span class="nc" id="L37">        console.h1(heading);</span>
-
-<span class="nc" id="L39">        evnt.getDrafts().stream().forEach(</span>
-<span class="nc" id="L40">            d -&gt; console.p(LocalizedString.format(</span>
-<span class="nc" id="L41">                  draft.toString()</span>
-<span class="nc" id="L42">                , d.getSubject()</span>
-<span class="nc" id="L43">                , d.getBody()</span>
+<span class="nc" id="L36">        console.h1(heading);</span>
+<span class="nc" id="L37">        evnt.getDrafts().stream().forEach(</span>
+<span class="nc" id="L38">            d -&gt; console.p(LocalizedString.format(</span>
+<span class="nc" id="L39">                  draft.toString()</span>
+<span class="nc" id="L40">                , d.getSubject()</span>
+<span class="nc" id="L41">                , d.getBody()</span>
             ))
         );
-<span class="nc" id="L46">    }</span>
+<span class="nc" id="L44">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

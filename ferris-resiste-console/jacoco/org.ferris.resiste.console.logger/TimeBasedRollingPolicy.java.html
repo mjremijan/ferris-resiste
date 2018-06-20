@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../resources/report.gif" type="image/gif"/><title>TimeBasedRollingPolicy.java</title><link rel="stylesheet" href="../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ferris-resiste-console</a> &gt; <a href="index.source.html" class="el_package">org.ferris.resiste.console.logger</a> &gt; <span class="el_source">TimeBasedRollingPolicy.java</span></div><h1>TimeBasedRollingPolicy.java</h1><pre class="source lang-java linenums">package org.ferris.resiste.console.logger;
+
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+
+/**
+ *
+ * @author Michael Remijan mjremijan@yahoo.com @mjremijan
+ */
+public class TimeBasedRollingPolicy extends ch.qos.logback.core.rolling.TimeBasedRollingPolicy
+{
+    public TimeBasedRollingPolicy() throws URISyntaxException {
+<span class="nc" id="L15">        super();</span>
+        // This code assumes the following directory structure
+        //
+        // /project
+        //    /bin
+        //    /lib
+        //      ferris-project-app-1.0.0.0-SNAPSHOT.jar
+        //    /logs
+        //
+        // So the the log directory will be 1 directory up from where the
+        // JAR file is located.
+<span class="nc" id="L26">        URL jarURL = this.getClass().getProtectionDomain().getCodeSource().getLocation();</span>
+<span class="nc" id="L27">        URI jarURI = jarURL.toURI();</span>
+<span class="nc" id="L28">        File jarFile = new File(jarURI);</span>
+<span class="nc" id="L29">        File parentDir = jarFile.getParentFile().getParentFile();</span>
+<span class="nc" id="L30">        File logsDir = new File(parentDir, &quot;logs&quot;);</span>
+<span class="nc" id="L31">        String rollingNamePattern = logsDir + File.separator + &quot;application.%d{yyyy-MM}.log&quot;;</span>
+<span class="nc" id="L32">        System.out.printf(&quot;rollingNamePattern=%s%n&quot;, rollingNamePattern);</span>
+<span class="nc" id="L33">        super.setFileNamePattern(rollingNamePattern);</span>
+        // https://stackoverflow.com/questions/10953915/filenamepattern-in-rollingfileappender-logback-configuration
+<span class="nc" id="L35">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
