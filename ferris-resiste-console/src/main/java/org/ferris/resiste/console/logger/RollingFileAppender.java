@@ -1,6 +1,5 @@
 package org.ferris.resiste.console.logger;
 
-import ch.qos.logback.core.rolling.RollingFileAppender;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -12,8 +11,9 @@ import java.net.URL;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-public class LoggerFileAppender extends ch.qos.logback.core.rolling.RollingFileAppender {
-    public LoggerFileAppender() throws URISyntaxException {
+public class RollingFileAppender extends ch.qos.logback.core.rolling.RollingFileAppender
+{
+    public RollingFileAppender() throws URISyntaxException {
         super();
         // This code assumes the following directory structure
         //
@@ -31,7 +31,7 @@ public class LoggerFileAppender extends ch.qos.logback.core.rolling.RollingFileA
         File parentDir = jarFile.getParentFile().getParentFile();
         File logsDir = new File(parentDir, "logs");
         File logFile = new File(logsDir, "application.log");
-        System.out.printf("Setting file %s%n", logFile.toString());
+        System.out.printf("logFile=%s%n", logFile);
         super.setFile(logFile.toString());
     }
 }

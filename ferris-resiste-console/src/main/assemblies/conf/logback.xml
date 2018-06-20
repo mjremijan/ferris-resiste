@@ -24,22 +24,22 @@
     </appender> 
     -->
     
-    <appender name="FILE" class="org.ferris.resiste.console.logger.LoggerFileAppender">
+    <appender name="FILE" class="org.ferris.resiste.console.logger.RollingFileAppender">
         <append>true</append>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- monthly rollover -->
-            <fileNamePattern>application.%d{yyyy-MM}.log</fileNamePattern>
+        <rollingPolicy class="org.ferris.resiste.console.logger.TimeBasedRollingPolicy">
             <!-- keep 6 months worth of history -->
             <maxHistory>6</maxHistory>
         </rollingPolicy>
         <encoder>
             <charset>UTF-8</charset>
             <!-- %date{yyyy-MM-dd HH:mm:ss}  %class{0}.M(): %msg%n -->
-            <pattern>%date{yyyy-MM-dd HH:mm:ss} [%-5level] %class{0}.%M\(\): %msg%n</pattern>
+            <pattern>%date{yyyy-MM-dd HH:mm:ss} [%thread] [%-5level] %class{0}.%M\(\): %msg%n</pattern>
+            <immediateFlush>true</immediateFlush>
         </encoder>
     </appender>
+    
 
-    <logger name="org.jboss.weld" level="INFO"/>
+    <logger name="org.jboss.weld" level="ERROR"/>
     <logger name="org.ferris.resiste.console" level="INFO"/>
 
     <root level="INFO">

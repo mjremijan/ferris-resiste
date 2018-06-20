@@ -30,6 +30,7 @@
     -->
     <modules>
         <module>ferris-resiste-console</module>
+        <module>ferris-resiste-scripts</module>
     </modules>
     
     <!--
