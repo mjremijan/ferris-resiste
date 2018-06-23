@@ -1,0 +1,9 @@
+ij> connect 'jdbc:derby:C:/Users/Michael/Projects/ferris-resiste/ferris-resiste-console/src/main/assemblies/data/resiste;create=true' user 'sa' password 'sa';
+
+ij> CALL SYSCS_UTIL.SYSCS_CREATE_USER('sa', 'Hg1@x$6fhX938XS');
+
+ij> CALL SYSCS_UTIL.SYSCS_CREATE_USER('resiste_standalone', 'x4A03HZ7ZV*lzB%');
+
+ij> connect 'jdbc:derby:C:/Users/Michael/Projects/ferris-resiste/ferris-resiste-console/src/main/assemblies/data/resiste' user 'resiste_standalone' password 'x4A03HZ7ZV*lzB%';
+
+ij> connect 'jdbc:derby:C:/Users/Michael/Projects/ferris-resiste/ferris-resiste-console/src/main/assemblies/data/resiste' user 'sa' password 'Hg1@x$6fhX938XS';
