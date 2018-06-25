@@ -25,16 +25,4 @@
             <activatedProfile>zip-assemblies</activatedProfile>
         </activatedProfiles>
     </action>
-    <action>
-            <actionName>CUSTOM-Assembly (unzip)</actionName>
-            <displayName>Assembly (unzip)</displayName>
-            <goals>
-                <goal>clean</goal>
-                <goal>verify</goal>
-            </goals>
-            <activatedProfiles>
-                <activatedProfile>zip-assemblies</activatedProfile>
-                <activatedProfile>windows-jre-unzip</activatedProfile>
-            </activatedProfiles>
-        </action>
 </actions>
