@@ -1,42 +1,69 @@
 package org.ferris.resiste.console.rss;
 
-import java.io.File;
-import java.time.Instant;
-import java.util.Formatter;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Optional;
-import java.util.Scanner;
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import org.ferris.resiste.console.data.DataDirectory;
+import org.ferris.resiste.console.sql.SqlTool;
 import org.slf4j.Logger;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-public class RssHistoryRepository extends File {
+public class RssHistoryRepository {
 
     private static final long serialVersionUID = 7491906484654964631L;
 
     @Inject
     protected Logger log;
 
-    protected Map<String, List<RssHistory>> cache;
+    @Inject
+    protected SqlTool sqlTool;
+
+    protected Connection conn;
 
     @Inject
     public RssHistoryRepository(DataDirectory root) {
-        super(root, String.format("rss_history.dat"));
+
+        String url = "";
         try {
-            super.createNewFile();
+            url = String.format(
+                "jdbc:derby:%s/resiste"
+              , root.getCanonicalPath()
+            );
         } catch (Exception e) {
             throw new RuntimeException(
-                String.format("Problem creating the data file \"%s\"", super.getAbsolutePath()),
+                  String.format(
+                        "Problem creating database connection url to directory \"%s\""
+                      , String.valueOf(root)
+                  )
+                , e
+            );
+        }
+
+        String user = "sa";
+        String pass = "Hg1@x$6fhX938XS";
+
+        try {
+            conn = DriverManager.getConnection(url, user, pass);
+        } catch (Exception e) {
+            throw new RuntimeException(
+                String.format("Problem connecting to database \"%s\", \"%s\", \"%s\""
+                    , url, user, pass),
                  e
+            );
+        }
+
+        try {
+            conn.setSchema("APP");
+        } catch (Exception e) {
+            throw new RuntimeException(
+                "Problem setting database schema to \"APP\"", e
             );
         }
     }
@@ -45,132 +72,100 @@ public class RssHistoryRepository extends File {
         Optional<RssHistory> retval
             = Optional.empty();
 
-        if (cache.containsKey(feedId)) {
-            retval = cache.get(feedId)
-                .stream()
-                .filter(h -> h.getEntryId().equals(entryId))
-                .findFirst()
-            ;
+        StringBuilder sp = new StringBuilder();
+        sp.append(" select ");
+        sp.append("     feed_id, entry_id, published_on ");
+        sp.append(" from ");
+        sp.append("     rss_entry_history ");
+        sp.append(" where ");
+        sp.append("     feed_id=? ");
+        sp.append("     and ");
+        sp.append("     entry_id=? ");
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = conn.prepareStatement(sp.toString());
+            stmt.setString(1, feedId);
+            stmt.setString(2, entryId);
+
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                retval =Optional.of(
+                    new RssHistory(feedId, feedId, rs.getTimestamp("published_on").toInstant())
+                );
+            }
+
+        } catch (Throwable t) {
+            throw new RuntimeException(
+                String.format("Problem finding feed entry in history table feedId=\"%s\", entryId=\"%s\", sql=\"%s\""
+                    , feedId, entryId, sp.toString()
+                ), t
+            );
+        } finally {
+            sqlTool.close(stmt, rs);
         }
 
         return retval;
     }
 
 
-    @PostConstruct
-    public void postConstruct() {
-        log.debug("ENTER");
-
-        log.debug("Create data structure for cache");
-        cache = new HashMap<>();
-
-        log.debug("Open data file for reading");
-        try (
-            Scanner input = new Scanner(this);
-        ) {
-            log.debug("Loop over each line");
-            while (input.hasNext()) {
-
-                log.debug("Read the line of data from the data file");
-                String next = input.nextLine();
-                log.debug(String.format("LINE: \"%s\"", next));
-
-                log.debug("Empty line? typically the last line");
-                if (next.isEmpty()) {
-                    continue;
-                }
-
-                log.debug("Split the line of data by tab");
-                String[] tokens = next.split("\\t");
-                if (tokens.length != 3) {
-                    throw new Exception(
-                        String.format("Line does not have 3 tokens \"%s\"", next)
-                    );
-                }
-
-                log.debug("Create new RssHistory");
-                RssHistory h = new RssHistory(
-                      tokens[0]                // feedId
-                    , tokens[1]                // entryId
-                    , Instant.parse(tokens[2]) // publishedDate
-                );
-
-                log.debug("Cache RssHistory in cache");
-                this.cache(h);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(
-                  String.format("Problem building cache for data file=%s", this.getAbsolutePath())
-                , e
-            );
-        }
-    }
-
-    private void cache(RssHistory h) {
-        if (cache.containsKey(h.getFeedId())) {
-            cache.get(h.getFeedId()).add(h);
-        } else {
-            List<RssHistory> hlist = new LinkedList<>();
-            hlist.add(h);
-            cache.put(h.getFeedId(), hlist);
-        }
-    }
-
-    private void write() {
-        try (
-            Formatter formatter = new Formatter(this.getAbsolutePath(), "UTF-8");
-        ) {
-            cache.values().stream().forEach(hl -> hl.forEach(h ->
-                formatter.format("%s\t%s\t%s%n"
-                    , h.getFeedId(), h.getEntryId(), h.getPublished().toString()
-                )
-            ));
-            formatter.flush();
-        } catch (Exception e) {
-            throw new RuntimeException(
-                  String.format("Problem building cache for data file=%s", this.getAbsolutePath())
-                , e
-            );
-        }
-    }
-
-
     protected void store(RssHistory h) {
         log.info(String.format("Store feed entry in history %s", h));
-        this.cache(h);
-        this.write();
-    }
 
+        StringBuilder sp = new StringBuilder();
+        sp.append(" insert into rss_entry_history ");
+        sp.append("     (feed_id, entry_id, published_on) ");
+        sp.append(" values ");
+        sp.append("     (?, ?, ?) ");
 
-    protected void removeOlderThan(String feedId, Instant iAmTheOldest) {
-        log.info(String.format("Remove feed entries from \"%s\" older than %s", feedId, iAmTheOldest.toString()));
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = conn.prepareStatement(sp.toString());
 
-        // Find the feed in the cache
-        if (cache.containsKey(feedId)) {
-
-            // Histories will never be null, cache created with histories
-            List<RssHistory> histories = cache.get(feedId);
-
-            // If a history entry is older than iAmTheOldest, then remove the entry
-            for (Iterator<RssHistory> historiesItr = histories.iterator(); historiesItr.hasNext(); ) {
-                RssHistory h = historiesItr.next();
-                if (h.getPublished().isBefore(iAmTheOldest)) {
-                    historiesItr.remove();
-                    log.info(
-                        String.format(
-                             "REMOVE ENTRY! Feed \"%s\" entry \"%s\" published %s is older than %s."
-                            ,feedId, h.getEntryId(), h.getPublished().toString(), iAmTheOldest.toString()
-                        )
-                    );
-                }
+            // FeedId
+            if (h.getFeedId().length() > 200) {
+                throw new IllegalArgumentException(
+                    String.format(
+                        "feed_id column can be only 200 of the %d characters of \"%s\"", h.getFeedId().length(), h.getFeedId()
+                    )
+                );
             }
+            stmt.setString(1, h.getFeedId());
 
-            // If no entires are left, remove it from the cache
-            if (histories.isEmpty()) {
-                cache.remove(feedId);
+            // EntryId
+            if (h.getEntryId().length() > 200) {
+                throw new IllegalArgumentException(
+                    String.format(
+                        "entry_id column can be only 200 of the %d characters of \"%s\"", h.getEntryId().length(), h.getEntryId()
+                    )
+                );
             }
+            stmt.setString(2, h.getEntryId());
+
+            // PublishedOn
+            stmt.setTimestamp(3, Timestamp.from(h.getPublished()));
+
+            // Execute
+            int changed = stmt.executeUpdate();
+            if (changed != 1) {
+                throw new RuntimeException(
+                    String.format(
+                        "The executeUpdate() into the rss_entry_history table did not return exactly 1 row: %d"
+                        , changed)
+                );
+            }
+        } catch (Throwable t) {
+            throw new RuntimeException(
+                String.format("Problem inserting in history table %s:"
+                    , String.valueOf(h)
+                ), t
+            );
+        } finally {
+            sqlTool.close(stmt, rs);
         }
-
-        this.write();
     }
+
+
 }

@@ -1,0 +1,6 @@
+
+-- CREATE THE DATABASE
+ij> connect 'jdbc:derby:C:/Users/Michael/Projects/ferris-resiste/ferris-resiste-console/src/main/assemblies/data/resiste;create=true' user 'sa' password 'sa';
+
+-- SET THE 'SA' PASSWORD
+ij> CALL SYSCS_UTIL.SYSCS_CREATE_USER('sa', 'Hg1@x$6fhX938XS');

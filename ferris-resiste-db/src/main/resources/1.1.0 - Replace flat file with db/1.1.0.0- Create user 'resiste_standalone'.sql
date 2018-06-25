@@ -1,0 +1,1 @@
+CALL SYSCS_UTIL.SYSCS_CREATE_USER('resiste_standalone', 'x4A03HZ7ZV*lzB%');
