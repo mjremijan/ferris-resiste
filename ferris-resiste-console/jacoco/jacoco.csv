@@ -18,7 +18,7 @@ ferris-resiste-console,org.ferris.resiste.console.rss,RssHistoryService,57,0,0,0
 ferris-resiste-console,org.ferris.resiste.console.rss,RssHistory,81,0,0,0,13,0,6,0,6,0
 ferris-resiste-console,org.ferris.resiste.console.rss,RssEntry,73,0,0,0,27,0,17,0,17,0
 ferris-resiste-console,org.ferris.resiste.console.rss,RssUrl,77,0,4,0,14,0,6,0,4,0
-ferris-resiste-console,org.ferris.resiste.console.rss,RssHistoryRepository,445,0,34,0,80,0,27,0,10,0
+ferris-resiste-console,org.ferris.resiste.console.rss,RssHistoryRepository,344,0,8,0,79,0,7,0,3,0
 ferris-resiste-console,org.ferris.resiste.console.rss,RssUrlService,7,0,0,0,2,0,2,0,2,0
 ferris-resiste-console,org.ferris.resiste.console.rss,RssUrlRepository,77,0,2,0,19,0,6,0,5,0
 ferris-resiste-console,org.ferris.resiste.console.rss,RssFeed,31,0,0,0,13,0,9,0,9,0
@@ -36,6 +36,7 @@ ferris-resiste-console,org.ferris.resiste.console.exit,ExitEvent,3,0,0,0,1,0,1,0
 ferris-resiste-console,org.ferris.resiste.console.logger,LoggerProducer,10,0,0,0,3,0,2,0,2,0
 ferris-resiste-console,org.ferris.resiste.console.logger,TimeBasedRollingPolicy,51,0,0,0,10,0,1,0,1,0
 ferris-resiste-console,org.ferris.resiste.console.logger,RollingFileAppender,47,0,0,0,10,0,1,0,1,0
+ferris-resiste-console,org.ferris.resiste.console.sql,SqlTool,16,0,4,0,8,0,4,0,2,0
 ferris-resiste-console,org.ferris.resiste.console.conf,ConfDirectory,5,0,0,0,2,0,1,0,1,0
 ferris-resiste-console,org.ferris.resiste.console.view.page,AbstractPage,3,0,0,0,1,0,1,0,1,0
 ferris-resiste-console,org.ferris.resiste.console.lang,StringUtils,25,0,2,0,7,0,6,0,5,0

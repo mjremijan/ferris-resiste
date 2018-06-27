@@ -1,177 +1,172 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../resources/report.gif" type="image/gif"/><title>RssHistoryRepository.java</title><link rel="stylesheet" href="../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ferris-resiste-console</a> &gt; <a href="index.source.html" class="el_package">org.ferris.resiste.console.rss</a> &gt; <span class="el_source">RssHistoryRepository.java</span></div><h1>RssHistoryRepository.java</h1><pre class="source lang-java linenums">package org.ferris.resiste.console.rss;
 
-import java.io.File;
-import java.time.Instant;
-import java.util.Formatter;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Optional;
-import java.util.Scanner;
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import org.ferris.resiste.console.data.DataDirectory;
+import org.ferris.resiste.console.sql.SqlTool;
 import org.slf4j.Logger;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-public class RssHistoryRepository extends File {
+public class RssHistoryRepository {
 
     private static final long serialVersionUID = 7491906484654964631L;
 
     @Inject
     protected Logger log;
 
-    protected Map&lt;String, List&lt;RssHistory&gt;&gt; cache;
+    @Inject
+    protected SqlTool sqlTool;
+
+    protected Connection conn;
 
     @Inject
-    public RssHistoryRepository(DataDirectory root) {
-<span class="nc" id="L33">        super(root, String.format(&quot;rss_history.dat&quot;));</span>
+<span class="nc" id="L31">    public RssHistoryRepository(DataDirectory root) {</span>
+
+<span class="nc" id="L33">        String url = &quot;&quot;;</span>
         try {
-<span class="nc" id="L35">            super.createNewFile();</span>
-<span class="nc" id="L36">        } catch (Exception e) {</span>
-<span class="nc" id="L37">            throw new RuntimeException(</span>
-<span class="nc" id="L38">                String.format(&quot;Problem creating the data file \&quot;%s\&quot;&quot;, super.getAbsolutePath()),</span>
+<span class="nc" id="L35">            url = String.format(</span>
+                &quot;jdbc:derby:%s/resiste&quot;
+<span class="nc" id="L37">              , root.getCanonicalPath()</span>
+            );
+<span class="nc" id="L39">        } catch (Exception e) {</span>
+<span class="nc" id="L40">            throw new RuntimeException(</span>
+<span class="nc" id="L41">                  String.format(</span>
+                        &quot;Problem creating database connection url to directory \&quot;%s\&quot;&quot;
+<span class="nc" id="L43">                      , String.valueOf(root)</span>
+                  )
+                , e
+            );
+<span class="nc" id="L47">        }</span>
+
+<span class="nc" id="L49">        String user = &quot;sa&quot;;</span>
+<span class="nc" id="L50">        String pass = &quot;Hg1@x$6fhX938XS&quot;;</span>
+
+        try {
+<span class="nc" id="L53">            conn = DriverManager.getConnection(url, user, pass);</span>
+<span class="nc" id="L54">        } catch (Exception e) {</span>
+<span class="nc" id="L55">            throw new RuntimeException(</span>
+<span class="nc" id="L56">                String.format(&quot;Problem connecting to database \&quot;%s\&quot;, \&quot;%s\&quot;, \&quot;%s\&quot;&quot;</span>
+                    , url, user, pass),
                  e
             );
-<span class="nc" id="L41">        }</span>
-<span class="nc" id="L42">    }</span>
+<span class="nc" id="L60">        }</span>
+
+        try {
+<span class="nc" id="L63">            conn.setSchema(&quot;APP&quot;);</span>
+<span class="nc" id="L64">        } catch (Exception e) {</span>
+<span class="nc" id="L65">            throw new RuntimeException(</span>
+                &quot;Problem setting database schema to \&quot;APP\&quot;&quot;, e
+            );
+<span class="nc" id="L68">        }</span>
+<span class="nc" id="L69">    }</span>
 
     public Optional&lt;RssHistory&gt; find(String feedId, String entryId) {
         Optional&lt;RssHistory&gt; retval
-<span class="nc" id="L46">            = Optional.empty();</span>
+<span class="nc" id="L73">            = Optional.empty();</span>
 
-<span class="nc bnc" id="L48" title="All 2 branches missed.">        if (cache.containsKey(feedId)) {</span>
-<span class="nc" id="L49">            retval = cache.get(feedId)</span>
-<span class="nc" id="L50">                .stream()</span>
-<span class="nc" id="L51">                .filter(h -&gt; h.getEntryId().equals(entryId))</span>
-<span class="nc" id="L52">                .findFirst()</span>
-            ;
-        }
+<span class="nc" id="L75">        StringBuilder sp = new StringBuilder();</span>
+<span class="nc" id="L76">        sp.append(&quot; select &quot;);</span>
+<span class="nc" id="L77">        sp.append(&quot;     feed_id, entry_id, published_on &quot;);</span>
+<span class="nc" id="L78">        sp.append(&quot; from &quot;);</span>
+<span class="nc" id="L79">        sp.append(&quot;     rss_entry_history &quot;);</span>
+<span class="nc" id="L80">        sp.append(&quot; where &quot;);</span>
+<span class="nc" id="L81">        sp.append(&quot;     feed_id=? &quot;);</span>
+<span class="nc" id="L82">        sp.append(&quot;     and &quot;);</span>
+<span class="nc" id="L83">        sp.append(&quot;     entry_id=? &quot;);</span>
 
-<span class="nc" id="L56">        return retval;</span>
+<span class="nc" id="L85">        PreparedStatement stmt = null;</span>
+<span class="nc" id="L86">        ResultSet rs = null;</span>
+        try {
+<span class="nc" id="L88">            stmt = conn.prepareStatement(sp.toString());</span>
+<span class="nc" id="L89">            stmt.setString(1, feedId);</span>
+<span class="nc" id="L90">            stmt.setString(2, entryId);</span>
+
+<span class="nc" id="L92">            rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L94">                retval =Optional.of(</span>
+<span class="nc" id="L95">                    new RssHistory(feedId, feedId, rs.getTimestamp(&quot;published_on&quot;).toInstant())</span>
+                );
+            }
+
+<span class="nc" id="L99">        } catch (Throwable t) {</span>
+<span class="nc" id="L100">            throw new RuntimeException(</span>
+<span class="nc" id="L101">                String.format(&quot;Problem finding feed entry in history table feedId=\&quot;%s\&quot;, entryId=\&quot;%s\&quot;, sql=\&quot;%s\&quot;&quot;</span>
+<span class="nc" id="L102">                    , feedId, entryId, sp.toString()</span>
+                ), t
+            );
+        } finally {
+<span class="nc" id="L106">            sqlTool.close(stmt, rs);</span>
+<span class="nc" id="L107">        }</span>
+
+<span class="nc" id="L109">        return retval;</span>
     }
 
 
-    @PostConstruct
-    public void postConstruct() {
-<span class="nc" id="L62">        log.debug(&quot;ENTER&quot;);</span>
-
-<span class="nc" id="L64">        log.debug(&quot;Create data structure for cache&quot;);</span>
-<span class="nc" id="L65">        cache = new HashMap&lt;&gt;();</span>
-
-<span class="nc" id="L67">        log.debug(&quot;Open data file for reading&quot;);</span>
-<span class="nc" id="L68">        try (</span>
-<span class="nc" id="L69">            Scanner input = new Scanner(this);</span>
-        ) {
-<span class="nc" id="L71">            log.debug(&quot;Loop over each line&quot;);</span>
-<span class="nc bnc" id="L72" title="All 2 branches missed.">            while (input.hasNext()) {</span>
-
-<span class="nc" id="L74">                log.debug(&quot;Read the line of data from the data file&quot;);</span>
-<span class="nc" id="L75">                String next = input.nextLine();</span>
-<span class="nc" id="L76">                log.debug(String.format(&quot;LINE: \&quot;%s\&quot;&quot;, next));</span>
-
-<span class="nc" id="L78">                log.debug(&quot;Empty line? typically the last line&quot;);</span>
-<span class="nc bnc" id="L79" title="All 2 branches missed.">                if (next.isEmpty()) {</span>
-<span class="nc" id="L80">                    continue;</span>
-                }
-
-<span class="nc" id="L83">                log.debug(&quot;Split the line of data by tab&quot;);</span>
-<span class="nc" id="L84">                String[] tokens = next.split(&quot;\\t&quot;);</span>
-<span class="nc bnc" id="L85" title="All 2 branches missed.">                if (tokens.length != 3) {</span>
-<span class="nc" id="L86">                    throw new Exception(</span>
-<span class="nc" id="L87">                        String.format(&quot;Line does not have 3 tokens \&quot;%s\&quot;&quot;, next)</span>
-                    );
-                }
-
-<span class="nc" id="L91">                log.debug(&quot;Create new RssHistory&quot;);</span>
-<span class="nc" id="L92">                RssHistory h = new RssHistory(</span>
-                      tokens[0]                // feedId
-                    , tokens[1]                // entryId
-<span class="nc" id="L95">                    , Instant.parse(tokens[2]) // publishedDate</span>
-                );
-
-<span class="nc" id="L98">                log.debug(&quot;Cache RssHistory in cache&quot;);</span>
-<span class="nc" id="L99">                this.cache(h);</span>
-<span class="nc" id="L100">            }</span>
-<span class="nc bnc" id="L101" title="All 8 branches missed.">        } catch (Exception e) {</span>
-<span class="nc" id="L102">            throw new RuntimeException(</span>
-<span class="nc" id="L103">                  String.format(&quot;Problem building cache for data file=%s&quot;, this.getAbsolutePath())</span>
-                , e
-            );
-<span class="nc" id="L106">        }</span>
-<span class="nc" id="L107">    }</span>
-
-    private void cache(RssHistory h) {
-<span class="nc bnc" id="L110" title="All 2 branches missed.">        if (cache.containsKey(h.getFeedId())) {</span>
-<span class="nc" id="L111">            cache.get(h.getFeedId()).add(h);</span>
-        } else {
-<span class="nc" id="L113">            List&lt;RssHistory&gt; hlist = new LinkedList&lt;&gt;();</span>
-<span class="nc" id="L114">            hlist.add(h);</span>
-<span class="nc" id="L115">            cache.put(h.getFeedId(), hlist);</span>
-        }
-<span class="nc" id="L117">    }</span>
-
-    private void write() {
-<span class="nc" id="L120">        try (</span>
-<span class="nc" id="L121">            Formatter formatter = new Formatter(this.getAbsolutePath(), &quot;UTF-8&quot;);</span>
-        ) {
-<span class="nc" id="L123">            cache.values().stream().forEach(hl -&gt; hl.forEach(h -&gt;</span>
-<span class="nc" id="L124">                formatter.format(&quot;%s\t%s\t%s%n&quot;</span>
-<span class="nc" id="L125">                    , h.getFeedId(), h.getEntryId(), h.getPublished().toString()</span>
-                )
-            ));
-<span class="nc" id="L128">            formatter.flush();</span>
-<span class="nc bnc" id="L129" title="All 8 branches missed.">        } catch (Exception e) {</span>
-<span class="nc" id="L130">            throw new RuntimeException(</span>
-<span class="nc" id="L131">                  String.format(&quot;Problem building cache for data file=%s&quot;, this.getAbsolutePath())</span>
-                , e
-            );
-<span class="nc" id="L134">        }</span>
-<span class="nc" id="L135">    }</span>
-
-
     protected void store(RssHistory h) {
-<span class="nc" id="L139">        log.info(String.format(&quot;Store feed entry in history %s&quot;, h));</span>
-<span class="nc" id="L140">        this.cache(h);</span>
-<span class="nc" id="L141">        this.write();</span>
-<span class="nc" id="L142">    }</span>
+<span class="nc" id="L114">        log.info(String.format(&quot;Store feed entry in history %s&quot;, h));</span>
 
+<span class="nc" id="L116">        StringBuilder sp = new StringBuilder();</span>
+<span class="nc" id="L117">        sp.append(&quot; insert into rss_entry_history &quot;);</span>
+<span class="nc" id="L118">        sp.append(&quot;     (feed_id, entry_id, published_on) &quot;);</span>
+<span class="nc" id="L119">        sp.append(&quot; values &quot;);</span>
+<span class="nc" id="L120">        sp.append(&quot;     (?, ?, ?) &quot;);</span>
 
-    protected void removeOlderThan(String feedId, Instant iAmTheOldest) {
-<span class="nc" id="L146">        log.info(String.format(&quot;Remove feed entries from \&quot;%s\&quot; older than %s&quot;, feedId, iAmTheOldest.toString()));</span>
+<span class="nc" id="L122">        PreparedStatement stmt = null;</span>
+<span class="nc" id="L123">        ResultSet rs = null;</span>
+        try {
+<span class="nc" id="L125">            stmt = conn.prepareStatement(sp.toString());</span>
 
-        // Find the feed in the cache
-<span class="nc bnc" id="L149" title="All 2 branches missed.">        if (cache.containsKey(feedId)) {</span>
-
-            // Histories will never be null, cache created with histories
-<span class="nc" id="L152">            List&lt;RssHistory&gt; histories = cache.get(feedId);</span>
-
-            // If a history entry is older than iAmTheOldest, then remove the entry
-<span class="nc bnc" id="L155" title="All 2 branches missed.">            for (Iterator&lt;RssHistory&gt; historiesItr = histories.iterator(); historiesItr.hasNext(); ) {</span>
-<span class="nc" id="L156">                RssHistory h = historiesItr.next();</span>
-<span class="nc bnc" id="L157" title="All 2 branches missed.">                if (h.getPublished().isBefore(iAmTheOldest)) {</span>
-<span class="nc" id="L158">                    historiesItr.remove();</span>
-<span class="nc" id="L159">                    log.info(</span>
-<span class="nc" id="L160">                        String.format(</span>
-                             &quot;REMOVE ENTRY! Feed \&quot;%s\&quot; entry \&quot;%s\&quot; published %s is older than %s.&quot;
-<span class="nc" id="L162">                            ,feedId, h.getEntryId(), h.getPublished().toString(), iAmTheOldest.toString()</span>
-                        )
-                    );
-                }
-<span class="nc" id="L166">            }</span>
-
-            // If no entires are left, remove it from the cache
-<span class="nc bnc" id="L169" title="All 2 branches missed.">            if (histories.isEmpty()) {</span>
-<span class="nc" id="L170">                cache.remove(feedId);</span>
+            // FeedId
+<span class="nc bnc" id="L128" title="All 2 branches missed.">            if (h.getFeedId().length() &gt; 200) {</span>
+<span class="nc" id="L129">                throw new IllegalArgumentException(</span>
+<span class="nc" id="L130">                    String.format(</span>
+<span class="nc" id="L131">                        &quot;feed_id column can be only 200 of the %d characters of \&quot;%s\&quot;&quot;, h.getFeedId().length(), h.getFeedId()</span>
+                    )
+                );
             }
-        }
+<span class="nc" id="L135">            stmt.setString(1, h.getFeedId());</span>
 
-<span class="nc" id="L174">        this.write();</span>
-<span class="nc" id="L175">    }</span>
+            // EntryId
+<span class="nc bnc" id="L138" title="All 2 branches missed.">            if (h.getEntryId().length() &gt; 200) {</span>
+<span class="nc" id="L139">                throw new IllegalArgumentException(</span>
+<span class="nc" id="L140">                    String.format(</span>
+<span class="nc" id="L141">                        &quot;entry_id column can be only 200 of the %d characters of \&quot;%s\&quot;&quot;, h.getEntryId().length(), h.getEntryId()</span>
+                    )
+                );
+            }
+<span class="nc" id="L145">            stmt.setString(2, h.getEntryId());</span>
+
+            // PublishedOn
+<span class="nc" id="L148">            stmt.setTimestamp(3, Timestamp.from(h.getPublished()));</span>
+
+            // Execute
+<span class="nc" id="L151">            int changed = stmt.executeUpdate();</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">            if (changed != 1) {</span>
+<span class="nc" id="L153">                throw new RuntimeException(</span>
+<span class="nc" id="L154">                    String.format(</span>
+                        &quot;The executeUpdate() into the rss_entry_history table did not return exactly 1 row: %d&quot;
+<span class="nc" id="L156">                        , changed)</span>
+                );
+            }
+<span class="nc" id="L159">        } catch (Throwable t) {</span>
+<span class="nc" id="L160">            throw new RuntimeException(</span>
+<span class="nc" id="L161">                String.format(&quot;Problem inserting in history table %s:&quot;</span>
+<span class="nc" id="L162">                    , String.valueOf(h)</span>
+                ), t
+            );
+        } finally {
+<span class="nc" id="L166">            sqlTool.close(stmt, rs);</span>
+<span class="nc" id="L167">        }</span>
+<span class="nc" id="L168">    }</span>
+
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
