@@ -1,4 +1,4 @@
-package org.ferris.resiste.console.conf;
+package org.ferris.resiste.console.data;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -11,20 +11,20 @@ import org.ferris.resiste.console.application.*;
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
 @ApplicationScoped
-public class ConfDirectoryProducer {
+public class DataDirectoryProducer {
 
-    protected ConfDirectory confDirectory;
+    protected DataDirectory dataDirectory;
 
     @Inject
     protected ApplicationDirectory applicationDirectory;
 
     @PostConstruct
     public void postConstruct() {
-        confDirectory = new ConfDirectory(applicationDirectory);
+        dataDirectory = new DataDirectory(applicationDirectory);
     }
 
     @Produces
-    public ConfDirectory produceConfDirectory() {
-        return confDirectory;
+    public DataDirectory produceConfDirectory() {
+        return dataDirectory;
     }
 }

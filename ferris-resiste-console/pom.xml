@@ -414,6 +414,10 @@
                                 <configuration>
                                     <target>
                                         <unzip src="${project.build.directory}/${project.artifactId}-${project.version}-${ferrisWindowsAssemblyId}.zip" dest="${project.build.directory}/unziped" />
+                                        <copy 
+                                            file="src\main\assemblies\conf\email.properties"
+                                            todir="${project.build.directory}/unziped/${project.artifactId}-${project.version}-${ferrisWindowsAssemblyId}/conf"
+                                        />
                                     </target>
                                 </configuration>
                                 <goals>
