@@ -1,6 +1,8 @@
 
 -- CONNECT WITH APPLICATION USER
 ij> connect 'jdbc:derby:C:/Users/Michael/Projects/ferris-resiste/ferris-resiste-console/src/main/assemblies/data/resiste' user 'resiste_standalone' password 'x4A03HZ7ZV*lzB%';
+ij> connect 'jdbc:derby:C:/Users/Michael/Projects/ferris-resiste/ferris-resiste-console/target/unziped/ferris-resiste-console-1.1.0.0-windows-x86-64-jre/data/resiste' user 'resiste_standalone' password 'x4A03HZ7ZV*lzB%';
+ij> connect 'jdbc:derby://localhost:1527/resiste'  user 'resiste_standalone' password 'x4A03HZ7ZV*lzB%';
 
 -- CONNECT WITH 'SA' USER
 ij> connect 'jdbc:derby:C:/Users/Michael/Projects/ferris-resiste/ferris-resiste-console/src/main/assemblies/data/resiste' user 'sa' password 'Hg1@x$6fhX938XS';

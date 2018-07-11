@@ -1,14 +1,11 @@
 package org.ferris.resiste.console.rss;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Optional;
 import javax.inject.Inject;
-import org.ferris.resiste.console.data.DataDirectory;
-import org.ferris.resiste.console.sql.SqlTool;
+import org.ferris.resiste.console.sql.SqlConnection;
 import org.slf4j.Logger;
 
 /**
@@ -23,50 +20,7 @@ public class RssHistoryRepository {
     protected Logger log;
 
     @Inject
-    protected SqlTool sqlTool;
-
-    protected Connection conn;
-
-    @Inject
-    public RssHistoryRepository(DataDirectory root) {
-
-        String url = "";
-        try {
-            url = String.format(
-                "jdbc:derby:%s/resiste"
-              , root.getCanonicalPath()
-            );
-        } catch (Exception e) {
-            throw new RuntimeException(
-                  String.format(
-                        "Problem creating database connection url to directory \"%s\""
-                      , String.valueOf(root)
-                  )
-                , e
-            );
-        }
-
-        String user = "sa";
-        String pass = "Hg1@x$6fhX938XS";
-
-        try {
-            conn = DriverManager.getConnection(url, user, pass);
-        } catch (Exception e) {
-            throw new RuntimeException(
-                String.format("Problem connecting to database \"%s\", \"%s\", \"%s\""
-                    , url, user, pass),
-                 e
-            );
-        }
-
-        try {
-            conn.setSchema("APP");
-        } catch (Exception e) {
-            throw new RuntimeException(
-                "Problem setting database schema to \"APP\"", e
-            );
-        }
-    }
+    protected SqlConnection conn;
 
     public Optional<RssHistory> find(String feedId, String entryId) {
         Optional<RssHistory> retval
@@ -103,7 +57,7 @@ public class RssHistoryRepository {
                 ), t
             );
         } finally {
-            sqlTool.close(stmt, rs);
+            conn.close(stmt, rs);
         }
 
         return retval;
@@ -163,7 +117,7 @@ public class RssHistoryRepository {
                 ), t
             );
         } finally {
-            sqlTool.close(stmt, rs);
+            conn.close(stmt, rs);
         }
     }
 

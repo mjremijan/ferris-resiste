@@ -22,7 +22,18 @@
             <goal>validate</goal>
         </goals>
         <activatedProfiles>
-            <activatedProfile>zip-assemblies</activatedProfile>
+            <activatedProfile>assembly-zip</activatedProfile>
         </activatedProfiles>
     </action>
+    <action>
+            <actionName>CUSTOM-Assembly unzip (target)</actionName>
+            <displayName>Unzip into target</displayName>
+            <goals>
+                <goal>validate</goal>
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>assembly-zip</activatedProfile>
+                <activatedProfile>assembly-unzip</activatedProfile>
+            </activatedProfiles>
+        </action>
 </actions>

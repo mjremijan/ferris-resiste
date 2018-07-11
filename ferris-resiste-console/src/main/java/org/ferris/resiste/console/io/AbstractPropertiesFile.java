@@ -36,7 +36,7 @@ public abstract class AbstractPropertiesFile extends File {
      * @throws RuntimeException Wraps any other exception which might be thrown
      */
     public Properties toProperties() {
-        log.info(String.format("Create Properties object from \"%s\"", this));
+        log.info(String.format("Create Properties object from \"%s\"", this.getAbsolutePath()));
         Properties props = new Properties();
         try (InputStream is = new FileInputStream(this);) {
             props.load(is);

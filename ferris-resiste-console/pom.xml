@@ -348,6 +348,11 @@
             <artifactId>derby</artifactId>
             <version>10.14.2.0</version>
         </dependency> 
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbyclient</artifactId>
+            <version>10.14.2.0</version>
+        </dependency>
         
     </dependencies>
     
@@ -356,7 +361,7 @@
     -->
     <profiles>
         <profile>
-            <id>zip-assemblies</id>
+            <id>assembly-zip</id>
             <build>
                 <plugins>
                     <plugin>
@@ -397,7 +402,7 @@
         
         
         <profile>
-            <id>windows-jre-unzip</id>
+            <id>assembly-unzip</id>
             <build>
                 <plugins>                    
                     <plugin>
@@ -405,7 +410,7 @@
                         <version>1.7</version>
                         <executions>
                             <execution>
-                                <phase>verify</phase>
+                                <phase>validate</phase>
                                 <configuration>
                                     <target>
                                         <unzip src="${project.build.directory}/${project.artifactId}-${project.version}-${ferrisWindowsAssemblyId}.zip" dest="${project.build.directory}/unziped" />
