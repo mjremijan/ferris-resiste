@@ -2,18 +2,22 @@ package org.ferris.resiste.console.application;
 
 import java.io.File;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@ApplicationScoped
 public class ApplicationDirectoryProducer {
 
-    @Produces
-    public ApplicationDirectory getApplicationDirectory() throws URISyntaxException {
+    protected ApplicationDirectory applicationDirectory;
+
+    @PostConstruct
+    protected void postConstruct() {
         // This code assumes the following directory structure
         //
         // /app
@@ -24,11 +28,19 @@ public class ApplicationDirectoryProducer {
         //
         // So the the application directory will be 1
         // directory up from where the JAR file is located.
-        URL jarURL = ApplicationDirectory.class.getProtectionDomain().getCodeSource().getLocation();
-        URI jarURI = jarURL.toURI();
-        File jarFile = new File(jarURI);
-        File appFile = jarFile.getParentFile().getParentFile();
-        ApplicationDirectory appDir = new ApplicationDirectory(appFile.getAbsolutePath());
-        return appDir;
+        try {
+            URL jarURL = ApplicationDirectory.class.getProtectionDomain().getCodeSource().getLocation();
+            URI jarURI = jarURL.toURI();
+            File jarFile = new File(jarURI);
+            File appFile = jarFile.getParentFile().getParentFile();
+            applicationDirectory = new ApplicationDirectory(appFile.getAbsolutePath());
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
+        }
+    }
+
+    @Produces
+    protected ApplicationDirectory produceApplicationDirectory() {
+        return applicationDirectory;
     }
 }
