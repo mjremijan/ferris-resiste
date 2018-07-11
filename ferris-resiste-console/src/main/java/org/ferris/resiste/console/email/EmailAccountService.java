@@ -1,7 +1,7 @@
 package org.ferris.resiste.console.email;
 
 import java.util.Set;
-import javax.enterprise.inject.Instance;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidatorFactory;
@@ -12,6 +12,7 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@ApplicationScoped
 public class EmailAccountService {
 
     @Inject
@@ -23,9 +24,6 @@ public class EmailAccountService {
     @Inject
     protected ValidatorFactory validatorFactory;
 
-    @Inject
-    protected Instance<EmailAccount> emailAccountInstance;
-
     /**
      * Get email account information
      *
@@ -35,8 +33,8 @@ public class EmailAccountService {
      */
     public EmailAccount getEmailAccount() {
         log.info("ENTER");
-        
-        EmailAccount account = emailAccountInstance.get().init(
+
+        EmailAccount account = new EmailAccount().init(
             emailProperties.toProperties()
         );
 

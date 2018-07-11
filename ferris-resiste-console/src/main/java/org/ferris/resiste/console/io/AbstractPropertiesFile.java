@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import javax.inject.Inject;
-import org.slf4j.Logger;
 
 /**
  * This class exists to provide common functionality to all the application
@@ -16,8 +14,7 @@ import org.slf4j.Logger;
  */
 public abstract class AbstractPropertiesFile extends File {
 
-    @Inject
-    protected Logger log;
+    private static final long serialVersionUID = 182745237450703456L;
 
     /**
      * Pass to super constructor w/o error checking
@@ -36,7 +33,6 @@ public abstract class AbstractPropertiesFile extends File {
      * @throws RuntimeException Wraps any other exception which might be thrown
      */
     public Properties toProperties() {
-        log.info(String.format("Create Properties object from \"%s\"", this.getAbsolutePath()));
         Properties props = new Properties();
         try (InputStream is = new FileInputStream(this);) {
             props.load(is);

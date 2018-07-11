@@ -1,6 +1,7 @@
 package org.ferris.resiste.console.email;
 
 import java.util.Properties;
+import javax.enterprise.inject.Vetoed;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -13,6 +14,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class EmailAccount {
 
     @NotNull(message = "{EmailAccount.host.NotNull.message}")

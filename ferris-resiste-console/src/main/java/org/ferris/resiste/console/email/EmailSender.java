@@ -1,6 +1,7 @@
 package org.ferris.resiste.console.email;
 
 import java.util.Properties;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -17,6 +18,7 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@ApplicationScoped
 public class EmailSender {
 
     @Inject

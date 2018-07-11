@@ -2,12 +2,14 @@ package org.ferris.resiste.console.email;
 
 import java.util.List;
 import java.util.StringJoiner;
+import javax.enterprise.inject.Vetoed;
 import org.ferris.resiste.console.rss.RssFeed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class EmailDraftEvent {
 
     public static final int DRAFT_MAP = 100;

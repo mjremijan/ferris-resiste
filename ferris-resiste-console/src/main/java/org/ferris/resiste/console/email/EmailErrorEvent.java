@@ -3,11 +3,13 @@ package org.ferris.resiste.console.email;
 import java.util.List;
 import java.util.Optional;
 import java.util.StringJoiner;
+import javax.enterprise.inject.Vetoed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class EmailErrorEvent {
 
     public static final int ERROR_MAP = 100;
