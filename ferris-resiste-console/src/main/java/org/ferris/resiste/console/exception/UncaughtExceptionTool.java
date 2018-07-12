@@ -1,6 +1,7 @@
 package org.ferris.resiste.console.exception;
 
 import java.lang.Thread.UncaughtExceptionHandler;
+import javax.enterprise.context.ApplicationScoped;
 
 /**
  * This class exists only for unit testing that the static method
@@ -8,6 +9,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@ApplicationScoped
 public class UncaughtExceptionTool {
 
     public void setDefaultUncaughtExceptionHandler(UncaughtExceptionHandler handler) {
