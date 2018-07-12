@@ -1,8 +1,10 @@
 package org.ferris.resiste.console.exit;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+@ApplicationScoped
 public class ExitObserver {
 
     @Inject

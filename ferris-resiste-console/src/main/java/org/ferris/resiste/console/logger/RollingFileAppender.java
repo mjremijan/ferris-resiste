@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import javax.enterprise.inject.Vetoed;
 
 /**
  * Extends {@link RollingFileAppender} to programmatically
@@ -11,6 +12,7 @@ import java.net.URL;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class RollingFileAppender extends ch.qos.logback.core.rolling.RollingFileAppender
 {
     public RollingFileAppender() throws URISyntaxException {

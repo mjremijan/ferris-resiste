@@ -4,11 +4,13 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import javax.enterprise.inject.Vetoed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class TimeBasedRollingPolicy extends ch.qos.logback.core.rolling.TimeBasedRollingPolicy
 {
     public TimeBasedRollingPolicy() throws URISyntaxException {

@@ -2,11 +2,13 @@ package org.ferris.resiste.console.lang;
 
 import java.util.Arrays;
 import java.util.Optional;
+import javax.enterprise.inject.Vetoed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
     public static Optional<String> firstTrimToNonNull(String...strings) {
