@@ -4,12 +4,14 @@ import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+import javax.enterprise.context.ApplicationScoped;
 import org.ferris.resiste.console.lang.StringUtils;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@ApplicationScoped
 public class Version {
 
     public static final String UNKOWN = "<unknown>";

@@ -1,5 +1,8 @@
 package org.ferris.resiste.console.text.i18n;
 
+import javax.enterprise.inject.Vetoed;
+
+@Vetoed
 public class LocalizedString {
 
     private final String string;

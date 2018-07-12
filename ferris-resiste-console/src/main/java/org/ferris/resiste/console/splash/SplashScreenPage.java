@@ -16,7 +16,6 @@ import org.ferris.resiste.console.text.i18n.LocalizedStringKey;
 import org.ferris.resiste.console.text.i18n.LocalizedStringList;
 import org.ferris.resiste.console.text.i18n.qualifier.Welcome;
 import org.ferris.resiste.console.util.version.Version;
-import org.ferris.resiste.console.view.page.AbstractPage;
 import org.slf4j.Logger;
 
 /**
@@ -24,7 +23,7 @@ import org.slf4j.Logger;
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
 @ApplicationScoped
-public class SplashScreenPage extends AbstractPage {
+public class SplashScreenPage {
 
     @Inject
     protected Logger log;

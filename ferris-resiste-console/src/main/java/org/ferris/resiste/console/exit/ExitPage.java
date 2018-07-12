@@ -5,11 +5,10 @@ import javax.inject.Inject;
 import org.ferris.resiste.console.io.Console;
 import org.ferris.resiste.console.text.i18n.LocalizedString;
 import org.ferris.resiste.console.text.i18n.LocalizedStringKey;
-import org.ferris.resiste.console.view.page.AbstractPage;
 import org.slf4j.Logger;
 
 @ApplicationScoped
-public class ExitPage extends AbstractPage {
+public class ExitPage {
 
     @Inject
     protected Console console;

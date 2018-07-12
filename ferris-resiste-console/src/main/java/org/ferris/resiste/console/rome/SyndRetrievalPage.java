@@ -10,7 +10,6 @@ import org.ferris.resiste.console.lang.StringUtils;
 import static org.ferris.resiste.console.rome.SyndRetrievalEvent.VIEW;
 import org.ferris.resiste.console.text.i18n.LocalizedString;
 import org.ferris.resiste.console.text.i18n.LocalizedStringKey;
-import org.ferris.resiste.console.view.page.AbstractPage;
 import org.slf4j.Logger;
 
 /**
@@ -18,7 +17,7 @@ import org.slf4j.Logger;
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
 @ApplicationScoped
-public class SyndRetrievalPage extends AbstractPage {
+public class SyndRetrievalPage {
 
     @Inject
     protected Logger log;
