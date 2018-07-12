@@ -2,7 +2,7 @@ package org.ferris.resiste.console.sql;
 
 import java.util.Optional;
 import java.util.StringJoiner;
-import javax.inject.Inject;
+import javax.enterprise.inject.Vetoed;
 import org.ferris.resiste.console.conf.ConfDirectory;
 import org.ferris.resiste.console.data.DataDirectory;
 import org.ferris.resiste.console.io.AbstractPropertiesFile;
@@ -11,11 +11,11 @@ import org.ferris.resiste.console.io.AbstractPropertiesFile;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class SqlProperties extends AbstractPropertiesFile {
 
     private static final long serialVersionUID = 375890234508843L;
 
-    @Inject
     protected DataDirectory dataDirectory;
 
     @Override
@@ -27,9 +27,9 @@ public class SqlProperties extends AbstractPropertiesFile {
         return sj.toString();
     }
 
-    @Inject
-    public SqlProperties(ConfDirectory confdir) {
-        super(confdir, String.format("db.properties"));
+    public SqlProperties(ConfDirectory confDirectory, DataDirectory dataDirectory) {
+        super(confDirectory, String.format("db.properties"));
+        this.dataDirectory = dataDirectory;
     }
 
     public String getSchema() {

@@ -2,6 +2,7 @@ package org.ferris.resiste.console.splash;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Priority;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import org.ferris.resiste.console.application.ApplicationDirectory;
@@ -22,6 +23,7 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@ApplicationScoped
 public class SplashScreenPage extends AbstractPage {
 
     @Inject
