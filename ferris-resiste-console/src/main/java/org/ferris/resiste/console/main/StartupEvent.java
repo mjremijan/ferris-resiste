@@ -1,11 +1,13 @@
 package org.ferris.resiste.console.main;
 
 import java.util.StringJoiner;
+import javax.enterprise.inject.Vetoed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class StartupEvent {
 
     public static final int EXCEPTION = 10;

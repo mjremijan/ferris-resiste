@@ -1,14 +1,16 @@
 package org.ferris.resiste.console.rome;
 
-import org.ferris.resiste.console.rss.RssFeed;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringJoiner;
+import javax.enterprise.inject.Vetoed;
+import org.ferris.resiste.console.rss.RssFeed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class SyndRetrievalEvent {
 
     public static final int RETRIEVE = 100;

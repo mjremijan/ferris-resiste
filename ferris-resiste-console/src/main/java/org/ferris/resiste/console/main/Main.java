@@ -2,6 +2,7 @@ package org.ferris.resiste.console.main;
 
 import java.util.Arrays;
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.se.SeContainer;
 import javax.enterprise.inject.se.SeContainerInitializer;
@@ -18,6 +19,7 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@ApplicationScoped
 public class Main {
 
     public static void main(String[] args) {
