@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Optional;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.ferris.resiste.console.sql.SqlConnection;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@ApplicationScoped
 public class RssHistoryRepository {
 
     private static final long serialVersionUID = 7491906484654964631L;

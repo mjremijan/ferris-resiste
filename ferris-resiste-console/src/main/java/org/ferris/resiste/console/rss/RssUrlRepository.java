@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.ferris.resiste.console.conf.ConfDirectory;
 import org.slf4j.Logger;
@@ -12,7 +13,8 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-public class RssUrlRepository extends File {
+@ApplicationScoped
+public class RssUrlRepository {
 
     private static final long serialVersionUID = 7491906484654964631L;
 
@@ -22,13 +24,14 @@ public class RssUrlRepository extends File {
     @Inject
     protected RssUrlFactory factory;
 
+    protected File file;
 
     @Inject
     public RssUrlRepository(ConfDirectory root) {
-        super(root, String.format("rss_urls.csv"));
-        if (!super.exists()) {
+        file = new File(root, String.format("rss_urls.csv"));
+        if (!file.exists()) {
             throw new RuntimeException(
-                String.format("Data file does not exist: \"%s\"", super.getAbsolutePath())
+                String.format("Data file does not exist: \"%s\"", file.getAbsolutePath())
             );
         }
     }
@@ -40,10 +43,10 @@ public class RssUrlRepository extends File {
         List<String> lines = null;
 
         try {
-            lines = Files.readAllLines(super.toPath());
+            lines = Files.readAllLines(file.toPath());
         } catch (Exception e) {
             throw new RuntimeException(
-                String.format("Problem reading file \"%s\"", super.getAbsolutePath()), e
+                String.format("Problem reading file \"%s\"", file.getAbsolutePath()), e
             );
         }
 

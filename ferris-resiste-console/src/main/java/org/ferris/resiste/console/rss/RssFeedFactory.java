@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.ferris.resiste.console.lang.StringUtils;
 import org.ferris.resiste.console.retry.ExceptionRetry;
@@ -23,6 +24,7 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@ApplicationScoped
 public class RssFeedFactory {
 
     @Inject

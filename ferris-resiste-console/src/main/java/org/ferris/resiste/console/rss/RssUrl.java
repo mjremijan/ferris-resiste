@@ -2,11 +2,13 @@ package org.ferris.resiste.console.rss;
 
 import java.net.URL;
 import java.util.StringJoiner;
+import javax.enterprise.inject.Vetoed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class RssUrl {
     protected String id;
     protected URL url;

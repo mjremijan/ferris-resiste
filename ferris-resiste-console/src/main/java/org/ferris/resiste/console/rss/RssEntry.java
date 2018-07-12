@@ -3,11 +3,13 @@ package org.ferris.resiste.console.rss;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import javax.enterprise.inject.Vetoed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class RssEntry {
     public String guid;
 

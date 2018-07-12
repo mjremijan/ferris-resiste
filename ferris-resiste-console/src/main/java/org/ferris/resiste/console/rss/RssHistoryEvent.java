@@ -3,11 +3,13 @@ package org.ferris.resiste.console.rss;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
+import javax.enterprise.inject.Vetoed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class RssHistoryEvent {
 
     public static final int STORE = 100;

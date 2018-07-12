@@ -3,11 +3,13 @@ package org.ferris.resiste.console.rss;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.StringJoiner;
+import javax.enterprise.inject.Vetoed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class RssHistory {
     protected String feedId;
     protected String entryId;

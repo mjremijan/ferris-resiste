@@ -1,6 +1,7 @@
 package org.ferris.resiste.console.rss;
 
 import java.util.Optional;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.ferris.resiste.console.lang.StringUtils;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@ApplicationScoped
 public class RssUrlFactory {
 
     @Inject
