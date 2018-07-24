@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../resources/report.gif" type="image/gif"/><title>SqlConnection.java</title><link rel="stylesheet" href="../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ferris-resiste-console</a> &gt; <a href="index.source.html" class="el_package">org.ferris.resiste.console.sql</a> &gt; <span class="el_source">SqlConnection.java</span></div><h1>SqlConnection.java</h1><pre class="source lang-java linenums">package org.ferris.resiste.console.sql;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.enterprise.inject.Vetoed;
+
+/**
+ *
+ * @author Michael Remijan mjremijan@yahoo.com @mjremijan
+ */
+@Vetoed
+public class SqlConnection {
+
+    private Connection conn;
+
+<span class="nc" id="L19">    SqlConnection(Connection conn) {</span>
+<span class="nc" id="L20">        this.conn = conn;</span>
+<span class="nc" id="L21">    }</span>
+
+    public Connection getConnection() {
+<span class="nc" id="L24">        return conn;</span>
+    }
+
+    public void close(Statement stmt, ResultSet rs) {
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        if (rs != null) {</span>
+            try {
+<span class="nc" id="L30">                rs.close();</span>
+<span class="nc" id="L31">            } catch (Throwable t) {}</span>
+        }
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        if (stmt != null) {</span>
+            try {
+<span class="nc" id="L35">                stmt.close();</span>
+<span class="nc" id="L36">            } catch (Throwable t) {}</span>
+        }
+<span class="nc" id="L38">    }</span>
+
+    public PreparedStatement prepareStatement(String sql) throws SQLException {
+<span class="nc" id="L41">        return conn.prepareStatement(sql);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -2,12 +2,14 @@
 
 import java.util.List;
 import java.util.StringJoiner;
+import javax.enterprise.inject.Vetoed;
 import org.ferris.resiste.console.rss.RssFeed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class EmailDraftEvent {
 
     public static final int DRAFT_MAP = 100;
@@ -16,29 +18,29 @@ public class EmailDraftEvent {
 
     @Override
     public String toString() {
-<span class="nc" id="L19">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[EmailDraftEvent &quot;, &quot;]&quot;);</span>
-<span class="nc bnc" id="L20" title="All 2 branches missed.">        sj.add(String.format(&quot;feeds:%s&quot;, (feeds == null) ? &quot;null&quot; : feeds.size()));</span>
-<span class="nc bnc" id="L21" title="All 2 branches missed.">        sj.add(String.format(&quot;drafts:%s&quot;, (drafts == null) ? &quot;null&quot; : drafts.size()));</span>
-<span class="nc" id="L22">        return sj.toString();</span>
+<span class="nc" id="L21">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[EmailDraftEvent &quot;, &quot;]&quot;);</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">        sj.add(String.format(&quot;feeds:%s&quot;, (feeds == null) ? &quot;null&quot; : feeds.size()));</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        sj.add(String.format(&quot;drafts:%s&quot;, (drafts == null) ? &quot;null&quot; : drafts.size()));</span>
+<span class="nc" id="L24">        return sj.toString();</span>
     }
 
     protected List&lt;RssFeed&gt; feeds;
     protected List&lt;EmailDraft&gt; drafts;
 
-<span class="nc" id="L28">    public EmailDraftEvent(List&lt;RssFeed&gt; feeds) {</span>
-<span class="nc" id="L29">        this.feeds = feeds;</span>
-<span class="nc" id="L30">    }</span>
+<span class="nc" id="L30">    public EmailDraftEvent(List&lt;RssFeed&gt; feeds) {</span>
+<span class="nc" id="L31">        this.feeds = feeds;</span>
+<span class="nc" id="L32">    }</span>
 
     public List&lt;RssFeed&gt; getFeeds() {
-<span class="nc" id="L33">        return feeds;</span>
+<span class="nc" id="L35">        return feeds;</span>
     }
 
     public List&lt;EmailDraft&gt; getDrafts() {
-<span class="nc" id="L37">        return drafts;</span>
+<span class="nc" id="L39">        return drafts;</span>
     }
 
     public void setDrafts(List&lt;EmailDraft&gt; drafts) {
-<span class="nc" id="L41">        this.drafts = drafts;</span>
-<span class="nc" id="L42">    }</span>
+<span class="nc" id="L43">        this.drafts = drafts;</span>
+<span class="nc" id="L44">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

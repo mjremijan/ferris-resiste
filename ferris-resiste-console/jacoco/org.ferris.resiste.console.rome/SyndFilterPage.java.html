@@ -2,6 +2,7 @@
 
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Priority;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import org.ferris.resiste.console.io.Console;
@@ -9,14 +10,14 @@ import org.ferris.resiste.console.lang.StringUtils;
 import static org.ferris.resiste.console.rome.SyndFilterEvent.VIEW;
 import org.ferris.resiste.console.text.i18n.LocalizedString;
 import org.ferris.resiste.console.text.i18n.LocalizedStringKey;
-import org.ferris.resiste.console.view.page.AbstractPage;
 import org.slf4j.Logger;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-<span class="nc" id="L19">public class SyndFilterPage extends AbstractPage {</span>
+@ApplicationScoped
+<span class="nc" id="L20">public class SyndFilterPage {</span>
 
     @Inject
     protected Logger log;
@@ -39,20 +40,20 @@ import org.slf4j.Logger;
     protected void observeFilter(
         @Observes @Priority(VIEW) SyndFilterEvent evnt
     ) {
-<span class="nc" id="L42">        log.info(String.format(&quot;ENTER %s&quot;, evnt));</span>
+<span class="nc" id="L43">        log.info(String.format(&quot;ENTER %s&quot;, evnt));</span>
 
-<span class="nc" id="L44">        console.h1(heading);</span>
+<span class="nc" id="L45">        console.h1(heading);</span>
 
-<span class="nc" id="L46">        evnt.getFeeds().stream().forEach(</span>
+<span class="nc" id="L47">        evnt.getFeeds().stream().forEach(</span>
             sf -&gt; {
-<span class="nc" id="L48">                console.h2(title, StringUtils.firstTrimToNonNull(sf.getLink(), sf.getTitle()).get());</span>
-<span class="nc" id="L49">                AtomicInteger ai = new AtomicInteger(1);</span>
-<span class="nc" id="L50">                sf.getEntries().stream().forEach(</span>
-<span class="nc" id="L51">                    se -&gt; console.p(entry, ai.getAndIncrement(), se.getGuid())</span>
+<span class="nc" id="L49">                console.h2(title, StringUtils.firstTrimToNonNull(sf.getLink(), sf.getTitle()).get());</span>
+<span class="nc" id="L50">                AtomicInteger ai = new AtomicInteger(1);</span>
+<span class="nc" id="L51">                sf.getEntries().stream().forEach(</span>
+<span class="nc" id="L52">                    se -&gt; console.p(entry, ai.getAndIncrement(), se.getGuid())</span>
                 );
-<span class="nc" id="L53">            }</span>
+<span class="nc" id="L54">            }</span>
         );
 
-<span class="nc" id="L56">    }</span>
+<span class="nc" id="L57">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

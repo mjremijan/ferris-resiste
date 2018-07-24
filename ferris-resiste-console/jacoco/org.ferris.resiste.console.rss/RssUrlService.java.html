@@ -2,6 +2,7 @@
 
 
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.slf4j.Logger;
 
@@ -9,7 +10,8 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-<span class="nc" id="L12">public class RssUrlService {</span>
+@ApplicationScoped
+<span class="nc" id="L14">public class RssUrlService {</span>
 
     @Inject
     protected Logger log;
@@ -19,7 +21,7 @@ import org.slf4j.Logger;
 
 
     public List&lt;RssUrl&gt; findAll() {
-<span class="nc" id="L22">        return repository.findAll();</span>
+<span class="nc" id="L24">        return repository.findAll();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

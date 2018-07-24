@@ -2,23 +2,25 @@
 
 import java.util.Arrays;
 import java.util.Optional;
+import javax.enterprise.inject.Vetoed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-<span class="nc" id="L10">public class StringUtils extends org.apache.commons.lang3.StringUtils {</span>
+@Vetoed
+<span class="nc" id="L12">public class StringUtils extends org.apache.commons.lang3.StringUtils {</span>
 
     public static Optional&lt;String&gt; firstTrimToNonNull(String...strings) {
-<span class="nc" id="L13">        return</span>
-<span class="nc" id="L14">            Arrays.asList(strings).stream()</span>
-<span class="nc" id="L15">                .map(s -&gt; trimToNull(s))</span>
-<span class="nc bnc" id="L16" title="All 2 branches missed.">                .filter(s -&gt; s != null)</span>
-<span class="nc" id="L17">                .findFirst();</span>
+<span class="nc" id="L15">        return</span>
+<span class="nc" id="L16">            Arrays.asList(strings).stream()</span>
+<span class="nc" id="L17">                .map(s -&gt; trimToNull(s))</span>
+<span class="nc bnc" id="L18" title="All 2 branches missed.">                .filter(s -&gt; s != null)</span>
+<span class="nc" id="L19">                .findFirst();</span>
     }
 
     public static String abbreviate(String str, int maxWidth) {
-<span class="nc" id="L21">        return org.apache.commons.lang3.StringUtils.abbreviate(str, maxWidth);</span>
+<span class="nc" id="L23">        return org.apache.commons.lang3.StringUtils.abbreviate(str, maxWidth);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -2,6 +2,7 @@
 
 import java.util.List;
 import javax.annotation.Priority;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import static org.ferris.resiste.console.rome.SyndFilterEvent.FILTER;
@@ -13,7 +14,8 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-<span class="nc" id="L16">public class SyndFilterService {</span>
+@ApplicationScoped
+<span class="nc" id="L18">public class SyndFilterService {</span>
 
     @Inject
     protected Logger log;
@@ -24,31 +26,31 @@ import org.slf4j.Logger;
     protected void observeFilter(
         @Observes @Priority(FILTER) SyndFilterEvent evnt
     ) {
-<span class="nc" id="L27">        log.info(String.format(&quot;Filter out RssFeed entries already in history %s&quot;, evnt));</span>
+<span class="nc" id="L29">        log.info(String.format(&quot;Filter out RssFeed entries already in history %s&quot;, evnt));</span>
 
-<span class="nc" id="L29">        List&lt;RssFeed&gt; rssFeeds</span>
-<span class="nc" id="L30">            = evnt.getFeeds();</span>
+<span class="nc" id="L31">        List&lt;RssFeed&gt; rssFeeds</span>
+<span class="nc" id="L32">            = evnt.getFeeds();</span>
 
         // Loop over all the feeds, remove feed if it has no more entires
-<span class="nc" id="L33">        rssFeeds.removeIf(</span>
+<span class="nc" id="L35">        rssFeeds.removeIf(</span>
             rf -&gt; {
                 // Loop over all the entries in a feed, remove entry if it exists in history
-<span class="nc" id="L36">                rf.getEntries().removeIf(re -&gt; {</span>
-<span class="nc" id="L37">                    String feedId = rf.getId();</span>
-<span class="nc" id="L38">                    String entryId = re.getGuid();</span>
-<span class="nc" id="L39">                    boolean exists = historyService.exists(feedId, entryId);</span>
-<span class="nc bnc" id="L40" title="All 2 branches missed.">                    if (!exists) {</span>
-<span class="nc" id="L41">                        log.info(String.format(</span>
+<span class="nc" id="L38">                rf.getEntries().removeIf(re -&gt; {</span>
+<span class="nc" id="L39">                    String feedId = rf.getId();</span>
+<span class="nc" id="L40">                    String entryId = re.getGuid();</span>
+<span class="nc" id="L41">                    boolean exists = historyService.exists(feedId, entryId);</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">                    if (!exists) {</span>
+<span class="nc" id="L43">                        log.info(String.format(</span>
                               &quot;History miss! This is a new entry: feed=\&quot;%s\&quot;, entry=\&quot;%s\&quot;, published=%s.&quot;
-<span class="nc" id="L43">                            , feedId, entryId, re.getPublishedDate().toInstant().toString()</span>
+<span class="nc" id="L45">                            , feedId, entryId, re.getPublishedDate().toInstant().toString()</span>
                         ));
                     }
-<span class="nc" id="L46">                    return exists;</span>
+<span class="nc" id="L48">                    return exists;</span>
                 });
-<span class="nc" id="L48">                return rf.getEntries().isEmpty();</span>
+<span class="nc" id="L50">                return rf.getEntries().isEmpty();</span>
             }
         );
 
-<span class="nc" id="L52">    }</span>
+<span class="nc" id="L54">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

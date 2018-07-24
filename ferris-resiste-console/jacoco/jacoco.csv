@@ -1,6 +1,6 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
 ferris-resiste-console,org.ferris.resiste.console.util.version,Version,113,0,12,0,38,0,12,0,6,0
-ferris-resiste-console,org.ferris.resiste.console.email,EmailAccountService,45,0,2,0,11,0,4,0,3,0
+ferris-resiste-console,org.ferris.resiste.console.email,EmailAccountService,44,0,2,0,11,0,4,0,3,0
 ferris-resiste-console,org.ferris.resiste.console.email,EmailDraftEvent,64,0,4,0,11,0,7,0,5,0
 ferris-resiste-console,org.ferris.resiste.console.email,EmailErrorEvent,62,0,4,0,11,0,7,0,5,0
 ferris-resiste-console,org.ferris.resiste.console.email,EmailDraftPage,35,0,0,0,8,0,3,0,3,0
@@ -12,15 +12,16 @@ ferris-resiste-console,org.ferris.resiste.console.email,EmailAccountPropertiesFi
 ferris-resiste-console,org.ferris.resiste.console.email,EmailDraftService,464,0,4,0,95,0,10,0,8,0
 ferris-resiste-console,org.ferris.resiste.console.email,EmailSender.new Authenticator() {...},19,0,0,0,2,0,2,0,2,0
 ferris-resiste-console,org.ferris.resiste.console.email,EmailSendService,47,0,0,0,7,0,5,0,5,0
+ferris-resiste-console,org.ferris.resiste.console.email,EmailAccountPropertiesFileProducer,18,0,0,0,5,0,3,0,3,0
 ferris-resiste-console,org.ferris.resiste.console.retry,ExceptionRetryInterceptor,66,0,2,0,14,0,3,0,2,0
 ferris-resiste-console,org.ferris.resiste.console.retry,ExceptionBreak,4,0,0,0,2,0,1,0,1,0
 ferris-resiste-console,org.ferris.resiste.console.rss,RssHistoryService,57,0,0,0,12,0,6,0,6,0
 ferris-resiste-console,org.ferris.resiste.console.rss,RssHistory,81,0,0,0,13,0,6,0,6,0
 ferris-resiste-console,org.ferris.resiste.console.rss,RssEntry,73,0,0,0,27,0,17,0,17,0
 ferris-resiste-console,org.ferris.resiste.console.rss,RssUrl,77,0,4,0,14,0,6,0,4,0
-ferris-resiste-console,org.ferris.resiste.console.rss,RssHistoryRepository,344,0,8,0,79,0,7,0,3,0
+ferris-resiste-console,org.ferris.resiste.console.rss,RssHistoryRepository,271,0,8,0,59,0,7,0,3,0
 ferris-resiste-console,org.ferris.resiste.console.rss,RssUrlService,7,0,0,0,2,0,2,0,2,0
-ferris-resiste-console,org.ferris.resiste.console.rss,RssUrlRepository,77,0,2,0,19,0,6,0,5,0
+ferris-resiste-console,org.ferris.resiste.console.rss,RssUrlRepository,86,0,2,0,20,0,6,0,5,0
 ferris-resiste-console,org.ferris.resiste.console.rss,RssFeed,31,0,0,0,13,0,9,0,9,0
 ferris-resiste-console,org.ferris.resiste.console.rss,RssMediaFile,15,0,0,0,6,0,3,0,3,0
 ferris-resiste-console,org.ferris.resiste.console.rss,RssUrlFactory,101,0,10,0,21,0,7,0,2,0
@@ -36,23 +37,25 @@ ferris-resiste-console,org.ferris.resiste.console.exit,ExitEvent,3,0,0,0,1,0,1,0
 ferris-resiste-console,org.ferris.resiste.console.logger,LoggerProducer,10,0,0,0,3,0,2,0,2,0
 ferris-resiste-console,org.ferris.resiste.console.logger,TimeBasedRollingPolicy,51,0,0,0,10,0,1,0,1,0
 ferris-resiste-console,org.ferris.resiste.console.logger,RollingFileAppender,47,0,0,0,10,0,1,0,1,0
-ferris-resiste-console,org.ferris.resiste.console.sql,SqlTool,16,0,4,0,8,0,4,0,2,0
+ferris-resiste-console,org.ferris.resiste.console.sql,SqlConnection,27,0,4,0,12,0,6,0,4,0
+ferris-resiste-console,org.ferris.resiste.console.sql,SqlPropertiesProducer,13,0,0,0,4,0,2,0,2,0
+ferris-resiste-console,org.ferris.resiste.console.sql,SqlProperties,125,0,0,0,24,0,10,0,10,0
+ferris-resiste-console,org.ferris.resiste.console.sql,SqlConnectionProducer,89,0,0,0,18,0,3,0,3,0
 ferris-resiste-console,org.ferris.resiste.console.conf,ConfDirectory,5,0,0,0,2,0,1,0,1,0
-ferris-resiste-console,org.ferris.resiste.console.view.page,AbstractPage,3,0,0,0,1,0,1,0,1,0
+ferris-resiste-console,org.ferris.resiste.console.conf,ConfDirectoryProducer,14,0,0,0,4,0,3,0,3,0
 ferris-resiste-console,org.ferris.resiste.console.lang,StringUtils,25,0,2,0,7,0,6,0,5,0
-ferris-resiste-console,org.ferris.resiste.console.util.concurrent,ExecutorsTool,6,0,0,0,2,0,2,0,2,0
-ferris-resiste-console,org.ferris.resiste.console.util.concurrent,ScheduledExecutorServiceProducer,7,0,0,0,2,0,2,0,2,0
 ferris-resiste-console,org.ferris.resiste.console.data,DataDirectory,5,0,0,0,2,0,1,0,1,0
+ferris-resiste-console,org.ferris.resiste.console.data,DataDirectoryProducer,14,0,0,0,4,0,3,0,3,0
 ferris-resiste-console,org.ferris.resiste.console.rome,SyndRetrievalEvent,72,0,4,0,13,0,8,0,6,0
 ferris-resiste-console,org.ferris.resiste.console.rome,SyndFilterEvent,38,0,2,0,7,0,4,0,3,0
 ferris-resiste-console,org.ferris.resiste.console.rome,SyndFilterService,72,0,2,0,15,0,5,0,4,0
 ferris-resiste-console,org.ferris.resiste.console.rome,SyndFilterPage,82,0,0,0,10,0,4,0,4,0
 ferris-resiste-console,org.ferris.resiste.console.rome,SyndRetrievalService,67,0,0,0,15,0,3,0,3,0
 ferris-resiste-console,org.ferris.resiste.console.rome,SyndRetrievalPage,82,0,0,0,10,0,4,0,4,0
-ferris-resiste-console,org.ferris.resiste.console.io,AbstractPropertiesFile,76,0,8,0,10,0,6,0,2,0
+ferris-resiste-console,org.ferris.resiste.console.io,AbstractPropertiesFile,65,0,8,0,9,0,6,0,2,0
 ferris-resiste-console,org.ferris.resiste.console.io,Console,143,0,2,0,38,0,11,0,10,0
 ferris-resiste-console,org.ferris.resiste.console.io,ConsoleWriter,31,0,0,0,12,0,4,0,4,0
-ferris-resiste-console,org.ferris.resiste.console.io,ConsoleWriterProducer,11,0,0,0,2,0,2,0,2,0
+ferris-resiste-console,org.ferris.resiste.console.io,ConsoleWriterProducer,16,0,0,0,4,0,3,0,3,0
 ferris-resiste-console,org.ferris.resiste.console.splash,SplashScreenPage,96,0,0,0,23,0,6,0,6,0
 ferris-resiste-console,org.ferris.resiste.console.text.i18n,LocalizedStringProducer,333,0,10,0,53,0,14,0,9,0
 ferris-resiste-console,org.ferris.resiste.console.text.i18n,LocalizedStringList,34,0,2,0,9,0,3,0,2,0
@@ -61,5 +64,5 @@ ferris-resiste-console,org.ferris.resiste.console.exception,UncaughtExceptionPag
 ferris-resiste-console,org.ferris.resiste.console.exception,UncaughtExceptionTool,6,0,0,0,3,0,2,0,2,0
 ferris-resiste-console,org.ferris.resiste.console.exception,UncaughtExceptionService,52,0,0,0,11,0,3,0,3,0
 ferris-resiste-console,org.ferris.resiste.console.exception,UncaughtExceptionService.new ArrayList() {...},30,0,0,0,3,0,1,0,1,0
-ferris-resiste-console,org.ferris.resiste.console.application,ApplicationDirectoryProducer,28,0,0,0,7,0,2,0,2,0
+ferris-resiste-console,org.ferris.resiste.console.application,ApplicationDirectoryProducer,38,0,0,0,11,0,3,0,3,0
 ferris-resiste-console,org.ferris.resiste.console.application,ApplicationDirectory,4,0,0,0,2,0,1,0,1,0

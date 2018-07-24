@@ -4,6 +4,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.annotation.Priority;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -17,7 +18,8 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-<span class="nc" id="L20">public class UncaughtExceptionService implements UncaughtExceptionHandler {</span>
+@ApplicationScoped
+<span class="nc" id="L22">public class UncaughtExceptionService implements UncaughtExceptionHandler {</span>
 
     @Inject
     protected Logger log;
@@ -37,30 +39,30 @@ import org.slf4j.Logger;
     public void observesStartup(
             @Observes @Priority(EXCEPTION) StartupEvent event
     ) {
-<span class="nc" id="L40">        log.info(String.format(&quot;ENTER %s&quot;, event));</span>
+<span class="nc" id="L42">        log.info(String.format(&quot;ENTER %s&quot;, event));</span>
 
-<span class="nc" id="L42">        log.debug(&quot;Set default uncaught exception handler&quot;);</span>
-<span class="nc" id="L43">        exceptionTool.setDefaultUncaughtExceptionHandler(this);</span>
-<span class="nc" id="L44">    }</span>
+<span class="nc" id="L44">        log.debug(&quot;Set default uncaught exception handler&quot;);</span>
+<span class="nc" id="L45">        exceptionTool.setDefaultUncaughtExceptionHandler(this);</span>
+<span class="nc" id="L46">    }</span>
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
 
         // Remove default handler...infinte circle?
-<span class="nc" id="L50">        exceptionTool.setDefaultUncaughtExceptionHandler(null);</span>
+<span class="nc" id="L52">        exceptionTool.setDefaultUncaughtExceptionHandler(null);</span>
 
         // Try to send error email
         try {
-<span class="nc" id="L54">            error.fire(new EmailErrorEvent(</span>
-<span class="nc" id="L55">                new ArrayList&lt;String&gt;(1){{</span>
-<span class="nc" id="L56">                    add(String.format(&quot;Uncaught exception: %s - %s&quot;, e.getMessage(), Arrays.toString(e.getStackTrace())));</span>
-<span class="nc" id="L57">                }}</span>
+<span class="nc" id="L56">            error.fire(new EmailErrorEvent(</span>
+<span class="nc" id="L57">                new ArrayList&lt;String&gt;(1){{</span>
+<span class="nc" id="L58">                    add(String.format(&quot;Uncaught exception: %s - %s&quot;, e.getMessage(), Arrays.toString(e.getStackTrace())));</span>
+<span class="nc" id="L59">                }}</span>
             ));
-<span class="nc" id="L59">        } catch (Exception ignore){}</span>
+<span class="nc" id="L61">        } catch (Exception ignore){}</span>
 
         // View and exit
-<span class="nc" id="L62">        uncaughtExceptionPage.view(e);</span>
-<span class="nc" id="L63">        exitEvent.fire(new ExitEvent());</span>
-<span class="nc" id="L64">    }</span>
+<span class="nc" id="L64">        uncaughtExceptionPage.view(e);</span>
+<span class="nc" id="L65">        exitEvent.fire(new ExitEvent());</span>
+<span class="nc" id="L66">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

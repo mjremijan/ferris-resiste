@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../resources/report.gif" type="image/gif"/><title>EmailSendService.java</title><link rel="stylesheet" href="../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ferris-resiste-console</a> &gt; <a href="index.source.html" class="el_package">org.ferris.resiste.console.email</a> &gt; <span class="el_source">EmailSendService.java</span></div><h1>EmailSendService.java</h1><pre class="source lang-java linenums">package org.ferris.resiste.console.email;
 
 import javax.annotation.Priority;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import static org.ferris.resiste.console.email.EmailDraftEvent.DRAFT_SEND;
@@ -11,7 +12,8 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-<span class="nc" id="L14">public class EmailSendService {</span>
+@ApplicationScoped
+<span class="nc" id="L16">public class EmailSendService {</span>
 
     @Inject
     protected Logger log;
@@ -22,16 +24,16 @@ import org.slf4j.Logger;
     protected void observeSend(
         @Observes @Priority(DRAFT_SEND) EmailDraftEvent evnt
     ) {
-<span class="nc" id="L25">        log.info(String.format(&quot;ENTER %s&quot;, evnt));</span>
-<span class="nc" id="L26">        evnt.getDrafts().forEach(d -&gt; sender.send(d));</span>
-<span class="nc" id="L27">    }</span>
+<span class="nc" id="L27">        log.info(String.format(&quot;ENTER %s&quot;, evnt));</span>
+<span class="nc" id="L28">        evnt.getDrafts().forEach(d -&gt; sender.send(d));</span>
+<span class="nc" id="L29">    }</span>
 
 
     protected void observeSend(
         @Observes @Priority(ERROR_SEND) EmailErrorEvent evnt
     ) {
-<span class="nc" id="L33">        log.info(String.format(&quot;ENTER %s&quot;, evnt));</span>
-<span class="nc" id="L34">        evnt.getDraft().ifPresent(g -&gt; sender.send(g));</span>
-<span class="nc" id="L35">    }</span>
+<span class="nc" id="L35">        log.info(String.format(&quot;ENTER %s&quot;, evnt));</span>
+<span class="nc" id="L36">        evnt.getDraft().ifPresent(g -&gt; sender.send(g));</span>
+<span class="nc" id="L37">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

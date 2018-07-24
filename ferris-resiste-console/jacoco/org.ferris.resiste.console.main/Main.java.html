@@ -2,6 +2,7 @@
 
 import java.util.Arrays;
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.se.SeContainer;
 import javax.enterprise.inject.se.SeContainerInitializer;
@@ -18,17 +19,18 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-<span class="nc" id="L21">public class Main {</span>
+@ApplicationScoped
+<span class="nc" id="L23">public class Main {</span>
 
     public static void main(String[] args) {
         SeContainer container
-<span class="nc" id="L25">            = SeContainerInitializer.newInstance().initialize();</span>
+<span class="nc" id="L27">            = SeContainerInitializer.newInstance().initialize();</span>
 
-<span class="nc" id="L27">        Main main</span>
-<span class="nc" id="L28">            = container.select(Main.class).get();</span>
+<span class="nc" id="L29">        Main main</span>
+<span class="nc" id="L30">            = container.select(Main.class).get();</span>
 
-<span class="nc" id="L30">        main.main(Arrays.asList(args));</span>
-<span class="nc" id="L31">    }</span>
+<span class="nc" id="L32">        main.main(Arrays.asList(args));</span>
+<span class="nc" id="L33">    }</span>
 
     @Inject
     protected Logger log;
@@ -58,40 +60,40 @@ import org.slf4j.Logger;
     protected Event&lt;EmailErrorEvent&gt; error;
 
     protected void main(List&lt;String&gt; args) {
-<span class="nc" id="L61">        log.info(&quot;Fire StartupEvent&quot;);</span>
-<span class="nc" id="L62">        startupEvent.fire(new StartupEvent());</span>
+<span class="nc" id="L63">        log.info(&quot;Fire StartupEvent&quot;);</span>
+<span class="nc" id="L64">        startupEvent.fire(new StartupEvent());</span>
 
-<span class="nc" id="L64">        log.info(&quot;Fire SyndRetrievalEvent&quot;);</span>
-<span class="nc" id="L65">        SyndRetrievalEvent retrievalEvent = new SyndRetrievalEvent();</span>
-<span class="nc" id="L66">        retrieval.fire(retrievalEvent);</span>
+<span class="nc" id="L66">        log.info(&quot;Fire SyndRetrievalEvent&quot;);</span>
+<span class="nc" id="L67">        SyndRetrievalEvent retrievalEvent = new SyndRetrievalEvent();</span>
+<span class="nc" id="L68">        retrieval.fire(retrievalEvent);</span>
 
-<span class="nc" id="L68">        log.info(&quot;Fire SyndFilterEvent&quot;);</span>
-<span class="nc" id="L69">        SyndFilterEvent filterEvent = new SyndFilterEvent(</span>
-<span class="nc" id="L70">            retrievalEvent.getFeeds()</span>
+<span class="nc" id="L70">        log.info(&quot;Fire SyndFilterEvent&quot;);</span>
+<span class="nc" id="L71">        SyndFilterEvent filterEvent = new SyndFilterEvent(</span>
+<span class="nc" id="L72">            retrievalEvent.getFeeds()</span>
         );
-<span class="nc" id="L72">        filter.fire(filterEvent);</span>
+<span class="nc" id="L74">        filter.fire(filterEvent);</span>
 
-<span class="nc" id="L74">        log.info(&quot;Fire EmailDraftEvent&quot;);</span>
-<span class="nc" id="L75">        EmailDraftEvent draftEvent = new EmailDraftEvent(</span>
-<span class="nc" id="L76">            filterEvent.getFeeds()</span>
+<span class="nc" id="L76">        log.info(&quot;Fire EmailDraftEvent&quot;);</span>
+<span class="nc" id="L77">        EmailDraftEvent draftEvent = new EmailDraftEvent(</span>
+<span class="nc" id="L78">            filterEvent.getFeeds()</span>
         );
-<span class="nc" id="L78">        send.fire(draftEvent);</span>
+<span class="nc" id="L80">        send.fire(draftEvent);</span>
 
-<span class="nc" id="L80">        log.info(&quot;Fire RssHistoryEvent&quot;);</span>
-<span class="nc" id="L81">        RssHistoryEvent historyEvent = new RssHistoryEvent(</span>
-<span class="nc" id="L82">            draftEvent.getFeeds()</span>
+<span class="nc" id="L82">        log.info(&quot;Fire RssHistoryEvent&quot;);</span>
+<span class="nc" id="L83">        RssHistoryEvent historyEvent = new RssHistoryEvent(</span>
+<span class="nc" id="L84">            draftEvent.getFeeds()</span>
         );
-<span class="nc" id="L84">        history.fire(historyEvent);</span>
+<span class="nc" id="L86">        history.fire(historyEvent);</span>
 
-<span class="nc" id="L86">        log.info(&quot;Fire EmailErrorEvent&quot;);</span>
-<span class="nc" id="L87">        EmailErrorEvent errorEvent = new EmailErrorEvent(</span>
-<span class="nc" id="L88">            retrievalEvent.getErrors()</span>
+<span class="nc" id="L88">        log.info(&quot;Fire EmailErrorEvent&quot;);</span>
+<span class="nc" id="L89">        EmailErrorEvent errorEvent = new EmailErrorEvent(</span>
+<span class="nc" id="L90">            retrievalEvent.getErrors()</span>
         );
-<span class="nc" id="L90">        error.fire(errorEvent);</span>
+<span class="nc" id="L92">        error.fire(errorEvent);</span>
 
 
-<span class="nc" id="L93">        log.info(&quot;Fire ExitEvent&quot;);</span>
-<span class="nc" id="L94">        exitEvent.fire(new ExitEvent());</span>
-<span class="nc" id="L95">    }</span>
+<span class="nc" id="L95">        log.info(&quot;Fire ExitEvent&quot;);</span>
+<span class="nc" id="L96">        exitEvent.fire(new ExitEvent());</span>
+<span class="nc" id="L97">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -2,12 +2,14 @@
 
 import java.util.List;
 import java.util.StringJoiner;
+import javax.enterprise.inject.Vetoed;
 import org.ferris.resiste.console.rss.RssFeed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class SyndFilterEvent {
 
     public static final int FILTER = 100;
@@ -17,17 +19,17 @@ public class SyndFilterEvent {
 
     @Override
     public String toString() {
-<span class="nc" id="L20">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[SyndFilterEvent &quot;, &quot;]&quot;);</span>
-<span class="nc bnc" id="L21" title="All 2 branches missed.">        sj.add(String.format(&quot;feeds:%s&quot;, (feeds == null) ? &quot;null&quot; : feeds.size()));</span>
-<span class="nc" id="L22">        return sj.toString();</span>
+<span class="nc" id="L22">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[SyndFilterEvent &quot;, &quot;]&quot;);</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        sj.add(String.format(&quot;feeds:%s&quot;, (feeds == null) ? &quot;null&quot; : feeds.size()));</span>
+<span class="nc" id="L24">        return sj.toString();</span>
     }
 
-<span class="nc" id="L25">    public SyndFilterEvent(List&lt;RssFeed&gt; feeds) {</span>
-<span class="nc" id="L26">        this.feeds = feeds;</span>
-<span class="nc" id="L27">    }</span>
+<span class="nc" id="L27">    public SyndFilterEvent(List&lt;RssFeed&gt; feeds) {</span>
+<span class="nc" id="L28">        this.feeds = feeds;</span>
+<span class="nc" id="L29">    }</span>
 
     public List&lt;RssFeed&gt; getFeeds() {
-<span class="nc" id="L30">        return feeds;</span>
+<span class="nc" id="L32">        return feeds;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

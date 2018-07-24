@@ -2,41 +2,43 @@
 
 import java.net.URL;
 import java.util.StringJoiner;
+import javax.enterprise.inject.Vetoed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class RssUrl {
     protected String id;
     protected URL url;
 
     @Override
     public String toString() {
-<span class="nc" id="L16">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[RssUrl &quot;, &quot;]&quot;);</span>
-<span class="nc bnc" id="L17" title="All 2 branches missed.">        sj.add(String.format(&quot;id:%s&quot;, (id == null) ? &quot;null&quot; : id));</span>
-<span class="nc bnc" id="L18" title="All 2 branches missed.">        sj.add(String.format(&quot;url:%s&quot;, (url == null) ? &quot;null&quot; : url));</span>
-<span class="nc" id="L19">        return sj.toString();</span>
+<span class="nc" id="L18">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[RssUrl &quot;, &quot;]&quot;);</span>
+<span class="nc bnc" id="L19" title="All 2 branches missed.">        sj.add(String.format(&quot;id:%s&quot;, (id == null) ? &quot;null&quot; : id));</span>
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        sj.add(String.format(&quot;url:%s&quot;, (url == null) ? &quot;null&quot; : url));</span>
+<span class="nc" id="L21">        return sj.toString();</span>
     }
 
-<span class="nc" id="L22">    public RssUrl(String id, String url) {</span>
-<span class="nc" id="L23">        this.id = id;</span>
+<span class="nc" id="L24">    public RssUrl(String id, String url) {</span>
+<span class="nc" id="L25">        this.id = id;</span>
         try {
-<span class="nc" id="L25">            this.url = new URL(url);</span>
-<span class="nc" id="L26">        } catch (Exception e) {</span>
-<span class="nc" id="L27">            throw new RuntimeException(</span>
-<span class="nc" id="L28">                  String.format(&quot;Problem creating a URL object for \&quot;%s\&quot;&quot;, url)</span>
+<span class="nc" id="L27">            this.url = new URL(url);</span>
+<span class="nc" id="L28">        } catch (Exception e) {</span>
+<span class="nc" id="L29">            throw new RuntimeException(</span>
+<span class="nc" id="L30">                  String.format(&quot;Problem creating a URL object for \&quot;%s\&quot;&quot;, url)</span>
                 , e
             );
-<span class="nc" id="L31">        }</span>
-<span class="nc" id="L32">    }</span>
+<span class="nc" id="L33">        }</span>
+<span class="nc" id="L34">    }</span>
 
     public String getId() {
-<span class="nc" id="L35">        return id;</span>
+<span class="nc" id="L37">        return id;</span>
     }
 
     public URL getUrl() {
-<span class="nc" id="L39">        return url;</span>
+<span class="nc" id="L41">        return url;</span>
     }
 
 }

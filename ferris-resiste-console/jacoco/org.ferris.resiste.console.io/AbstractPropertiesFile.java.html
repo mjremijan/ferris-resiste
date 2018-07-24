@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import javax.inject.Inject;
-import org.slf4j.Logger;
 
 /**
  * This class exists to provide common functionality to all the application
@@ -16,8 +14,7 @@ import org.slf4j.Logger;
  */
 public abstract class AbstractPropertiesFile extends File {
 
-    @Inject
-    protected Logger log;
+    private static final long serialVersionUID = 182745237450703456L;
 
     /**
      * Pass to super constructor w/o error checking
@@ -26,8 +23,8 @@ public abstract class AbstractPropertiesFile extends File {
      * @param relativePath The relative path to the resource from the {@code parent}
      */
     public AbstractPropertiesFile(File parent, String relativePath) {
-<span class="nc" id="L29">        super(parent, relativePath);</span>
-<span class="nc" id="L30">    }</span>
+<span class="nc" id="L26">        super(parent, relativePath);</span>
+<span class="nc" id="L27">    }</span>
 
     /**
      * Return a {@link Properties} object representation of this file.
@@ -36,14 +33,13 @@ public abstract class AbstractPropertiesFile extends File {
      * @throws RuntimeException Wraps any other exception which might be thrown
      */
     public Properties toProperties() {
-<span class="nc" id="L39">        log.info(String.format(&quot;Create Properties object from \&quot;%s\&quot;&quot;, this));</span>
-<span class="nc" id="L40">        Properties props = new Properties();</span>
-<span class="nc" id="L41">        try (InputStream is = new FileInputStream(this);) {</span>
-<span class="nc" id="L42">            props.load(is);</span>
-<span class="nc bnc" id="L43" title="All 8 branches missed.">        } catch (IOException e) {</span>
-<span class="nc" id="L44">            throw new RuntimeException(e);</span>
-<span class="nc" id="L45">        }</span>
-<span class="nc" id="L46">        return props;</span>
+<span class="nc" id="L36">        Properties props = new Properties();</span>
+<span class="nc" id="L37">        try (InputStream is = new FileInputStream(this);) {</span>
+<span class="nc" id="L38">            props.load(is);</span>
+<span class="nc bnc" id="L39" title="All 8 branches missed.">        } catch (IOException e) {</span>
+<span class="nc" id="L40">            throw new RuntimeException(e);</span>
+<span class="nc" id="L41">        }</span>
+<span class="nc" id="L42">        return props;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

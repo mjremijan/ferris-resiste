@@ -3,11 +3,13 @@
 import java.util.List;
 import java.util.Optional;
 import java.util.StringJoiner;
+import javax.enterprise.inject.Vetoed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class EmailErrorEvent {
 
     public static final int ERROR_MAP = 100;
@@ -16,29 +18,29 @@ public class EmailErrorEvent {
 
     @Override
     public String toString() {
-<span class="nc" id="L19">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[EmailErrorEvent &quot;, &quot;]&quot;);</span>
-<span class="nc bnc" id="L20" title="All 2 branches missed.">        sj.add(String.format(&quot;errors:%s&quot;, (errors == null) ? &quot;null&quot; : errors.size()));</span>
-<span class="nc bnc" id="L21" title="All 2 branches missed.">        sj.add(String.format(&quot;draft:%s&quot;, (draft == null) ? &quot;null&quot; : draft));</span>
-<span class="nc" id="L22">        return sj.toString();</span>
+<span class="nc" id="L21">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[EmailErrorEvent &quot;, &quot;]&quot;);</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">        sj.add(String.format(&quot;errors:%s&quot;, (errors == null) ? &quot;null&quot; : errors.size()));</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        sj.add(String.format(&quot;draft:%s&quot;, (draft == null) ? &quot;null&quot; : draft));</span>
+<span class="nc" id="L24">        return sj.toString();</span>
     }
 
     protected List&lt;String&gt; errors;
     protected Optional&lt;EmailDraft&gt; draft;
 
-<span class="nc" id="L28">    public EmailErrorEvent(List&lt;String&gt; errors) {</span>
-<span class="nc" id="L29">        this.errors = errors;</span>
-<span class="nc" id="L30">    }</span>
+<span class="nc" id="L30">    public EmailErrorEvent(List&lt;String&gt; errors) {</span>
+<span class="nc" id="L31">        this.errors = errors;</span>
+<span class="nc" id="L32">    }</span>
 
     public List&lt;String&gt; getErrors() {
-<span class="nc" id="L33">        return errors;</span>
+<span class="nc" id="L35">        return errors;</span>
     }
 
     public Optional&lt;EmailDraft&gt; getDraft() {
-<span class="nc" id="L37">        return draft;</span>
+<span class="nc" id="L39">        return draft;</span>
     }
 
     public void setDraft(Optional&lt;EmailDraft&gt; draft) {
-<span class="nc" id="L41">        this.draft = draft;</span>
-<span class="nc" id="L42">    }</span>
+<span class="nc" id="L43">        this.draft = draft;</span>
+<span class="nc" id="L44">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.ferris.resiste.console.conf.ConfDirectory;
 import org.slf4j.Logger;
@@ -12,7 +13,8 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-public class RssUrlRepository extends File {
+@ApplicationScoped
+public class RssUrlRepository {
 
     private static final long serialVersionUID = 7491906484654964631L;
 
@@ -22,40 +24,41 @@ public class RssUrlRepository extends File {
     @Inject
     protected RssUrlFactory factory;
 
+    protected File file;
 
     @Inject
-    public RssUrlRepository(ConfDirectory root) {
-<span class="nc" id="L28">        super(root, String.format(&quot;rss_urls.csv&quot;));</span>
-<span class="nc bnc" id="L29" title="All 2 branches missed.">        if (!super.exists()) {</span>
-<span class="nc" id="L30">            throw new RuntimeException(</span>
-<span class="nc" id="L31">                String.format(&quot;Data file does not exist: \&quot;%s\&quot;&quot;, super.getAbsolutePath())</span>
+<span class="nc" id="L30">    public RssUrlRepository(ConfDirectory root) {</span>
+<span class="nc" id="L31">        file = new File(root, String.format(&quot;rss_urls.csv&quot;));</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        if (!file.exists()) {</span>
+<span class="nc" id="L33">            throw new RuntimeException(</span>
+<span class="nc" id="L34">                String.format(&quot;Data file does not exist: \&quot;%s\&quot;&quot;, file.getAbsolutePath())</span>
             );
         }
-<span class="nc" id="L34">    }</span>
+<span class="nc" id="L37">    }</span>
 
 
     public List&lt;RssUrl&gt; findAll() {
-<span class="nc" id="L38">        log.info(&quot;ENTER&quot;);</span>
+<span class="nc" id="L41">        log.info(&quot;ENTER&quot;);</span>
 
-<span class="nc" id="L40">        List&lt;String&gt; lines = null;</span>
+<span class="nc" id="L43">        List&lt;String&gt; lines = null;</span>
 
         try {
-<span class="nc" id="L43">            lines = Files.readAllLines(super.toPath());</span>
-<span class="nc" id="L44">        } catch (Exception e) {</span>
-<span class="nc" id="L45">            throw new RuntimeException(</span>
-<span class="nc" id="L46">                String.format(&quot;Problem reading file \&quot;%s\&quot;&quot;, super.getAbsolutePath()), e</span>
+<span class="nc" id="L46">            lines = Files.readAllLines(file.toPath());</span>
+<span class="nc" id="L47">        } catch (Exception e) {</span>
+<span class="nc" id="L48">            throw new RuntimeException(</span>
+<span class="nc" id="L49">                String.format(&quot;Problem reading file \&quot;%s\&quot;&quot;, file.getAbsolutePath()), e</span>
             );
-<span class="nc" id="L48">        }</span>
+<span class="nc" id="L51">        }</span>
 
-<span class="nc" id="L50">        List&lt;RssUrl&gt; urls =</span>
-<span class="nc" id="L51">            lines.stream()</span>
-<span class="nc" id="L52">                .map(s -&gt; factory.parse(s))</span>
-<span class="nc" id="L53">                .filter(o -&gt; o.isPresent())</span>
-<span class="nc" id="L54">                .map(o -&gt; o.get())</span>
-<span class="nc" id="L55">                .collect(Collectors.toList())</span>
+<span class="nc" id="L53">        List&lt;RssUrl&gt; urls =</span>
+<span class="nc" id="L54">            lines.stream()</span>
+<span class="nc" id="L55">                .map(s -&gt; factory.parse(s))</span>
+<span class="nc" id="L56">                .filter(o -&gt; o.isPresent())</span>
+<span class="nc" id="L57">                .map(o -&gt; o.get())</span>
+<span class="nc" id="L58">                .collect(Collectors.toList())</span>
         ;
 
-<span class="nc" id="L58">        return urls;</span>
+<span class="nc" id="L61">        return urls;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

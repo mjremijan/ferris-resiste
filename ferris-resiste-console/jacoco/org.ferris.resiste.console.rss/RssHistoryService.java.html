@@ -4,6 +4,7 @@
 import java.time.Instant;
 import java.util.Optional;
 import javax.annotation.Priority;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import static org.ferris.resiste.console.rss.RssHistoryEvent.STORE;
@@ -13,7 +14,8 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-<span class="nc" id="L16">public class RssHistoryService {</span>
+@ApplicationScoped
+<span class="nc" id="L18">public class RssHistoryService {</span>
 
     @Inject
     protected Logger log;
@@ -22,27 +24,27 @@ import org.slf4j.Logger;
     protected RssHistoryRepository repository;
 
     public boolean exists(String feedId, String entryId) {
-<span class="nc" id="L25">        return repository.find(feedId, entryId).isPresent();</span>
+<span class="nc" id="L27">        return repository.find(feedId, entryId).isPresent();</span>
     }
 
 
     protected void observeStore(
         @Observes @Priority(STORE) RssHistoryEvent evnt
     ) {
-<span class="nc" id="L32">        log.info(String.format(&quot;Store feeds in history %s&quot;, evnt));</span>
-<span class="nc" id="L33">        evnt.getFeeds().stream().forEach(</span>
-<span class="nc" id="L34">            f -&gt; f.getEntries().forEach(</span>
-<span class="nc" id="L35">                e -&gt; repository.store(</span>
+<span class="nc" id="L34">        log.info(String.format(&quot;Store feeds in history %s&quot;, evnt));</span>
+<span class="nc" id="L35">        evnt.getFeeds().stream().forEach(</span>
+<span class="nc" id="L36">            f -&gt; f.getEntries().forEach(</span>
+<span class="nc" id="L37">                e -&gt; repository.store(</span>
                     new RssHistory(
-<span class="nc" id="L37">                          f.getId()</span>
-<span class="nc" id="L38">                        , e.getGuid()</span>
-<span class="nc" id="L39">                        , Optional.ofNullable(e.getPublishedDate())</span>
-<span class="nc" id="L40">                            .map(d -&gt; d.toInstant())</span>
-<span class="nc" id="L41">                            .orElse(Instant.now())</span>
+<span class="nc" id="L39">                          f.getId()</span>
+<span class="nc" id="L40">                        , e.getGuid()</span>
+<span class="nc" id="L41">                        , Optional.ofNullable(e.getPublishedDate())</span>
+<span class="nc" id="L42">                            .map(d -&gt; d.toInstant())</span>
+<span class="nc" id="L43">                            .orElse(Instant.now())</span>
                     )
                 )
             )
         );
-<span class="nc" id="L46">    }</span>
+<span class="nc" id="L48">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

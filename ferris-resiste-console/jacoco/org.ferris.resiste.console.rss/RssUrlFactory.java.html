@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../resources/report.gif" type="image/gif"/><title>RssUrlFactory.java</title><link rel="stylesheet" href="../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ferris-resiste-console</a> &gt; <a href="index.source.html" class="el_package">org.ferris.resiste.console.rss</a> &gt; <span class="el_source">RssUrlFactory.java</span></div><h1>RssUrlFactory.java</h1><pre class="source lang-java linenums">package org.ferris.resiste.console.rss;
 
 import java.util.Optional;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.ferris.resiste.console.lang.StringUtils;
 import org.slf4j.Logger;
@@ -9,48 +10,49 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-<span class="nc" id="L12">public class RssUrlFactory {</span>
+@ApplicationScoped
+<span class="nc" id="L14">public class RssUrlFactory {</span>
 
     @Inject
     protected Logger log;
 
     public Optional&lt;RssUrl&gt; parse(String commaSeparatedFeedData) {
-<span class="nc" id="L18">        log.info(String.format(&quot;ENTER \&quot;%s\&quot;&quot;, commaSeparatedFeedData));</span>
+<span class="nc" id="L20">        log.info(String.format(&quot;ENTER \&quot;%s\&quot;&quot;, commaSeparatedFeedData));</span>
 
-<span class="nc" id="L20">        commaSeparatedFeedData = StringUtils.trimToEmpty(commaSeparatedFeedData);</span>
+<span class="nc" id="L22">        commaSeparatedFeedData = StringUtils.trimToEmpty(commaSeparatedFeedData);</span>
 
-<span class="nc bnc" id="L22" title="All 2 branches missed.">        if (commaSeparatedFeedData.isEmpty()) {</span>
-<span class="nc" id="L23">            return Optional.empty();</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        if (commaSeparatedFeedData.isEmpty()) {</span>
+<span class="nc" id="L25">            return Optional.empty();</span>
         }
 
-<span class="nc bnc" id="L26" title="All 2 branches missed.">        if (commaSeparatedFeedData.startsWith(&quot;#&quot;)) {</span>
-<span class="nc" id="L27">            return Optional.empty();</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        if (commaSeparatedFeedData.startsWith(&quot;#&quot;)) {</span>
+<span class="nc" id="L29">            return Optional.empty();</span>
         }
 
-<span class="nc" id="L30">        String[] tokens</span>
-<span class="nc" id="L31">            = commaSeparatedFeedData.split(&quot;,&quot;);</span>
+<span class="nc" id="L32">        String[] tokens</span>
+<span class="nc" id="L33">            = commaSeparatedFeedData.split(&quot;,&quot;);</span>
 
-<span class="nc bnc" id="L33" title="All 2 branches missed.">        if (tokens.length != 2) {</span>
-<span class="nc" id="L34">            throw new RuntimeException(</span>
-<span class="nc" id="L35">                String.format(&quot;Token length is %d, not 2: \&quot;%s\&quot;&quot;, tokens.length, commaSeparatedFeedData)</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (tokens.length != 2) {</span>
+<span class="nc" id="L36">            throw new RuntimeException(</span>
+<span class="nc" id="L37">                String.format(&quot;Token length is %d, not 2: \&quot;%s\&quot;&quot;, tokens.length, commaSeparatedFeedData)</span>
             );
         }
 
-<span class="nc" id="L39">        String id = tokens[0].trim();</span>
-<span class="nc bnc" id="L40" title="All 2 branches missed.">        if (id.isEmpty()) {</span>
-<span class="nc" id="L41">            throw new RuntimeException(</span>
-<span class="nc" id="L42">                String.format(&quot;ID trimmed to empty: \&quot;%s\&quot;&quot;, commaSeparatedFeedData)</span>
+<span class="nc" id="L41">        String id = tokens[0].trim();</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        if (id.isEmpty()) {</span>
+<span class="nc" id="L43">            throw new RuntimeException(</span>
+<span class="nc" id="L44">                String.format(&quot;ID trimmed to empty: \&quot;%s\&quot;&quot;, commaSeparatedFeedData)</span>
             );
         }
 
-<span class="nc" id="L46">        String url = tokens[1].trim();</span>
-<span class="nc bnc" id="L47" title="All 2 branches missed.">        if (url.isEmpty()) {</span>
-<span class="nc" id="L48">            throw new RuntimeException(</span>
-<span class="nc" id="L49">                String.format(&quot;URL trimmed to empty: \&quot;%s\&quot;&quot;, commaSeparatedFeedData)</span>
+<span class="nc" id="L48">        String url = tokens[1].trim();</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        if (url.isEmpty()) {</span>
+<span class="nc" id="L50">            throw new RuntimeException(</span>
+<span class="nc" id="L51">                String.format(&quot;URL trimmed to empty: \&quot;%s\&quot;&quot;, commaSeparatedFeedData)</span>
             );
         }
 
-<span class="nc" id="L53">        return Optional.of(new RssUrl(id, url));</span>
+<span class="nc" id="L55">        return Optional.of(new RssUrl(id, url));</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -2,6 +2,7 @@
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.ferris.resiste.console.text.i18n.LocalizedString;
 import org.ferris.resiste.console.text.i18n.LocalizedStringList;
@@ -10,66 +11,67 @@ import org.ferris.resiste.console.text.i18n.LocalizedStringList;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-<span class="nc" id="L13">public class Console {</span>
+@ApplicationScoped
+<span class="nc" id="L15">public class Console {</span>
 
     private ConsoleWriter writer;
 
     @Inject
     protected void setConsoleWriter(ConsoleWriter writer) {
-<span class="nc" id="L19">        this.writer = writer;</span>
-<span class="nc" id="L20">    }</span>
+<span class="nc" id="L21">        this.writer = writer;</span>
+<span class="nc" id="L22">    }</span>
 
 
     public void h1(LocalizedString format, Object... args) {
-<span class="nc" id="L24">        writer.println();</span>
-<span class="nc" id="L25">        writer.printf(&quot;[[ %s ]]&quot;, String.format(format.toString(), args));</span>
 <span class="nc" id="L26">        writer.println();</span>
-<span class="nc" id="L27">    }</span>
+<span class="nc" id="L27">        writer.printf(&quot;[[ %s ]]&quot;, String.format(format.toString(), args));</span>
+<span class="nc" id="L28">        writer.println();</span>
+<span class="nc" id="L29">    }</span>
 
     public void h1(LocalizedString heading) {
-<span class="nc" id="L30">        h1(heading, (Object[]) null);</span>
-<span class="nc" id="L31">    }</span>
+<span class="nc" id="L32">        h1(heading, (Object[]) null);</span>
+<span class="nc" id="L33">    }</span>
 
     public void h2(LocalizedString format, Object... args) {
-<span class="nc" id="L34">        writer.println();</span>
-<span class="nc" id="L35">        writer.printf(&quot;++ %s&quot;, String.format(format.toString(), args));</span>
 <span class="nc" id="L36">        writer.println();</span>
-<span class="nc" id="L37">    }</span>
+<span class="nc" id="L37">        writer.printf(&quot;++ %s&quot;, String.format(format.toString(), args));</span>
+<span class="nc" id="L38">        writer.println();</span>
+<span class="nc" id="L39">    }</span>
 
     public void h2(LocalizedString heading) {
-<span class="nc" id="L40">        h2(heading, (Object[]) null);</span>
-<span class="nc" id="L41">    }</span>
+<span class="nc" id="L42">        h2(heading, (Object[]) null);</span>
+<span class="nc" id="L43">    }</span>
 
     public void p(LocalizedStringList paragraph) {
-<span class="nc" id="L44">        writer.println();</span>
-<span class="nc bnc" id="L45" title="All 2 branches missed.">        for (String s : paragraph) {</span>
-<span class="nc" id="L46">            writer.print(s);</span>
-<span class="nc" id="L47">            writer.println();</span>
-<span class="nc" id="L48">        }</span>
-<span class="nc" id="L49">    }</span>
+<span class="nc" id="L46">        writer.println();</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        for (String s : paragraph) {</span>
+<span class="nc" id="L48">            writer.print(s);</span>
+<span class="nc" id="L49">            writer.println();</span>
+<span class="nc" id="L50">        }</span>
+<span class="nc" id="L51">    }</span>
 
     public void p(LocalizedString str) {
-<span class="nc" id="L52">        writer.println();</span>
-<span class="nc" id="L53">        writer.print(str.toString());</span>
 <span class="nc" id="L54">        writer.println();</span>
-<span class="nc" id="L55">    }</span>
+<span class="nc" id="L55">        writer.print(str.toString());</span>
+<span class="nc" id="L56">        writer.println();</span>
+<span class="nc" id="L57">    }</span>
 
     public void p(LocalizedString format, Object... args) {
-<span class="nc" id="L58">        writer.println();</span>
-<span class="nc" id="L59">        writer.printf(&quot;%s&quot;, String.format(format.toString(), args));</span>
 <span class="nc" id="L60">        writer.println();</span>
-<span class="nc" id="L61">    }</span>
+<span class="nc" id="L61">        writer.printf(&quot;%s&quot;, String.format(format.toString(), args));</span>
+<span class="nc" id="L62">        writer.println();</span>
+<span class="nc" id="L63">    }</span>
 
     public void p(Throwable throwable) {
-<span class="nc" id="L64">        StringWriter sw = new StringWriter();</span>
-<span class="nc" id="L65">        PrintWriter pw = new PrintWriter(sw);</span>
-<span class="nc" id="L66">        throwable.printStackTrace(pw);</span>
-<span class="nc" id="L67">        pw.flush();</span>
-<span class="nc" id="L68">        sw.flush();</span>
+<span class="nc" id="L66">        StringWriter sw = new StringWriter();</span>
+<span class="nc" id="L67">        PrintWriter pw = new PrintWriter(sw);</span>
+<span class="nc" id="L68">        throwable.printStackTrace(pw);</span>
+<span class="nc" id="L69">        pw.flush();</span>
+<span class="nc" id="L70">        sw.flush();</span>
 
-<span class="nc" id="L70">        writer.println();</span>
-<span class="nc" id="L71">        writer.printf(sw.toString());</span>
 <span class="nc" id="L72">        writer.println();</span>
-<span class="nc" id="L73">    }</span>
+<span class="nc" id="L73">        writer.printf(sw.toString());</span>
+<span class="nc" id="L74">        writer.println();</span>
+<span class="nc" id="L75">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

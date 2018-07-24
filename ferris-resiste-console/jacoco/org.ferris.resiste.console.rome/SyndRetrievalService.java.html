@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Priority;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import static org.ferris.resiste.console.rome.SyndRetrievalEvent.RETRIEVE;
@@ -17,7 +18,8 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-<span class="nc" id="L20">public class SyndRetrievalService {</span>
+@ApplicationScoped
+<span class="nc" id="L22">public class SyndRetrievalService {</span>
 
     @Inject
     protected Logger log;
@@ -32,25 +34,25 @@ import org.slf4j.Logger;
     protected void observeRetrieve(
         @Observes @Priority(RETRIEVE) SyndRetrievalEvent evnt
     ) {
-<span class="nc" id="L35">        log.info(String.format(&quot;Retrieve all of the user's feeds %s&quot;, evnt));</span>
+<span class="nc" id="L37">        log.info(String.format(&quot;Retrieve all of the user's feeds %s&quot;, evnt));</span>
 
-<span class="nc" id="L37">        List&lt;RssUrl&gt; userFeeds</span>
-<span class="nc" id="L38">            = service.findAll();</span>
+<span class="nc" id="L39">        List&lt;RssUrl&gt; userFeeds</span>
+<span class="nc" id="L40">            = service.findAll();</span>
 
-<span class="nc" id="L40">        List&lt;RssFeed&gt; feeds = new ArrayList&lt;&gt;(userFeeds.size());</span>
-<span class="nc" id="L41">        userFeeds.forEach(f -&gt; {</span>
+<span class="nc" id="L42">        List&lt;RssFeed&gt; feeds = new ArrayList&lt;&gt;(userFeeds.size());</span>
+<span class="nc" id="L43">        userFeeds.forEach(f -&gt; {</span>
             try {
-<span class="nc" id="L43">                feeds.add(</span>
-<span class="nc" id="L44">                    factory.build(f)</span>
+<span class="nc" id="L45">                feeds.add(</span>
+<span class="nc" id="L46">                    factory.build(f)</span>
                 );
-<span class="nc" id="L46">            } catch (Exception e) {</span>
-<span class="nc" id="L47">                evnt.addError(</span>
-<span class="nc" id="L48">                    String.format(&quot;%s: %s - %s&quot;, f.getUrl().toString(), e.getMessage(), Arrays.toString(e.getStackTrace()))</span>
+<span class="nc" id="L48">            } catch (Exception e) {</span>
+<span class="nc" id="L49">                evnt.addError(</span>
+<span class="nc" id="L50">                    String.format(&quot;%s: %s - %s&quot;, f.getUrl().toString(), e.getMessage(), Arrays.toString(e.getStackTrace()))</span>
                 );
-<span class="nc" id="L50">            }</span>
-<span class="nc" id="L51">        });</span>
+<span class="nc" id="L52">            }</span>
+<span class="nc" id="L53">        });</span>
 
-<span class="nc" id="L53">        evnt.setFeeds(feeds);</span>
-<span class="nc" id="L54">    }</span>
+<span class="nc" id="L55">        evnt.setFeeds(feeds);</span>
+<span class="nc" id="L56">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

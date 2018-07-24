@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.annotation.Priority;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import org.ferris.resiste.console.conf.ConfDirectory;
@@ -33,7 +34,8 @@ import org.slf4j.Logger;
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-<span class="nc" id="L36">public class EmailDraftService {</span>
+@ApplicationScoped
+<span class="nc" id="L38">public class EmailDraftService {</span>
 
     @Inject
     protected Logger log;
@@ -79,181 +81,181 @@ import org.slf4j.Logger;
             // Create your Configuration instance, and specify if up to what FreeMarker
             // version (here 2.3.25) do you want to apply the fixes that are not 100%
             // backward-compatible. See the Configuration JavaDoc for details.
-<span class="nc" id="L82">            Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);</span>
+<span class="nc" id="L84">            Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);</span>
 
             // Specify the source where the template files come from. Here I set a
             // plain directory for it, but non-file-system sources are possible too:
-<span class="nc" id="L86">            cfg.setDirectoryForTemplateLoading(confDirectory);</span>
+<span class="nc" id="L88">            cfg.setDirectoryForTemplateLoading(confDirectory);</span>
 
             // Set the preferred charset template files are stored in. UTF-8 is
             // a good choice in most applications:
-<span class="nc" id="L90">            cfg.setDefaultEncoding(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L92">            cfg.setDefaultEncoding(&quot;UTF-8&quot;);</span>
 
             // Sets how errors will appear.
             // During web page *development* TemplateExceptionHandler.HTML_DEBUG_HANDLER is better.
-<span class="nc" id="L94">            cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);</span>
+<span class="nc" id="L96">            cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);</span>
 
             // Don't log exceptions inside FreeMarker that it will thrown at you anyway:
-<span class="nc" id="L97">            cfg.setLogTemplateExceptions(false);</span>
+<span class="nc" id="L99">            cfg.setLogTemplateExceptions(false);</span>
 
             // Subject template
-<span class="nc" id="L100">            subjectTemplate = cfg.getTemplate(&quot;rss_email_subject.ftlt&quot;);</span>
+<span class="nc" id="L102">            subjectTemplate = cfg.getTemplate(&quot;rss_email_subject.ftlt&quot;);</span>
 
             // Body template
-<span class="nc" id="L103">            bodyTemplate = cfg.getTemplate(&quot;rss_email_body.ftlt&quot;);</span>
+<span class="nc" id="L105">            bodyTemplate = cfg.getTemplate(&quot;rss_email_body.ftlt&quot;);</span>
 
             // Patterns
-<span class="nc" id="L106">            flickrPattern = Pattern.compile(&quot;farm[\\d]+\\.staticflickr.com&quot;);</span>
-<span class="nc" id="L107">            widthHeightPattern = Pattern.compile(&quot;(width|height)=[\&quot;]?[\\d]+[\&quot;]?&quot;);</span>
-<span class="nc" id="L108">        } catch (Exception e) {</span>
-<span class="nc" id="L109">            throw new RuntimeException(e);</span>
-<span class="nc" id="L110">        }</span>
-<span class="nc" id="L111">    }</span>
+<span class="nc" id="L108">            flickrPattern = Pattern.compile(&quot;farm[\\d]+\\.staticflickr.com&quot;);</span>
+<span class="nc" id="L109">            widthHeightPattern = Pattern.compile(&quot;(width|height)=[\&quot;]?[\\d]+[\&quot;]?&quot;);</span>
+<span class="nc" id="L110">        } catch (Exception e) {</span>
+<span class="nc" id="L111">            throw new RuntimeException(e);</span>
+<span class="nc" id="L112">        }</span>
+<span class="nc" id="L113">    }</span>
 
 
     protected void observeDraftMap(
         @Observes @Priority(DRAFT_MAP) EmailDraftEvent evnt
     ) {
-<span class="nc" id="L117">        log.info(String.format(&quot;ENTER %s&quot;, evnt));</span>
+<span class="nc" id="L119">        log.info(String.format(&quot;ENTER %s&quot;, evnt));</span>
 
-<span class="nc" id="L119">        List&lt;EmailDraft&gt; drafts</span>
+<span class="nc" id="L121">        List&lt;EmailDraft&gt; drafts</span>
             = new LinkedList&lt;&gt;();
 
-<span class="nc" id="L122">        List&lt;RssFeed&gt; feeds</span>
-<span class="nc" id="L123">            = evnt.getFeeds();</span>
+<span class="nc" id="L124">        List&lt;RssFeed&gt; feeds</span>
+<span class="nc" id="L125">            = evnt.getFeeds();</span>
 
-<span class="nc" id="L125">        feeds.stream().forEach(</span>
-<span class="nc" id="L126">            sf -&gt; sf.getEntries().stream().forEach(se -&gt; {</span>
+<span class="nc" id="L127">        feeds.stream().forEach(</span>
+<span class="nc" id="L128">            sf -&gt; sf.getEntries().stream().forEach(se -&gt; {</span>
 
-<span class="nc" id="L128">                EmailDraft ed = new EmailDraft(</span>
-<span class="nc" id="L129">                      renderSubject(sf)</span>
-<span class="nc" id="L130">                    , renderBody(se)</span>
+<span class="nc" id="L130">                EmailDraft ed = new EmailDraft(</span>
+<span class="nc" id="L131">                      renderSubject(sf)</span>
+<span class="nc" id="L132">                    , renderBody(se)</span>
                 );
 
                 // Add to list
-<span class="nc" id="L134">                drafts.add(ed);</span>
-<span class="nc" id="L135">            })</span>
+<span class="nc" id="L136">                drafts.add(ed);</span>
+<span class="nc" id="L137">            })</span>
         );
 
-<span class="nc" id="L138">        evnt.setDrafts(drafts);</span>
-<span class="nc" id="L139">    }</span>
+<span class="nc" id="L140">        evnt.setDrafts(drafts);</span>
+<span class="nc" id="L141">    }</span>
 
     private String renderBody(RssEntry se) {
-<span class="nc" id="L142">        log.debug(&quot;ENTER&quot;);</span>
+<span class="nc" id="L144">        log.debug(&quot;ENTER&quot;);</span>
 
         // Title
-<span class="nc" id="L145">        String title = Optional.ofNullable(StringUtils.trimToNull(se.getTitle())).orElse(noTitle.toString());</span>
-<span class="nc" id="L146">        title = title.replaceAll(&quot;\\n&quot;, &quot; &quot;);</span>
-<span class="nc" id="L147">        title = StringUtils.abbreviate(title, 70);</span>
-<span class="nc" id="L148">        log.debug(String.format(&quot;TITLE = \&quot;%s\&quot;&quot;, title));</span>
+<span class="nc" id="L147">        String title = Optional.ofNullable(StringUtils.trimToNull(se.getTitle())).orElse(noTitle.toString());</span>
+<span class="nc" id="L148">        title = title.replaceAll(&quot;\\n&quot;, &quot; &quot;);</span>
+<span class="nc" id="L149">        title = StringUtils.abbreviate(title, 70);</span>
+<span class="nc" id="L150">        log.debug(String.format(&quot;TITLE = \&quot;%s\&quot;&quot;, title));</span>
 
         // Contents
-<span class="nc bnc" id="L151" title="All 2 branches missed.">        String contents = (se.getContents().length() &gt; 0) ? se.getContents() : noContents.toString();</span>
-<span class="nc bnc" id="L152" title="All 2 branches missed.">        if (flickrPattern.matcher(contents).find()) {</span>
-<span class="nc" id="L153">            contents = widthHeightPattern.matcher(contents)</span>
-<span class="nc" id="L154">                .replaceAll(&quot;&quot;)</span>
-<span class="nc" id="L155">                .replaceAll(&quot;_m\\.jpg&quot;, &quot;_z.jpg&quot;)</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">        String contents = (se.getContents().length() &gt; 0) ? se.getContents() : noContents.toString();</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">        if (flickrPattern.matcher(contents).find()) {</span>
+<span class="nc" id="L155">            contents = widthHeightPattern.matcher(contents)</span>
+<span class="nc" id="L156">                .replaceAll(&quot;&quot;)</span>
+<span class="nc" id="L157">                .replaceAll(&quot;_m\\.jpg&quot;, &quot;_z.jpg&quot;)</span>
             ;
         }
 
         // Author
-<span class="nc" id="L160">        String author = Optional.ofNullable(StringUtils.trimToNull(se.getAuthor())).orElse(noAuthor.toString());</span>
-<span class="nc" id="L161">        log.debug(String.format(&quot;AUTHOR = \&quot;%s\&quot;&quot;, author));</span>
+<span class="nc" id="L162">        String author = Optional.ofNullable(StringUtils.trimToNull(se.getAuthor())).orElse(noAuthor.toString());</span>
+<span class="nc" id="L163">        log.debug(String.format(&quot;AUTHOR = \&quot;%s\&quot;&quot;, author));</span>
 
         // Published date (YYYY, MMMM dd)
-<span class="nc" id="L164">        String publishedDate</span>
-<span class="nc" id="L165">            = Optional.ofNullable(se.getPublishedDate()).map(</span>
-<span class="nc" id="L166">                d -&gt; new SimpleDateFormat(&quot;yyyy, MMMM dd&quot;).format(d)).orElse(noDate.toString());</span>
-<span class="nc" id="L167">        log.debug(String.format(&quot;PUBLISHED_DATE = \&quot;%s\&quot;&quot;, publishedDate));</span>
+<span class="nc" id="L166">        String publishedDate</span>
+<span class="nc" id="L167">            = Optional.ofNullable(se.getPublishedDate()).map(</span>
+<span class="nc" id="L168">                d -&gt; new SimpleDateFormat(&quot;yyyy, MMMM dd&quot;).format(d)).orElse(noDate.toString());</span>
+<span class="nc" id="L169">        log.debug(String.format(&quot;PUBLISHED_DATE = \&quot;%s\&quot;&quot;, publishedDate));</span>
 
         // Link href
-<span class="nc" id="L170">        String linkHref</span>
-<span class="nc" id="L171">            = Optional.ofNullable(StringUtils.trimToNull(se.getLink())).orElse(noLinkHref.toString());</span>
-<span class="nc" id="L172">        log.debug(String.format(&quot;LINK_HREF = \&quot;%s\&quot;&quot;, linkHref));</span>
+<span class="nc" id="L172">        String linkHref</span>
+<span class="nc" id="L173">            = Optional.ofNullable(StringUtils.trimToNull(se.getLink())).orElse(noLinkHref.toString());</span>
+<span class="nc" id="L174">        log.debug(String.format(&quot;LINK_HREF = \&quot;%s\&quot;&quot;, linkHref));</span>
 
         // Link text
-<span class="nc" id="L175">        String linkText</span>
-<span class="nc" id="L176">            = Optional.ofNullable(StringUtils.trimToNull(se.getLink())).orElse(noLinkText.toString());</span>
-<span class="nc" id="L177">        log.debug(String.format(&quot;LINK_TEXT = \&quot;%s\&quot;&quot;, linkText));</span>
+<span class="nc" id="L177">        String linkText</span>
+<span class="nc" id="L178">            = Optional.ofNullable(StringUtils.trimToNull(se.getLink())).orElse(noLinkText.toString());</span>
+<span class="nc" id="L179">        log.debug(String.format(&quot;LINK_TEXT = \&quot;%s\&quot;&quot;, linkText));</span>
 
         // Project final name
-<span class="nc" id="L180">        String projectFinalName</span>
-<span class="nc" id="L181">            = String.format(&quot;%s-%s&quot;, version.getImplementationTitle(), version.getImplementationVersion());</span>
+<span class="nc" id="L182">        String projectFinalName</span>
+<span class="nc" id="L183">            = String.format(&quot;%s-%s&quot;, version.getImplementationTitle(), version.getImplementationVersion());</span>
 
         // Project url
-<span class="nc" id="L184">        String projectUrl</span>
-<span class="nc" id="L185">            = version.getImplementationUrl();</span>
+<span class="nc" id="L186">        String projectUrl</span>
+<span class="nc" id="L187">            = version.getImplementationUrl();</span>
 
         // Images
-<span class="nc" id="L188">        List&lt;RssImage&gt; images</span>
-<span class="nc" id="L189">            = se.getImages();</span>
+<span class="nc" id="L190">        List&lt;RssImage&gt; images</span>
+<span class="nc" id="L191">            = se.getImages();</span>
 
         // Media files
-<span class="nc" id="L192">        List&lt;RssMediaFile&gt; mediaFiles</span>
-<span class="nc" id="L193">            = se.getMediaFiles();</span>
+<span class="nc" id="L194">        List&lt;RssMediaFile&gt; mediaFiles</span>
+<span class="nc" id="L195">            = se.getMediaFiles();</span>
 
         // GUID
-<span class="nc" id="L196">        String guid = se.getGuid();</span>
+<span class="nc" id="L198">        String guid = se.getGuid();</span>
 
 
         // Render
-<span class="nc" id="L200">        Writer out = new StringWriter();</span>
+<span class="nc" id="L202">        Writer out = new StringWriter();</span>
         try {
-<span class="nc" id="L202">            Map&lt;String, Object&gt; root = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L203">            root.put(&quot;contents&quot;, contents);</span>
-<span class="nc" id="L204">            root.put(&quot;author&quot;, author);</span>
-<span class="nc" id="L205">            root.put(&quot;publishedDate&quot;, publishedDate);</span>
-<span class="nc" id="L206">            root.put(&quot;title&quot;, title);</span>
-<span class="nc" id="L207">            root.put(&quot;linkHref&quot;, linkHref);</span>
-<span class="nc" id="L208">            root.put(&quot;linkText&quot;, linkText);</span>
-<span class="nc" id="L209">            root.put(&quot;projectFinalName&quot;, projectFinalName);</span>
-<span class="nc" id="L210">            root.put(&quot;projectUrl&quot;, projectUrl);</span>
-<span class="nc" id="L211">            root.put(&quot;images&quot;, images);</span>
-<span class="nc" id="L212">            root.put(&quot;mediaFiles&quot;, mediaFiles);</span>
-<span class="nc" id="L213">            root.put(&quot;guid&quot;, guid);</span>
+<span class="nc" id="L204">            Map&lt;String, Object&gt; root = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L205">            root.put(&quot;contents&quot;, contents);</span>
+<span class="nc" id="L206">            root.put(&quot;author&quot;, author);</span>
+<span class="nc" id="L207">            root.put(&quot;publishedDate&quot;, publishedDate);</span>
+<span class="nc" id="L208">            root.put(&quot;title&quot;, title);</span>
+<span class="nc" id="L209">            root.put(&quot;linkHref&quot;, linkHref);</span>
+<span class="nc" id="L210">            root.put(&quot;linkText&quot;, linkText);</span>
+<span class="nc" id="L211">            root.put(&quot;projectFinalName&quot;, projectFinalName);</span>
+<span class="nc" id="L212">            root.put(&quot;projectUrl&quot;, projectUrl);</span>
+<span class="nc" id="L213">            root.put(&quot;images&quot;, images);</span>
+<span class="nc" id="L214">            root.put(&quot;mediaFiles&quot;, mediaFiles);</span>
+<span class="nc" id="L215">            root.put(&quot;guid&quot;, guid);</span>
 
-<span class="nc" id="L215">            bodyTemplate.process(root, out);</span>
+<span class="nc" id="L217">            bodyTemplate.process(root, out);</span>
 
-<span class="nc" id="L217">            out.flush();</span>
-<span class="nc" id="L218">        } catch (Exception ex) {</span>
-<span class="nc" id="L219">            throw new RuntimeException(</span>
-<span class="nc" id="L220">                String.format(&quot;Problem rendering the email body&quot;)</span>
+<span class="nc" id="L219">            out.flush();</span>
+<span class="nc" id="L220">        } catch (Exception ex) {</span>
+<span class="nc" id="L221">            throw new RuntimeException(</span>
+<span class="nc" id="L222">                String.format(&quot;Problem rendering the email body&quot;)</span>
                 , ex
             );
-<span class="nc" id="L223">        }</span>
-<span class="nc" id="L224">        log.debug(String.format(&quot;RENERED = %n%s&quot;, out.toString()));</span>
+<span class="nc" id="L225">        }</span>
+<span class="nc" id="L226">        log.debug(String.format(&quot;RENERED = %n%s&quot;, out.toString()));</span>
 
-<span class="nc" id="L226">        return out.toString();</span>
+<span class="nc" id="L228">        return out.toString();</span>
     }
 
 
     private String renderSubject(RssFeed sf) {
-<span class="nc" id="L231">        log.debug(&quot;ENTER&quot;);</span>
+<span class="nc" id="L233">        log.debug(&quot;ENTER&quot;);</span>
 
         // Title
-<span class="nc" id="L234">        String title = Optional.ofNullable(StringUtils.trimToNull(sf.getTitle())).orElse(noTitle.toString());</span>
-<span class="nc" id="L235">        log.debug(String.format(&quot;TITLE = \&quot;%s\&quot;&quot;, title));</span>
+<span class="nc" id="L236">        String title = Optional.ofNullable(StringUtils.trimToNull(sf.getTitle())).orElse(noTitle.toString());</span>
+<span class="nc" id="L237">        log.debug(String.format(&quot;TITLE = \&quot;%s\&quot;&quot;, title));</span>
 
         // Subject
-<span class="nc" id="L238">        String subject = StringUtils.abbreviate(title, 45);</span>
-<span class="nc" id="L239">        log.debug(String.format(&quot;SUBJECT = \&quot;%s\&quot;&quot;, subject));</span>
+<span class="nc" id="L240">        String subject = StringUtils.abbreviate(title, 45);</span>
+<span class="nc" id="L241">        log.debug(String.format(&quot;SUBJECT = \&quot;%s\&quot;&quot;, subject));</span>
 
         // Render
-<span class="nc" id="L242">        Writer out = new StringWriter();</span>
+<span class="nc" id="L244">        Writer out = new StringWriter();</span>
         try {
-<span class="nc" id="L244">            Map&lt;String, Object&gt; root = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L245">            root.put(&quot;subject&quot;, subject);</span>
-<span class="nc" id="L246">            subjectTemplate.process(root, out);</span>
-<span class="nc" id="L247">            out.flush();</span>
-<span class="nc" id="L248">        } catch (Exception ex) {</span>
-<span class="nc" id="L249">            throw new RuntimeException(</span>
-<span class="nc" id="L250">                String.format(&quot;Problem rendering the email subject&quot;)</span>
+<span class="nc" id="L246">            Map&lt;String, Object&gt; root = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L247">            root.put(&quot;subject&quot;, subject);</span>
+<span class="nc" id="L248">            subjectTemplate.process(root, out);</span>
+<span class="nc" id="L249">            out.flush();</span>
+<span class="nc" id="L250">        } catch (Exception ex) {</span>
+<span class="nc" id="L251">            throw new RuntimeException(</span>
+<span class="nc" id="L252">                String.format(&quot;Problem rendering the email subject&quot;)</span>
                 , ex
             );
-<span class="nc" id="L253">        }</span>
-<span class="nc" id="L254">        log.debug(String.format(&quot;RENERED = \&quot;%s\&quot;&quot;, out.toString()));</span>
+<span class="nc" id="L255">        }</span>
+<span class="nc" id="L256">        log.debug(String.format(&quot;RENERED = \&quot;%s\&quot;&quot;, out.toString()));</span>
 
-<span class="nc" id="L256">        return out.toString();</span>
+<span class="nc" id="L258">        return out.toString();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

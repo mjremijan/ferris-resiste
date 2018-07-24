@@ -15,6 +15,4 @@ org.ferris.resiste.console.splash
 org.ferris.resiste.console.sql
 org.ferris.resiste.console.text.i18n
 org.ferris.resiste.console.text.i18n.qualifier
-org.ferris.resiste.console.util.concurrent
 org.ferris.resiste.console.util.version
-org.ferris.resiste.console.view.page

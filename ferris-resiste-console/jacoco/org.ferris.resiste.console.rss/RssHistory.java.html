@@ -3,11 +3,13 @@
 import java.time.Instant;
 import java.util.Optional;
 import java.util.StringJoiner;
+import javax.enterprise.inject.Vetoed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class RssHistory {
     protected String feedId;
     protected String entryId;
@@ -15,29 +17,29 @@ public class RssHistory {
 
     @Override
     public String toString() {
-<span class="nc" id="L18">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[RssHistory &quot;, &quot;]&quot;);</span>
-<span class="nc" id="L19">        sj.add(String.format(&quot;feedId:%s&quot;, Optional.ofNullable(feedId).orElse(&quot;null&quot;)));</span>
-<span class="nc" id="L20">        sj.add(String.format(&quot;entryId:%s&quot;, Optional.ofNullable(entryId).orElse(&quot;null&quot;)));</span>
-<span class="nc" id="L21">        sj.add(String.format(&quot;published:%s&quot;, Optional.ofNullable(published).map(p-&gt;p.toString()).orElse(&quot;null&quot;)));</span>
-<span class="nc" id="L22">        return sj.toString();</span>
+<span class="nc" id="L20">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[RssHistory &quot;, &quot;]&quot;);</span>
+<span class="nc" id="L21">        sj.add(String.format(&quot;feedId:%s&quot;, Optional.ofNullable(feedId).orElse(&quot;null&quot;)));</span>
+<span class="nc" id="L22">        sj.add(String.format(&quot;entryId:%s&quot;, Optional.ofNullable(entryId).orElse(&quot;null&quot;)));</span>
+<span class="nc" id="L23">        sj.add(String.format(&quot;published:%s&quot;, Optional.ofNullable(published).map(p-&gt;p.toString()).orElse(&quot;null&quot;)));</span>
+<span class="nc" id="L24">        return sj.toString();</span>
     }
 
     public String getFeedId() {
-<span class="nc" id="L26">        return feedId;</span>
+<span class="nc" id="L28">        return feedId;</span>
     }
 
     public String getEntryId() {
-<span class="nc" id="L30">        return entryId;</span>
+<span class="nc" id="L32">        return entryId;</span>
     }
 
     public Instant getPublished() {
-<span class="nc" id="L34">        return published;</span>
+<span class="nc" id="L36">        return published;</span>
     }
 
-<span class="nc" id="L37">    public RssHistory(String feedId, String itemId, Instant published) {</span>
-<span class="nc" id="L38">        this.feedId = feedId;</span>
-<span class="nc" id="L39">        this.entryId = itemId;</span>
-<span class="nc" id="L40">        this.published = published;</span>
-<span class="nc" id="L41">    }</span>
+<span class="nc" id="L39">    public RssHistory(String feedId, String itemId, Instant published) {</span>
+<span class="nc" id="L40">        this.feedId = feedId;</span>
+<span class="nc" id="L41">        this.entryId = itemId;</span>
+<span class="nc" id="L42">        this.published = published;</span>
+<span class="nc" id="L43">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
