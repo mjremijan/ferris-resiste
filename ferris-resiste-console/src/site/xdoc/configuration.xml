@@ -36,7 +36,7 @@
             </p>
         </section>
 		
-        <section name="SMTP Account">
+        <section name="How to Send Email (SMTP Account)">
             <p>
                 Resiste needs the SMTP information for your email provider. Each
                 email provider is different so how you get this information is 
@@ -57,9 +57,9 @@ password=password                   // Your email account clear-text password
 emailAddress=someone@somewhere.org  // Your email address</source>            
         </section>
 		
-        <section name="RSS URLs">
+        <section name="RSS URLs to Watch">
             <p>
-                Resiste will handle any RSS URL you configure.
+                Resiste will watch any RSS URL you configure.
                 In the <code>[RESISTE_HOME]/conf/</code> directory, add your
                 RSS URLs to <code>rss_urls.csv</code>.
             </p>
@@ -111,7 +111,45 @@ aa312231-8510-422b-8f4d-18e7f4ae4405,https://xkcd.com/rss.xml</source>
             <p>
                 Configuration complete! Next is <a href="scheduling.html" alt="scheduling">scheduling</a>.
             </p>
-        </section>	     
+        </section>	
         
+             
+        <section name="Database location">
+            <p>
+                By default, Resiste will use a built-in Derby database to store
+                the RSS history.  The built-in Derby database is located in
+                <code>[RESISTE_HOME]/data/resiste</code>  
+            </p>
+            <p>
+                In general, you never need to mess with this database.  However,
+                if you want to move the Derby database somewhere else, you can
+                configure this.  In the <code>[RESISTE_HOME]/conf/</code> directory, 
+                configure the location of the Derby database by updating 
+                <code>db.properties</code>.  
+            </p>
+            <p>
+                Keep the <code>db.properties</code> file completely commented out
+                to use the built-in Derby database. 
+            </p>
+            <p>
+                Resiste only supports a Derby database at this time.
+            </p>
+            <p>
+                <b>LOCAL</b> Derby database example
+            </p>
+            <source>
+url=jdbc:derby:C:/Users/Mike/Documents/Databases/Derby/Ferris/resiste
+username=resiste_standalone
+password=x4A03HZ7ZV*lzB%
+schema=APP</source> 
+<p>
+                <b>REMOTE</b> Derby database example
+            </p>
+            <source>
+url=jdbc:derby://localhost:1527/resiste
+username=resiste_standalone
+password=x4A03HZ7ZV*lzB%
+schema=APP</source>           
+        </section>     
     </body>
 </document>
