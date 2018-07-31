@@ -26,4 +26,4 @@ echo $'\n'
 
 echo "START RESISTE"
 echo "-------------"
-${JAVA_BIN} -jar ${PD}/lib/${project.build.finalName}-linux.jar
+${JAVA_BIN} -Dderby.system.home=${PD}/data -jar ${PD}/lib/${project.build.finalName}-linux.jar
