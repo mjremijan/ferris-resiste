@@ -91,10 +91,10 @@ public class RssHistoryRepository {
             stmt.setString(1, h.getFeedId());
 
             // EntryId
-            if (h.getEntryId().length() > 200) {
+            if (h.getEntryId().length() > 300) {
                 throw new IllegalArgumentException(
                     String.format(
-                        "entry_id column can be only 200 of the %d characters of \"%s\"", h.getEntryId().length(), h.getEntryId()
+                        "entry_id column can be only 300 of the %d characters of \"%s\"", h.getEntryId().length(), h.getEntryId()
                     )
                 );
             }
