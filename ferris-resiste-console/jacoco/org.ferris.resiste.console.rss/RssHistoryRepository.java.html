@@ -91,10 +91,10 @@ import org.slf4j.Logger;
 <span class="nc" id="L91">            stmt.setString(1, h.getFeedId());</span>
 
             // EntryId
-<span class="nc bnc" id="L94" title="All 2 branches missed.">            if (h.getEntryId().length() &gt; 200) {</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">            if (h.getEntryId().length() &gt; 300) {</span>
 <span class="nc" id="L95">                throw new IllegalArgumentException(</span>
 <span class="nc" id="L96">                    String.format(</span>
-<span class="nc" id="L97">                        &quot;entry_id column can be only 200 of the %d characters of \&quot;%s\&quot;&quot;, h.getEntryId().length(), h.getEntryId()</span>
+<span class="nc" id="L97">                        &quot;entry_id column can be only 300 of the %d characters of \&quot;%s\&quot;&quot;, h.getEntryId().length(), h.getEntryId()</span>
                     )
                 );
             }
