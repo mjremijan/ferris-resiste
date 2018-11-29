@@ -31,6 +31,7 @@
     <modules>
         <module>ferris-resiste-console</module>
         <module>ferris-resiste-db</module>
+        <module>ferris-resiste-design</module>
     </modules>
     
     <!--
