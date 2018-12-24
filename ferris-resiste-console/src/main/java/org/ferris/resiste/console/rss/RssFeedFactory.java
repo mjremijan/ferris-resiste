@@ -34,76 +34,87 @@ public class RssFeedFactory {
     public RssFeed build(RssUrl feedUrl) throws IOException, FeedException {
         log.debug(String.format("ENTER %s", feedUrl));
 
-        String rawXml
-            = new BufferedReader(new InputStreamReader(feedUrl.getUrl().openStream(),"UTF-8")).lines().collect(Collectors.joining("\n"));
+        String rawXml = "RAW_XML";
 
-        com.rometools.rome.feed.synd.SyndFeed romeFeed
-            = new SyndFeedInput().build(new XmlReader(new ByteArrayInputStream(rawXml.getBytes("UTF-8"))));
+        try {
 
-        List<com.rometools.rome.feed.synd.SyndEntry> romeEntries
-            = romeFeed.getEntries();
+            rawXml
+                = new BufferedReader(new InputStreamReader(feedUrl.getUrl().openStream(),"UTF-8")).lines().collect(Collectors.joining("\n"));
 
-        RssFeed feed = new RssFeed();
-        feed.setId(feedUrl.getId());
-        feed.setLink(romeFeed.getLink());
-        feed.setTitle(romeFeed.getTitle());
+            com.rometools.rome.feed.synd.SyndFeed romeFeed
+                = new SyndFeedInput().build(new XmlReader(new ByteArrayInputStream(rawXml.getBytes("UTF-8"))));
 
-        feed.setEntries(
-            romeEntries.stream()
-                .map(re -> {
-                    RssEntry e = new RssEntry();
-                    e.setGuid(re.getUri());
-                    e.setTitle(re.getTitle());
-                    e.setAuthor(re.getAuthor());
-                    e.setLink(re.getLink());
-                    e.setPublishedDate(re.getPublishedDate());
+            List<com.rometools.rome.feed.synd.SyndEntry> romeEntries
+                = romeFeed.getEntries();
 
-                    // Enclosures
-                    Optional<List<SyndEnclosure>> enclosures
-                        = Optional.ofNullable(re.getEnclosures());
-                    // Foreign markup
-                    Optional<List<Element>> foreignMarkups
-                        = Optional.ofNullable(re.getForeignMarkup());
+            RssFeed feed = new RssFeed();
+            feed.setId(feedUrl.getId());
+            feed.setLink(romeFeed.getLink());
+            feed.setTitle(romeFeed.getTitle());
 
+            feed.setEntries(
+                romeEntries.stream()
+                    .map(re -> {
+                        RssEntry e = new RssEntry();
+                        e.setGuid(re.getUri());
+                        e.setTitle(re.getTitle());
+                        e.setAuthor(re.getAuthor());
+                        e.setLink(re.getLink());
+                        e.setPublishedDate(re.getPublishedDate());
 
-                    // Images
-                    enclosures.ifPresent(
-                        se -> se.stream().filter(a -> a.getType().toLowerCase().startsWith("image")).forEach(
-                            b -> e.addImage(new RssImage(b.getType(), b.getUrl())))
-                    );
-                    foreignMarkups.ifPresent(
-                        fm -> fm.stream()
-                            .filter(el -> el.getName().toLowerCase().equals("thumbnail"))
-                            .map(el -> el.getAttribute("url"))
-                            .filter(at -> at != null)
-                            .map(at -> StringUtils.trimToNull(at.getValue()))
-                            .filter(s -> s != null)
-                            .forEach(s -> e.addImage(new RssImage("image/thumbnail", s)))
-                    );
-
-                    // Other media files
-                    enclosures.ifPresent(
-                        se -> se.stream().filter(a -> !a.getType().toLowerCase().startsWith("image")).forEach(
-                            b -> e.addMediaFile(new RssMediaFile(b.getType(), b.getUrl())))
-                    );
+                        // Enclosures
+                        Optional<List<SyndEnclosure>> enclosures
+                            = Optional.ofNullable(re.getEnclosures());
+                        // Foreign markup
+                        Optional<List<Element>> foreignMarkups
+                            = Optional.ofNullable(re.getForeignMarkup());
 
 
-                    // Content
-                    StringBuilder sp = new StringBuilder("");
-                    if (re.getContents() != null && !re.getContents().isEmpty()) {
-                        re.getContents().stream()
-                            .forEach(sc -> sp.append(sc.getValue()));
-                    }
-                    else
-                    if (re.getDescription() != null) {
-                        sp.append(re.getDescription().getValue());
-                    }
-                    e.setContents(sp.toString());
+                        // Images
+                        enclosures.ifPresent(
+                            se -> se.stream().filter(a -> a.getType().toLowerCase().startsWith("image")).forEach(
+                                b -> e.addImage(new RssImage(b.getType(), b.getUrl())))
+                        );
+                        foreignMarkups.ifPresent(
+                            fm -> fm.stream()
+                                .filter(el -> el.getName().toLowerCase().equals("thumbnail"))
+                                .map(el -> el.getAttribute("url"))
+                                .filter(at -> at != null)
+                                .map(at -> StringUtils.trimToNull(at.getValue()))
+                                .filter(s -> s != null)
+                                .forEach(s -> e.addImage(new RssImage("image/thumbnail", s)))
+                        );
 
-                    return e;
-                }).collect(Collectors.toCollection(LinkedList::new))
-        );
+                        // Other media files
+                        enclosures.ifPresent(
+                            se -> se.stream().filter(a -> !a.getType().toLowerCase().startsWith("image")).forEach(
+                                b -> e.addMediaFile(new RssMediaFile(b.getType(), b.getUrl())))
+                        );
 
-        return feed;
+
+                        // Content
+                        StringBuilder sp = new StringBuilder("");
+                        if (re.getContents() != null && !re.getContents().isEmpty()) {
+                            re.getContents().stream()
+                                .forEach(sc -> sp.append(sc.getValue()));
+                        }
+                        else
+                        if (re.getDescription() != null) {
+                            sp.append(re.getDescription().getValue());
+                        }
+                        e.setContents(sp.toString());
+
+                        return e;
+                    }).collect(Collectors.toCollection(LinkedList::new))
+            );
+
+            return feed;
+        } catch (FeedException e) {
+            log.error(String.format("Error parsing RSS feed \"%s\"", feedUrl.getUrl().toString()));
+            log.error(String.format("%nRAW_XML%n%s", rawXml));
+            throw new FeedException(
+                String.format("URL=\"%s\", RAW_XML=\"%s\"", feedUrl.getUrl().toString(), rawXml)
+                , e);
+        }
     }
 }
