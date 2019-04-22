@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URLConnection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -38,8 +39,12 @@ public class RssFeedFactory {
 
         try {
 
+            URLConnection connection = feedUrl.getUrl().openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+            connection.connect();
+
             rawXml
-                = new BufferedReader(new InputStreamReader(feedUrl.getUrl().openStream(),"UTF-8")).lines().collect(Collectors.joining("\n"));
+                = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8")).lines().collect(Collectors.joining("\n"));
 
             com.rometools.rome.feed.synd.SyndFeed romeFeed
                 = new SyndFeedInput().build(new XmlReader(new ByteArrayInputStream(rawXml.getBytes("UTF-8"))));
@@ -69,7 +74,6 @@ public class RssFeedFactory {
                         Optional<List<Element>> foreignMarkups
                             = Optional.ofNullable(re.getForeignMarkup());
 
-
                         // Images
                         enclosures.ifPresent(
                             se -> se.stream().filter(a -> a.getType().toLowerCase().startsWith("image")).forEach(
@@ -91,15 +95,12 @@ public class RssFeedFactory {
                                 b -> e.addMediaFile(new RssMediaFile(b.getType(), b.getUrl())))
                         );
 
-
                         // Content
                         StringBuilder sp = new StringBuilder("");
                         if (re.getContents() != null && !re.getContents().isEmpty()) {
                             re.getContents().stream()
                                 .forEach(sc -> sp.append(sc.getValue()));
-                        }
-                        else
-                        if (re.getDescription() != null) {
+                        } else if (re.getDescription() != null) {
                             sp.append(re.getDescription().getValue());
                         }
                         e.setContents(sp.toString());
@@ -113,8 +114,8 @@ public class RssFeedFactory {
             log.error(String.format("Error parsing RSS feed \"%s\"", feedUrl.getUrl().toString()));
             log.error(String.format("%nRAW_XML%n%s", rawXml));
             throw new FeedException(
-                String.format("URL=\"%s\", RAW_XML=\"%s\"", feedUrl.getUrl().toString(), rawXml)
-                , e);
+                String.format("URL=\"%s\", RAW_XML=\"%s\"", feedUrl.getUrl().toString(), rawXml),
+                 e);
         }
     }
 }
