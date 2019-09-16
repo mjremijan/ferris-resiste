@@ -68,15 +68,15 @@ public class EmailSender {
                 });
             }
             smtp.setDebug(false);
-            //smtp.setDebugOut(getPrintStream());
 
             MimeMessage m = new MimeMessage(smtp);
             m.setContent(content);
             m.setSubject(draft.getSubject());
-
-            m.setRecipient(Message.RecipientType.TO, new InternetAddress(emailAccount.getEmailAddress()));
-            m.setFrom(new InternetAddress(emailAccount.getEmailAddress()));
+            m.setRecipient(Message.RecipientType.TO, new InternetAddress(emailAccount.getSendToAddress()));
             m.setReplyTo(new InternetAddress[] {new InternetAddress(emailAccount.getEmailAddress())});
+            InternetAddress ia = new InternetAddress(emailAccount.getEmailAddress());
+            ia.setPersonal("Resiste");
+            m.setFrom(ia);
 
             log.info(String.format("Attempt email with %s", emailAccount.toString()));
             Transport.send(m);

@@ -41,6 +41,8 @@ public class EmailAccount {
     @Pattern(message = "{EmailAccount.emailAddress.Pattern.message}", regexp = ".+\\@.+\\..+")
     private String emailAddress;
 
+    private String sendToAddress;
+
     public EmailAccount() {};
 
     protected EmailAccount init(Properties props) {
@@ -50,7 +52,16 @@ public class EmailAccount {
         setUsername(props);
         setPassword(props);
         setEmailAddress(props);
+        setSendToAddress(props);
         return this;
+    }
+
+    private void setSendToAddress(Properties props) {
+        sendToAddress = props.getProperty("sendToAddress", props.getProperty("emailAddress", null));
+    }
+
+    public String getSendToAddress() {
+        return sendToAddress;
     }
 
     private void setEmailAddress(Properties props) {
