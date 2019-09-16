@@ -68,15 +68,15 @@ import org.slf4j.Logger;
                 });
             }
 <span class="nc" id="L70">            smtp.setDebug(false);</span>
-            //smtp.setDebugOut(getPrintStream());
 
-<span class="nc" id="L73">            MimeMessage m = new MimeMessage(smtp);</span>
-<span class="nc" id="L74">            m.setContent(content);</span>
-<span class="nc" id="L75">            m.setSubject(draft.getSubject());</span>
-
-<span class="nc" id="L77">            m.setRecipient(Message.RecipientType.TO, new InternetAddress(emailAccount.getEmailAddress()));</span>
-<span class="nc" id="L78">            m.setFrom(new InternetAddress(emailAccount.getEmailAddress()));</span>
-<span class="nc" id="L79">            m.setReplyTo(new InternetAddress[] {new InternetAddress(emailAccount.getEmailAddress())});</span>
+<span class="nc" id="L72">            MimeMessage m = new MimeMessage(smtp);</span>
+<span class="nc" id="L73">            m.setContent(content);</span>
+<span class="nc" id="L74">            m.setSubject(draft.getSubject());</span>
+<span class="nc" id="L75">            m.setRecipient(Message.RecipientType.TO, new InternetAddress(emailAccount.getSendToAddress()));</span>
+<span class="nc" id="L76">            m.setReplyTo(new InternetAddress[] {new InternetAddress(emailAccount.getEmailAddress())});</span>
+<span class="nc" id="L77">            InternetAddress ia = new InternetAddress(emailAccount.getEmailAddress());</span>
+<span class="nc" id="L78">            ia.setPersonal(&quot;Resiste&quot;);</span>
+<span class="nc" id="L79">            m.setFrom(ia);</span>
 
 <span class="nc" id="L81">            log.info(String.format(&quot;Attempt email with %s&quot;, emailAccount.toString()));</span>
 <span class="nc" id="L82">            Transport.send(m);</span>

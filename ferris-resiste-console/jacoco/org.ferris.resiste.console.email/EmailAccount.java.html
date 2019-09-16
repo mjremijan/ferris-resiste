@@ -41,85 +41,96 @@ public class EmailAccount {
     @Pattern(message = &quot;{EmailAccount.emailAddress.Pattern.message}&quot;, regexp = &quot;.+\\@.+\\..+&quot;)
     private String emailAddress;
 
-<span class="nc" id="L44">    public EmailAccount() {};</span>
+    private String sendToAddress;
+
+<span class="nc" id="L46">    public EmailAccount() {};</span>
 
     protected EmailAccount init(Properties props) {
-<span class="nc" id="L47">        setHost(props);</span>
-<span class="nc" id="L48">        setPort(props);</span>
-<span class="nc" id="L49">        setSslEnabled(props);</span>
-<span class="nc" id="L50">        setUsername(props);</span>
-<span class="nc" id="L51">        setPassword(props);</span>
-<span class="nc" id="L52">        setEmailAddress(props);</span>
-<span class="nc" id="L53">        return this;</span>
+<span class="nc" id="L49">        setHost(props);</span>
+<span class="nc" id="L50">        setPort(props);</span>
+<span class="nc" id="L51">        setSslEnabled(props);</span>
+<span class="nc" id="L52">        setUsername(props);</span>
+<span class="nc" id="L53">        setPassword(props);</span>
+<span class="nc" id="L54">        setEmailAddress(props);</span>
+<span class="nc" id="L55">        setSendToAddress(props);</span>
+<span class="nc" id="L56">        return this;</span>
+    }
+
+    private void setSendToAddress(Properties props) {
+<span class="nc" id="L60">        sendToAddress = props.getProperty(&quot;sendToAddress&quot;, props.getProperty(&quot;emailAddress&quot;, null));</span>
+<span class="nc" id="L61">    }</span>
+
+    public String getSendToAddress() {
+<span class="nc" id="L64">        return sendToAddress;</span>
     }
 
     private void setEmailAddress(Properties props) {
-<span class="nc" id="L57">        emailAddress = props.getProperty(&quot;emailAddress&quot;, null);</span>
-<span class="nc" id="L58">    }</span>
+<span class="nc" id="L68">        emailAddress = props.getProperty(&quot;emailAddress&quot;, null);</span>
+<span class="nc" id="L69">    }</span>
 
     private void setPassword(Properties props) {
-<span class="nc" id="L61">        password = props.getProperty(&quot;password&quot;, null);</span>
-<span class="nc" id="L62">    }</span>
+<span class="nc" id="L72">        password = props.getProperty(&quot;password&quot;, null);</span>
+<span class="nc" id="L73">    }</span>
 
     private void setUsername(Properties props) {
-<span class="nc" id="L65">        username = props.getProperty(&quot;username&quot;, null);</span>
-<span class="nc" id="L66">    }</span>
+<span class="nc" id="L76">        username = props.getProperty(&quot;username&quot;, null);</span>
+<span class="nc" id="L77">    }</span>
 
     private void setSslEnabled(Properties props) {
-<span class="nc" id="L69">        String boolStr = props.getProperty(&quot;sslEnabled&quot;, null);</span>
-<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (boolStr != null) {</span>
-<span class="nc bnc" id="L71" title="All 2 branches missed.">            if (&quot;true&quot;.equalsIgnoreCase(boolStr)) {</span>
-<span class="nc" id="L72">                sslEnabled = Boolean.TRUE;</span>
-<span class="nc bnc" id="L73" title="All 2 branches missed.">            } else if (&quot;false&quot;.equalsIgnoreCase(boolStr)) {</span>
-<span class="nc" id="L74">                sslEnabled = Boolean.FALSE;</span>
+<span class="nc" id="L80">        String boolStr = props.getProperty(&quot;sslEnabled&quot;, null);</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (boolStr != null) {</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">            if (&quot;true&quot;.equalsIgnoreCase(boolStr)) {</span>
+<span class="nc" id="L83">                sslEnabled = Boolean.TRUE;</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">            } else if (&quot;false&quot;.equalsIgnoreCase(boolStr)) {</span>
+<span class="nc" id="L85">                sslEnabled = Boolean.FALSE;</span>
             } else {
-<span class="nc" id="L76">                sslEnabled = null;</span>
+<span class="nc" id="L87">                sslEnabled = null;</span>
             }
-        }
-<span class="nc" id="L79">    }</span>
-
-    private void setPort(Properties props) {
-<span class="nc" id="L82">        String portStr = props.getProperty(&quot;port&quot;, null);</span>
-<span class="nc bnc" id="L83" title="All 2 branches missed.">        if (portStr != null) {</span>
-            try {
-<span class="nc" id="L85">                port = new Integer(portStr);</span>
-<span class="nc" id="L86">            } catch (NumberFormatException ignore) {</span>
-<span class="nc" id="L87">                port = null;</span>
-<span class="nc" id="L88">            }</span>
         }
 <span class="nc" id="L90">    }</span>
 
+    private void setPort(Properties props) {
+<span class="nc" id="L93">        String portStr = props.getProperty(&quot;port&quot;, null);</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (portStr != null) {</span>
+            try {
+<span class="nc" id="L96">                port = new Integer(portStr);</span>
+<span class="nc" id="L97">            } catch (NumberFormatException ignore) {</span>
+<span class="nc" id="L98">                port = null;</span>
+<span class="nc" id="L99">            }</span>
+        }
+<span class="nc" id="L101">    }</span>
+
     private void setHost(Properties props) {
-<span class="nc" id="L93">        this.host = props.getProperty(&quot;host&quot;, null);</span>
-<span class="nc" id="L94">    }</span>
+<span class="nc" id="L104">        this.host = props.getProperty(&quot;host&quot;, null);</span>
+<span class="nc" id="L105">    }</span>
 
     public String getHost() {
-<span class="nc" id="L97">        return host;</span>
+<span class="nc" id="L108">        return host;</span>
     }
 
     public Integer getPort() {
-<span class="nc" id="L101">        return port;</span>
+<span class="nc" id="L112">        return port;</span>
     }
 
     public Boolean isSslEnabled() {
-<span class="nc" id="L105">        return sslEnabled;</span>
+<span class="nc" id="L116">        return sslEnabled;</span>
     }
 
     public String getUsername() {
-<span class="nc" id="L109">        return username;</span>
+<span class="nc" id="L120">        return username;</span>
     }
 
     public String getPassword() {
-<span class="nc" id="L113">        return password;</span>
+<span class="nc" id="L124">        return password;</span>
     }
 
     public String getEmailAddress() {
-<span class="nc" id="L117">        return emailAddress;</span>
+<span class="nc" id="L128">        return emailAddress;</span>
     }
 
     @Override
     public String toString() {
-<span class="nc" id="L122">        return ToStringBuilder.reflectionToString(this);</span>
+<span class="nc" id="L133">        return ToStringBuilder.reflectionToString(this);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
