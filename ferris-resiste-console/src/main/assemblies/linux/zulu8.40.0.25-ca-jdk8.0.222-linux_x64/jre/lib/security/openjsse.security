@@ -1,0 +1,94 @@
+#
+# This is the OpenJSSE provider security properties file.
+#
+# This property file replaces standard SunJSSE provider with OpenJSSE
+# provider to enable TLSv1.3 protocol functionality.
+# azul.java.security properties file may be specified
+# from the command line via the system property
+#
+#    -Djava.security.properties=<Path to openjsse.security>
+#
+# This properties file appends to the master security properties file.
+# If both properties files specify values for the same key, the value
+# from the command-line properties file is selected, as it is the last
+# one loaded.
+#
+# Also, if you specify
+#
+#    -Djava.security.properties==<URL> (2 equals),
+#
+# then that properties file completely overrides the master security
+# properties file.
+#
+
+#
+# OpenJSSE security provider in place of SunJSSE provider:
+#
+security.provider.4=org.openjsse.net.ssl.OpenJSSE
+
+#
+# Algorithm restrictions for Secure Socket Layer/Transport Layer Security
+# (SSL/TLS/DTLS) processing
+#
+# In some environments, certain algorithms or key lengths may be undesirable
+# when using SSL/TLS/DTLS.  This section describes the mechanism for disabling
+# algorithms during SSL/TLS/DTLS security parameters negotiation, including
+# protocol version negotiation, cipher suites selection, peer authentication
+# and key exchange mechanisms.
+#
+# Disabled algorithms will not be negotiated for SSL/TLS connections, even
+# if they are enabled explicitly in an application.
+#
+# For PKI-based peer authentication and key exchange mechanisms, this list
+# of disabled algorithms will also be checked during certification path
+# building and validation, including algorithms used in certificates, as
+# well as revocation information such as CRLs and signed OCSP Responses.
+# This is in addition to the jdk.certpath.disabledAlgorithms property above.
+#
+# See the specification of "jdk.certpath.disabledAlgorithms" for the
+# syntax of the disabled algorithm string.
+#
+# Note: The algorithm restrictions do not apply to trust anchors or
+# self-signed certificates.
+#
+# Note: This property is currently used by the JDK Reference implementation.
+# It is not guaranteed to be examined and used by other implementations.
+#
+# Example:
+#   jdk.tls.disabledAlgorithms=MD5, SSLv3, DSA, RSA keySize < 2048
+jdk.tls.disabledAlgorithms=SSLv3, RC4, DES, MD5withRSA, DH keySize < 1024, \
+    EC keySize < 224, 3DES_EDE_CBC, anon, NULL
+
+#
+# TLS key limits on symmetric cryptographic algorithms
+#
+# This security property sets limits on algorithms key usage in TLS 1.3.
+# When the amount of data encrypted exceeds the algorithm value listed below,
+# a KeyUpdate message will trigger a key change.  This is for symmetric ciphers
+# with TLS 1.3 only.
+#
+# The syntax for the property is described below:
+#   KeyLimits:
+#       " KeyLimit { , KeyLimit } "
+#
+#   WeakKeyLimit:
+#       AlgorithmName Action Length
+#
+#   AlgorithmName:
+#       A full algorithm transformation.
+#
+#   Action:
+#       KeyUpdate
+#
+#   Length:
+#       The amount of encrypted data in a session before the Action occurs
+#       This value may be an integer value in bytes, or as a power of two, 2^29.
+#
+#   KeyUpdate:
+#       The TLS 1.3 KeyUpdate handshake process begins when the Length amount
+#       is fulfilled.
+#
+# Note: This property is currently used by OpenJDK's JSSE implementation. It
+# is not guaranteed to be examined and used by other implementations.
+#
+jdk.tls.keyLimits=AES/GCM/NoPadding KeyUpdate 2^37

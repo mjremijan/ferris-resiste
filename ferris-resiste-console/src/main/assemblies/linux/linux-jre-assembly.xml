@@ -51,7 +51,7 @@
         </fileSet>
         
         <fileSet>
-            <directory>src/main/assemblies/linux/zulu8.27.0.7-jdk8.0.162-linux_x64/jre</directory>
+            <directory>src/main/assemblies/linux/zulu8.40.0.25-ca-jdk8.0.222-linux_x64/jre</directory>
             <outputDirectory>jre</outputDirectory>
             <includes>
                 <include>**</include>
@@ -63,7 +63,7 @@
         </fileSet>
         
         <fileSet>
-            <directory>src/main/assemblies/linux/zulu8.27.0.7-jdk8.0.162-linux_x64/jre</directory>
+            <directory>src/main/assemblies/linux/zulu8.40.0.25-ca-jdk8.0.222-linux_x64/jre</directory>
             <outputDirectory>jre</outputDirectory>
             <includes>
                 <include>bin/java</include>
