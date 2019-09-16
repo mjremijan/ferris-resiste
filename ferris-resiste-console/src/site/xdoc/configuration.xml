@@ -49,12 +49,27 @@
                 details.
             </p>
             <source>
-host=smtp.somewhere.org             // Hostname of the SMTP server
-port=44                             // Port of the SMTP server
-sslEnabled=true || false            // Is SSL required, "true" or "false"
-username=someone                    // Your email account username
-password=password                   // Your email account clear-text password
-emailAddress=someone@somewhere.org  // Your email address</source>            
+# SMTP server hostname                
+host=smtp.somewhere.org
+
+# SMTP server port 
+port=44
+
+# SMTP server connection is SSL required, "true" or "false"
+sslEnabled=true
+
+# SMTP server account username
+username=someone
+
+# SMTP server account clear-text password
+password=password
+
+# SMTP server account email address
+emailAddress=Real Name &lt;someone@somewhere.org&gt;
+
+# The email address to send the email to.  Defaults
+# to the 'emailAddress' property if this property is missing
+sendToAddress=Real Name &lt;someone@somewhere.org&gt;</source>            
         </section>
 		
         <section name="RSS URLs to Watch">
