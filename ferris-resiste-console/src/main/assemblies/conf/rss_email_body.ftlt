@@ -1,21 +1,28 @@
 <html>
     <body>
         <!-- contents -->
+        <p style="font-size: larger; font-weight: bold;">
+           Contents
+        </p>
         <div style="border:0px solid black; font-family:Georgia,serif;">${contents}</div>
         
+        
         <!-- images -->
-        <#if images?size != 0>
-            <#list images as image>
-                <p>
-                    <img src="${image.url}" />
-                </p>
-            </#list>
-        </#if>
-
+       <#if images?size != 0>
+           <p style="font-size: larger; font-weight: bold;">
+               Images
+           </p>
+             <#list images as image>
+               <div style="border: 0px solid blue; white-space:nowrap; max-width:99% ">
+                   <img style="max-width:99%;" src="${image.url}" />
+               </div>
+             </#list>
+       </#if>        
+                        
         <!-- media files -->
         <#if mediaFiles?size != 0>
             <p style="font-size: larger; font-weight: bold;">
-                Media-Files
+                Media Files
             </p>
             <#list mediaFiles as mediaFile>
                 <p>
