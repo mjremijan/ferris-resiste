@@ -35,7 +35,7 @@ public class EmailAccount {
 
     @NotNull(message = "{EmailAccount.password.NotNull.message}")
     @Size(message = "{EmailAccount.password.Size.message}", min = 5, max = 35)
-    private String password;
+    private transient String password;
 
     @NotNull(message = "{EmailAccount.emailAddress.NotNull.message}")
     @Pattern(message = "{EmailAccount.emailAddress.Pattern.message}", regexp = ".+\\@.+\\..+")
@@ -130,6 +130,6 @@ public class EmailAccount {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return ToStringBuilder.reflectionToString(this, ToStringBuilder.getDefaultStyle(), false);
     }
 }
