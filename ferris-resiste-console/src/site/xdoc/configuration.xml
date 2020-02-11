@@ -52,8 +52,8 @@
 # 
 # This file holds the information needed to access your email account.
 # you should rename this file "email.properties" in order to get
-# Tweial to find it.  If the "email.properties" file is not found when
-# Tweial starts, the application will print an error message and exit.
+# Resiste to find it.  If the "email.properties" file is not found when
+# Resiste starts, the application will print an error message and exit.
 #
 
 # @SINCE 1.0.0.0
