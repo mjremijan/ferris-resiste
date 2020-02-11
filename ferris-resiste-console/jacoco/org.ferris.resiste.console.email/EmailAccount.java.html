@@ -35,7 +35,7 @@ public class EmailAccount {
 
     @NotNull(message = &quot;{EmailAccount.password.NotNull.message}&quot;)
     @Size(message = &quot;{EmailAccount.password.Size.message}&quot;, min = 5, max = 35)
-    private String password;
+    private transient String password;
 
     @NotNull(message = &quot;{EmailAccount.emailAddress.NotNull.message}&quot;)
     @Pattern(message = &quot;{EmailAccount.emailAddress.Pattern.message}&quot;, regexp = &quot;.+\\@.+\\..+&quot;)
@@ -130,7 +130,7 @@ public class EmailAccount {
 
     @Override
     public String toString() {
-<span class="nc" id="L133">        return ToStringBuilder.reflectionToString(this);</span>
+<span class="nc" id="L133">        return ToStringBuilder.reflectionToString(this, ToStringBuilder.getDefaultStyle(), false);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

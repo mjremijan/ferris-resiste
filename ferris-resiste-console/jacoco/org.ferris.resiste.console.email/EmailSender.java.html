@@ -3,6 +3,7 @@
 import java.util.Properties;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
@@ -19,7 +20,7 @@ import org.slf4j.Logger;
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
 @ApplicationScoped
-<span class="nc" id="L22">public class EmailSender {</span>
+<span class="nc" id="L23">public class EmailSender {</span>
 
     @Inject
     protected Logger log;
@@ -31,58 +32,81 @@ import org.slf4j.Logger;
     @ExceptionRetry
     public void send(EmailDraft draft)
     {
-<span class="nc" id="L34">        log.info(String.format(&quot;ENTER %s&quot;, draft));</span>
+<span class="nc" id="L35">        log.info(String.format(&quot;ENTER %s&quot;, draft));</span>
 
         try {
             // Create MimeMultipart
-<span class="nc" id="L38">            MimeMultipart content = new MimeMultipart(&quot;related&quot;);</span>
+<span class="nc" id="L39">            MimeMultipart content = new MimeMultipart(&quot;related&quot;);</span>
 
             // html part
             {
-<span class="nc" id="L42">                MimeBodyPart textPart = new MimeBodyPart();</span>
-<span class="nc" id="L43">                textPart.setText(draft.getBody(), &quot;UTF8&quot;, &quot;html&quot;);</span>
-<span class="nc" id="L44">                content.addBodyPart(textPart);</span>
+<span class="nc" id="L43">                MimeBodyPart textPart = new MimeBodyPart();</span>
+<span class="nc" id="L44">                textPart.setText(draft.getBody(), &quot;UTF8&quot;, &quot;html&quot;);</span>
+<span class="nc" id="L45">                content.addBodyPart(textPart);</span>
             }
 
-<span class="nc" id="L47">            Session smtp = null;</span>
-<span class="nc" id="L48">            EmailAccount emailAccount = emailAccountService.getEmailAccount();</span>
-            {
-<span class="nc" id="L50">                Properties props = new Properties();</span>
-<span class="nc" id="L51">                props = new Properties();</span>
-<span class="nc" id="L52">                props.setProperty(&quot;mail.smtp.host&quot;, emailAccount.getHost());</span>
-<span class="nc bnc" id="L53" title="All 2 branches missed.">                if (emailAccount.isSslEnabled()) {</span>
-<span class="nc" id="L54">                    props.setProperty(&quot;mail.smtp.socketFactory.port&quot;, emailAccount.getPort().toString());</span>
-<span class="nc" id="L55">                    props.setProperty(&quot;mail.smtp.socketFactory.class&quot;, &quot;javax.net.ssl.SSLSocketFactory&quot;);</span>
-                } else {
-<span class="nc" id="L57">                    props.setProperty(&quot;mail.smtp.socketFactory.port&quot;, emailAccount.getPort().toString());</span>
-<span class="nc" id="L58">                    props.setProperty(&quot;mail.smtp.socketFactory.class&quot;, &quot;javax.net.SocketFactory&quot;);</span>
-                }
-<span class="nc" id="L60">                props.setProperty(&quot;mail.smtp.auth&quot;, &quot;true&quot;);</span>
-<span class="nc" id="L61">                props.setProperty(&quot;mail.smtp.port&quot;, emailAccount.getPort().toString());</span>
+            // properties
+<span class="nc" id="L49">            EmailAccount emailAccount = emailAccountService.getEmailAccount();</span>
+<span class="nc" id="L50">            Properties props = new Properties();</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            if (emailAccount.isSslEnabled()) {</span>
+<span class="nc" id="L52">                props.setProperty(&quot;mail.smtp.auth&quot;, &quot;true&quot;);</span>
+<span class="nc" id="L53">                props.setProperty(&quot;mail.smtp.host&quot;, emailAccount.getHost());</span>
+<span class="nc" id="L54">                props.setProperty(&quot;mail.smtp.socketFactory.port&quot;, emailAccount.getPort().toString());</span>
+<span class="nc" id="L55">                props.setProperty(&quot;mail.smtp.socketFactory.class&quot;, &quot;javax.net.ssl.SSLSocketFactory&quot;);</span>
+            } else {
+<span class="nc" id="L57">                props.setProperty(&quot;mail.smtp.auth&quot;, &quot;true&quot;);</span>
+<span class="nc" id="L58">                props.setProperty(&quot;mail.smtp.host&quot;, emailAccount.getHost());</span>
+<span class="nc" id="L59">                props.setProperty(&quot;mail.smtp.port&quot;, emailAccount.getPort().toString());</span>
+<span class="nc" id="L60">                props.setProperty(&quot;mail.smtp.starttls.enable&quot;, &quot;true&quot;);</span>
+            }
 
-<span class="nc" id="L63">                smtp = Session.getDefaultInstance(props, new javax.mail.Authenticator() {</span>
+<span class="nc" id="L63">            Session smtp = null;</span>
+            {
+<span class="nc" id="L65">                smtp = Session.getInstance(props, new Authenticator() {</span>
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
-<span class="nc" id="L66">                        return new PasswordAuthentication(emailAccount.getUsername(), emailAccount.getPassword());</span>
+<span class="nc" id="L68">                        return new PasswordAuthentication(</span>
+<span class="nc" id="L69">                              emailAccount.getUsername()</span>
+<span class="nc" id="L70">                            , emailAccount.getPassword()</span>
+                        );
                     }
                 });
+<span class="nc" id="L74">                smtp.setDebug(false);</span>
             }
-<span class="nc" id="L70">            smtp.setDebug(false);</span>
 
-<span class="nc" id="L72">            MimeMessage m = new MimeMessage(smtp);</span>
-<span class="nc" id="L73">            m.setContent(content);</span>
-<span class="nc" id="L74">            m.setSubject(draft.getSubject());</span>
-<span class="nc" id="L75">            m.setRecipient(Message.RecipientType.TO, new InternetAddress(emailAccount.getSendToAddress()));</span>
-<span class="nc" id="L76">            m.setReplyTo(new InternetAddress[] {new InternetAddress(emailAccount.getEmailAddress())});</span>
-<span class="nc" id="L77">            InternetAddress ia = new InternetAddress(emailAccount.getEmailAddress());</span>
-<span class="nc" id="L78">            ia.setPersonal(&quot;Resiste&quot;);</span>
-<span class="nc" id="L79">            m.setFrom(ia);</span>
+<span class="nc" id="L77">            MimeMessage m = new MimeMessage(smtp);</span>
+            {
+                // to
+<span class="nc" id="L80">                m.setRecipient(</span>
+                      Message.RecipientType.TO
+<span class="nc" id="L82">                    , new InternetAddress(emailAccount.getSendToAddress())</span>
+                );
 
-<span class="nc" id="L81">            log.info(String.format(&quot;Attempt email with %s&quot;, emailAccount.toString()));</span>
-<span class="nc" id="L82">            Transport.send(m);</span>
-<span class="nc" id="L83">        } catch (Exception e) {</span>
-<span class="nc" id="L84">            throw new RuntimeException(e);</span>
-<span class="nc" id="L85">        }</span>
-<span class="nc" id="L86">    }</span>
+                // subject
+<span class="nc" id="L86">                m.setSubject(draft.getSubject());</span>
+
+                // from
+                {
+<span class="nc" id="L90">                    InternetAddress from = new InternetAddress(emailAccount.getEmailAddress());</span>
+<span class="nc" id="L91">                    from.setPersonal(&quot;Resiste&quot;);</span>
+<span class="nc" id="L92">                    m.setFrom(from);</span>
+                }
+
+                // reply
+                {
+<span class="nc" id="L97">                    InternetAddress reply = new InternetAddress(emailAccount.getEmailAddress());</span>
+<span class="nc" id="L98">                    reply.setPersonal(&quot;Resiste&quot;);</span>
+<span class="nc" id="L99">                    m.setReplyTo(new InternetAddress[] {reply});</span>
+                }
+
+<span class="nc" id="L102">                m.setContent(content);</span>
+            }
+
+<span class="nc" id="L105">            log.info(String.format(&quot;Attempt email with %s&quot;, emailAccount.toString()));</span>
+<span class="nc" id="L106">            Transport.send(m);</span>
+<span class="nc" id="L107">        } catch (Exception e) {</span>
+<span class="nc" id="L108">            throw new RuntimeException(e);</span>
+<span class="nc" id="L109">        }</span>
+<span class="nc" id="L110">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
