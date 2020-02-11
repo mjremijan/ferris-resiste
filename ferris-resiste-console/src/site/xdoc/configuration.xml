@@ -49,27 +49,58 @@
                 details.
             </p>
             <source>
-# SMTP server hostname                
+# 
+# This file holds the information needed to access your email account.
+# you should rename this file "email.properties" in order to get
+# Tweial to find it.  If the "email.properties" file is not found when
+# Tweial starts, the application will print an error message and exit.
+#
+
+# @SINCE 1.0.0.0
+#  Value is either "true" or "false:
+#  If "true" an SSL connection is used to connect to the SMTP server
+#  If "false" an UN-ENCRYPTED connection is used to connect to the SMTP server
+#
+# @SINCE 1.1.9.0
+#  Value is either "true" or "false:
+#  If "true" an SSL connection is used to connect to the SMTP server
+#  If "false" a TLS connection is used to connect to the SMTP server.
+#
+sslEnabled=true || false
+
+# This is the name of the SMTP host machine.
 host=smtp.somewhere.org
 
-# SMTP server port 
+# This is the port number of the SMTP host machine.
+# The same host may support both SSL and TLS but on
+# different ports. So make sure your port number here
+# matches with the 'sslEnabled' configuration above.
 port=44
 
-# SMTP server connection is SSL required, "true" or "false"
-sslEnabled=true
+# This is what you use in the “username” field when
+# you login. Typically this is the same as your email
+# address, but this isn't always the case.
+username=account
 
-# SMTP server account username
-username=someone
-
-# SMTP server account clear-text password
+# This is what you use in the “password” field when
+# you login. This value is CLEAR TEXT, so keep this
+# properties file safe.
 password=password
 
-# SMTP server account email address
-emailAddress=Real Name &lt;someone@somewhere.org&gt;
+# This is the email address you want for the
+# email's FROM field. Enter the value using
+# the format shown below. Typically this is
+# the email address for the account.
+# WARNING: If you make this an email address other
+# than the one for the account, the email may
+# be immediately flagged as SPAM.
+emailAddress=FIRSTNAME LASTNAME &lt;ADDRESS@EMAIL.COM&gt;
 
-# The email address to send the email to.  Defaults
-# to the 'emailAddress' property if this property is missing
-sendToAddress=Real Name &lt;someone@somewhere.org&gt;</source>            
+# This is the email address you want for the
+# email's TO field. Enter the value using
+# the format shown below.  For testing, it's a good 
+# idea to send it to yourself first.
+sendToAddress=FIRSTNAME LASTNAME &lt;ADDRESS@EMAIL.COM&gt;</source>            
         </section>
 		
         <section name="RSS URLs to Watch">
