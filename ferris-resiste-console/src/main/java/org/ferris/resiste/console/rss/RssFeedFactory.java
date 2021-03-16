@@ -33,16 +33,23 @@ public class RssFeedFactory {
 
     @ExceptionRetry
     public RssFeed build(RssUrl feedUrl) throws IOException, FeedException {
+        try {
+            return build(feedUrl, Optional.of("deflate, br"));
+        } catch (Exception ignore) {
+            return build(feedUrl, Optional.empty());
+        }
+    }
+
+    private RssFeed build(RssUrl feedUrl, Optional<String> acceptEncoding) throws IOException, FeedException {
         log.debug(String.format("ENTER %s", feedUrl));
 
         String rawXml = "RAW_XML";
 
         try {
-
             HttpURLConnection connection = (HttpURLConnection)feedUrl.getUrl().openConnection();
             connection.setRequestProperty("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
             connection.setRequestProperty("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
-            connection.setRequestProperty("accept-encoding", "deflate, br");
+            acceptEncoding.ifPresent(s -> connection.setRequestProperty("accept-encoding", s));
             connection.setRequestProperty("accept-language", "en-US,en;q=0.9");
             connection.setRequestProperty("upgrade-insecure-requests", "1");
             connection.connect();
@@ -54,7 +61,7 @@ public class RssFeedFactory {
                     errorString
                         = new BufferedReader(new InputStreamReader(connection.getErrorStream(), "UTF-8")).lines().collect(Collectors.joining("\n"));
                 } catch (Exception ignore) {}
-                
+
                 throw new RuntimeException(
                     String.format(
                         "HTTP response is not OK. CODE=%d, ERROR_STRING=\"%s\""

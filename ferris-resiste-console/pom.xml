@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.ferris</groupId>
         <artifactId>ferris-resiste</artifactId>
-        <version>1.1.10.0</version>
+        <version>1.1.11.0-SNAPSHOT</version>
     </parent>
     
     <!--
@@ -420,7 +420,7 @@
                                     <target>
                                         <unzip src="${project.build.directory}/${project.artifactId}-${project.version}-${ferrisWindowsAssemblyId}.zip" dest="${project.build.directory}/unziped" />
                                         <copy 
-                                            file="src\main\assemblies\conf\email.properties"
+                                            file="D:\Documents\Development\Resources\ferris-resiste\conf\email.properties"
                                             todir="${project.build.directory}/unziped/${project.artifactId}-${project.version}-${ferrisWindowsAssemblyId}/conf"
                                         />
                                     </target>
