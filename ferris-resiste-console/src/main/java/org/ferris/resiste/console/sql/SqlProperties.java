@@ -6,6 +6,7 @@ import javax.enterprise.inject.Vetoed;
 import org.ferris.resiste.console.conf.ConfDirectory;
 import org.ferris.resiste.console.data.DataDirectory;
 import org.ferris.resiste.console.io.AbstractPropertiesFile;
+import org.ferris.resiste.console.rsa.Rsa4096;
 
 /**
  *
@@ -17,6 +18,7 @@ public class SqlProperties extends AbstractPropertiesFile {
     private static final long serialVersionUID = 375890234508843L;
 
     protected DataDirectory dataDirectory;
+    protected Rsa4096 rsa;
 
     @Override
     public String toString() {
@@ -27,9 +29,10 @@ public class SqlProperties extends AbstractPropertiesFile {
         return sj.toString();
     }
 
-    public SqlProperties(ConfDirectory confDirectory, DataDirectory dataDirectory) {
+    public SqlProperties(ConfDirectory confDirectory, DataDirectory dataDirectory, Rsa4096 rsa) {
         super(confDirectory, String.format("db.properties"));
         this.dataDirectory = dataDirectory;
+        this.rsa = rsa;
     }
 
     public String getSchema() {
@@ -41,13 +44,19 @@ public class SqlProperties extends AbstractPropertiesFile {
     public String getPassword() {
         Optional<String> password
             = Optional.ofNullable(super.toProperties().getProperty("password"));
-        return password.orElseGet(() -> "x4A03HZ7ZV*lzB%");
+        return password
+            .map( s -> rsa.decryptFromBase64(s))
+            .orElseGet(() -> "x4A03HZ7ZV*lzB%")
+        ;
     }
 
     public String getUsername() {
         Optional<String> username
             = Optional.ofNullable(super.toProperties().getProperty("username"));
-        return username.orElseGet(() -> "resiste_standalone");
+        return username
+            .map( s -> rsa.decryptFromBase64(s))
+            .orElseGet(() -> "resiste_standalone")
+        ;
     }
 
     public String getUrl() {
