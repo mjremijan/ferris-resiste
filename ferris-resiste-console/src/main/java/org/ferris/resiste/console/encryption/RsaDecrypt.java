@@ -1,7 +1,7 @@
-package org.ferris.resiste.console.rsa;
+package org.ferris.resiste.console.encryption;
 
+import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.spec.KeySpec;
@@ -15,26 +15,24 @@ import javax.enterprise.inject.Vetoed;
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
 @Vetoed
-public class Rsa4096 {
+public class RsaDecrypt implements Rsa {
 
     private KeyFactory keyFactory;
     private PrivateKey privateKey;
 
-    public Rsa4096(
-        Path fullyQualifiedPrivateKeyFileName
-    ) throws Exception {
+    public RsaDecrypt(File rsaPrivateKey) throws Exception {
         setKeyFactory();
-        setPrivateKey(fullyQualifiedPrivateKeyFileName);
+        setPrivateKey(rsaPrivateKey);
     }
 
     protected void setKeyFactory() throws Exception {
         this.keyFactory = KeyFactory.getInstance("RSA");
     }
 
-    protected void setPrivateKey(Path fullyQualifiedPrivateKeyFileName)
+    protected void setPrivateKey(File rsaPrivateKey)
         throws Exception {
         String stringBefore
-            = Files.readAllLines(fullyQualifiedPrivateKeyFileName)
+            = Files.readAllLines(rsaPrivateKey.toPath())
                 .stream()
                 .reduce((t, u) -> t + "\n" + u)
                 .get()
@@ -56,7 +54,8 @@ public class Rsa4096 {
         privateKey = keyFactory.generatePrivate(keySpec);
     }
 
-    public String decryptFromBase64(String base64EncodedEncryptedBytes) {
+    @Override
+    public String getValue(String base64EncodedEncryptedBytes) {
         String plainText = null;
         try {
             final Cipher cipher = Cipher.getInstance("RSA");
@@ -71,6 +70,4 @@ public class Rsa4096 {
         }
         return plainText;
     }
-
-
 }
