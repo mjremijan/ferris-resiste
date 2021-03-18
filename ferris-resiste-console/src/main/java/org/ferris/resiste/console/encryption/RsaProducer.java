@@ -9,12 +9,12 @@ import javax.inject.Inject;
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
 @ApplicationScoped
-public class Rsa4096Producer {
+public class RsaProducer {
 
     protected Rsa rsa;
 
     @Inject
-    public Rsa4096Producer(RsaPrivateKey rsaPrivateKey) throws Exception {
+    public RsaProducer(RsaPrivateKeyFile rsaPrivateKey) throws Exception {
 
         if (rsaPrivateKey.canRead()) {
             rsa = new RsaDecrypt(rsaPrivateKey);

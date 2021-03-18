@@ -9,17 +9,17 @@ import javax.inject.Inject;
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
 @ApplicationScoped
-public class RsaPrivateKeyProducer {
+public class RsaPrivateKeyFileProducer {
 
-    protected RsaPrivateKey rsaPrivateKey;
+    protected RsaPrivateKeyFile rsaPrivateKey;
 
     @Inject
-    public RsaPrivateKeyProducer(EncryptionDirectory encryptionDirectory) {
-        rsaPrivateKey = new RsaPrivateKey(encryptionDirectory);
+    public RsaPrivateKeyFileProducer(EncryptionDirectory encryptionDirectory) {
+        rsaPrivateKey = new RsaPrivateKeyFile(encryptionDirectory);
     }
 
     @Produces
-    public RsaPrivateKey produceRsaPrivateKey() {
+    public RsaPrivateKeyFile produceRsaPrivateKey() {
         return rsaPrivateKey;
     }
 }

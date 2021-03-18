@@ -7,7 +7,7 @@ import javax.enterprise.inject.Vetoed;
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
 @Vetoed
-public class RsaPrivateKey extends File {
+public class RsaPrivateKeyFile extends File {
 
     private static final long serialVersionUID = 182745237455451276L;
 
@@ -16,7 +16,7 @@ public class RsaPrivateKey extends File {
      *
      * @param parent The parent, relative to the {@code relativePath} parameter
      */
-    public RsaPrivateKey(File parent) {
+    public RsaPrivateKeyFile(File parent) {
         super(parent, "private_key_rsa_4096_pkcs8.pem");
     }
 }
