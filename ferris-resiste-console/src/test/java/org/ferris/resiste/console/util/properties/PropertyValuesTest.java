@@ -37,8 +37,8 @@ public class PropertyValuesTest {
         File f = new File(path, "rsa.properties");
 
         Rsa rsaMock = Mockito.mock(Rsa.class);
-        Mockito.when(rsaMock.getValue("aabbccddeeff")).thenReturn("-username");
-        Mockito.when(rsaMock.getValue("gghhiijjkkll")).thenReturn("+password");
+        Mockito.when(rsaMock.base64DecodeAndDecrypt("aabbccddeeff")).thenReturn("-username");
+        Mockito.when(rsaMock.base64DecodeAndDecrypt("gghhiijjkkll")).thenReturn("+password");
 
         PropertyValues pv = new PropertyValues(
             f, new PropertyValueDecoderForRsa(rsaMock)
@@ -55,8 +55,8 @@ public class PropertyValuesTest {
         File f = new File(path, "echo_and_rsa.properties");
 
         Rsa rsaMock = Mockito.mock(Rsa.class);
-        Mockito.when(rsaMock.getValue("aabbccddeeff")).thenReturn("-username");
-        Mockito.when(rsaMock.getValue("gghhiijjkkll")).thenReturn("+password");
+        Mockito.when(rsaMock.base64DecodeAndDecrypt("aabbccddeeff")).thenReturn("-username");
+        Mockito.when(rsaMock.base64DecodeAndDecrypt("gghhiijjkkll")).thenReturn("+password");
 
         PropertyValueDecoderForRsa rsaDecoder
             = new PropertyValueDecoderForRsa(rsaMock);

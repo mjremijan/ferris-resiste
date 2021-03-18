@@ -1,17 +1,19 @@
 package org.ferris.resiste.console.util.properties;
 
 import java.util.Optional;
+import javax.enterprise.inject.Vetoed;
 import org.ferris.resiste.console.encryption.Rsa;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class PropertyValueDecoderForRsa extends PropertyValueDecoder {
 
     protected Rsa rsa;
 
-    protected PropertyValueDecoderForRsa(Rsa rsa) {
+    public PropertyValueDecoderForRsa(Rsa rsa) {
         this.rsa = rsa;
     }
 
@@ -31,7 +33,7 @@ public class PropertyValueDecoderForRsa extends PropertyValueDecoder {
     @Override
     public String decode(String value) {
         String base64 = value.substring(0, value.length()-1).substring(4);
-        return rsa.getValue(base64);
+        return rsa.base64DecodeAndDecrypt(base64);
     }
 
 }

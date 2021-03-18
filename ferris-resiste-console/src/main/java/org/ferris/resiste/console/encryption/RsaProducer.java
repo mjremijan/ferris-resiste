@@ -1,5 +1,6 @@
 package org.ferris.resiste.console.encryption;
 
+import java.util.Optional;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -11,20 +12,20 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class RsaProducer {
 
-    protected Rsa rsa;
+    protected Optional<Rsa> rsa;
 
     @Inject
     public RsaProducer(RsaPrivateKeyFile rsaPrivateKey) throws Exception {
 
         if (rsaPrivateKey.canRead()) {
-            rsa = new RsaDecrypt(rsaPrivateKey);
+            rsa = Optional.of(new Rsa(rsaPrivateKey));
         } else {
-            rsa = new Rsa4096Echo();
+            rsa = Optional.empty();
         }
     }
 
     @Produces
-    public Rsa produceRsa4096() {
+    public Optional<Rsa> produceRsa() {
         return rsa;
     }
 }

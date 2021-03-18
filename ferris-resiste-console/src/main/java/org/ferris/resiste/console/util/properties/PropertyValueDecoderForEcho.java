@@ -1,11 +1,13 @@
 package org.ferris.resiste.console.util.properties;
 
 import java.util.Optional;
+import javax.enterprise.inject.Vetoed;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
+@Vetoed
 public class PropertyValueDecoderForEcho extends PropertyValueDecoder {
 
     @Override
