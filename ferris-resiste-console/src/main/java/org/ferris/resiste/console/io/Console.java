@@ -70,7 +70,7 @@ public class Console {
         sw.flush();
 
         writer.println();
-        writer.printf(sw.toString());
+        writer.printf("%s", sw.toString());
         writer.println();
     }
 }

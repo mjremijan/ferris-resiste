@@ -40,7 +40,7 @@
         </fileSet>
         
         <fileSet>
-            <directory>src/main/assemblies/encryption</directory>
+            <directory>src/main/assemblies/security</directory>
             <outputDirectory>security</outputDirectory>
             <includes>
                 <include>*.sh</include>
@@ -50,7 +50,7 @@
             <lineEnding>unix</lineEnding>
         </fileSet>
         <fileSet>
-            <directory>src/main/assemblies/encryption</directory>
+            <directory>src/main/assemblies/security</directory>
             <outputDirectory>security</outputDirectory>
             <excludes>
                 <exclude>*.sh</exclude>

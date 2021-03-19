@@ -25,6 +25,9 @@ public class SqlPropertiesProducer {
         // verify url
         p.setPropertyIfNull("url", String.format("jdbc:derby:%s/resiste", dataDirectory.getPath()));
 
+        // derby stuff
+        System.setProperty("derby.system.home", )
+
         // verify username
         p.setPropertyIfNull("username", "resiste_standalone");
 

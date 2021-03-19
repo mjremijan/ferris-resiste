@@ -51,6 +51,9 @@ public class UncaughtExceptionService implements UncaughtExceptionHandler {
         // Remove default handler...infinte circle?
         exceptionTool.setDefaultUncaughtExceptionHandler(null);
 
+        // View
+        uncaughtExceptionPage.view(e);
+
         // Try to send error email
         try {
             error.fire(new EmailErrorEvent(
@@ -60,8 +63,7 @@ public class UncaughtExceptionService implements UncaughtExceptionHandler {
             ));
         } catch (Exception ignore){}
 
-        // View and exit
-        uncaughtExceptionPage.view(e);
+        // Exit
         exitEvent.fire(new ExitEvent());
     }
 }
