@@ -1,4 +1,4 @@
-package org.ferris.resiste.console.encryption;
+package org.ferris.resiste.console.security;
 
 import java.io.File;
 import java.nio.file.Files;

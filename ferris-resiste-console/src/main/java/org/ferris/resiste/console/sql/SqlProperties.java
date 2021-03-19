@@ -4,20 +4,17 @@ import java.io.File;
 import java.util.Optional;
 import java.util.StringJoiner;
 import javax.enterprise.inject.Vetoed;
-import org.ferris.resiste.console.data.DataDirectory;
-import org.ferris.resiste.console.util.properties.PropertyValueDecoder;
-import org.ferris.resiste.console.util.properties.PropertyValues;
+import org.ferris.resiste.console.security.Rsa;
+import org.ferris.resiste.console.security.SecureProperties;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
 @Vetoed
-public class SqlProperties extends PropertyValues {
+public class SqlProperties extends SecureProperties {
 
     private static final long serialVersionUID = 3890234537753408843L;
-
-    protected DataDirectory dataDirectory;
 
     @Override
     public String toString() {
@@ -28,47 +25,23 @@ public class SqlProperties extends PropertyValues {
         return sj.toString();
     }
 
-    public SqlProperties(File file) {
-        super(file);
-    }
-
-    public SqlProperties(File file, PropertyValueDecoder decoder, DataDirectory dataDirectory) {
-        super(file, decoder);
-        this.dataDirectory = dataDirectory;
+    public SqlProperties(File file, Optional<Rsa> rsa) {
+        super(file, rsa);
     }
 
     public String getSchema() {
-        Optional<String> schema
-            = Optional.ofNullable(super.getProperty("schema"));
-        return schema.orElseGet(() -> "APP");
+        return getProperty("schema");
     }
 
     public String getPassword() {
-        Optional<String> password
-            = Optional.ofNullable(super.getProperty("password"));
-        return password.orElseGet(() -> "x4A03HZ7ZV*lzB%")
-        ;
+        return getProperty("password");
     }
 
     public String getUsername() {
-        Optional<String> username
-            = Optional.ofNullable(super.getProperty("username"));
-        return username.orElseGet(() -> "resiste_standalone")
-        ;
+        return getProperty("username");
     }
 
     public String getUrl() {
-        Optional<String> url
-            = Optional.ofNullable(super.getProperty("url"));
-        return url.orElseGet(() -> {
-            try {
-                return String.format(
-                      "jdbc:derby:%s/resiste"
-                    , dataDirectory.getCanonicalPath()
-                );
-            } catch (Throwable t) {
-                throw new RuntimeException(t);
-            }
-        });
+        return getProperty("url");
     }
 }

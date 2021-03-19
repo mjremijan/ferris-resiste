@@ -1,30 +1,30 @@
-package org.ferris.resiste.console.util.properties;
+package org.ferris.resiste.console.security;
 
 import java.io.File;
+import java.util.Optional;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.ferris.resiste.console.encryption.Rsa;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
-public class PropertyValuesTest {
+public class SecurePropertiesTest {
 
     protected File path;
 
     @Before
     public void setUp() throws Exception {
-        path = new File("src/test/resources/org/ferris/resiste/console/util/properties");
+        path = new File("src/test/resources/org/ferris/resiste/console/security");
     }
 
     @Test
     public void test_echo() {
         // Setup
         File f = new File(path, "echo.properties");
-        PropertyValues pv = new PropertyValues(f);
+        SecureProperties pv = new SecureProperties(f, Optional.empty());
 
         // Assert
         Assert.assertEquals("mike", pv.getProperty("name"));
@@ -40,8 +40,8 @@ public class PropertyValuesTest {
         Mockito.when(rsaMock.base64DecodeAndDecrypt("aabbccddeeff")).thenReturn("-username");
         Mockito.when(rsaMock.base64DecodeAndDecrypt("gghhiijjkkll")).thenReturn("+password");
 
-        PropertyValues pv = new PropertyValues(
-            f, new PropertyValueDecoderForRsa(rsaMock)
+        SecureProperties pv = new SecureProperties(
+            f, Optional.of(rsaMock)
         );
 
         // Assert
@@ -58,12 +58,8 @@ public class PropertyValuesTest {
         Mockito.when(rsaMock.base64DecodeAndDecrypt("aabbccddeeff")).thenReturn("-username");
         Mockito.when(rsaMock.base64DecodeAndDecrypt("gghhiijjkkll")).thenReturn("+password");
 
-        PropertyValueDecoderForRsa rsaDecoder
-            = new PropertyValueDecoderForRsa(rsaMock);
-        rsaDecoder.next(new PropertyValueDecoderForEcho());
-
-        PropertyValues pv = new PropertyValues(
-            f, rsaDecoder
+        SecureProperties pv = new SecureProperties(
+            f, Optional.of(rsaMock)
         );
 
         // Assert

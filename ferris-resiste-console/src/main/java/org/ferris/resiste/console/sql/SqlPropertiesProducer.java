@@ -5,10 +5,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import org.ferris.resiste.console.data.DataDirectory;
-import org.ferris.resiste.console.encryption.Rsa;
-import org.ferris.resiste.console.util.properties.PropertyValueDecoder;
-import org.ferris.resiste.console.util.properties.PropertyValueDecoderForEcho;
-import org.ferris.resiste.console.util.properties.PropertyValueDecoderForRsa;
+import org.ferris.resiste.console.security.Rsa;
 
 /**
  *
@@ -17,24 +14,29 @@ import org.ferris.resiste.console.util.properties.PropertyValueDecoderForRsa;
 @ApplicationScoped
 public class SqlPropertiesProducer {
 
-    protected SqlProperties sqlProperties;
-
-    // DataDirectory dataDirectory
+    protected SqlProperties p;
 
     @Inject
     public SqlPropertiesProducer(SqlPropertiesFile sqlPropertiesFile, Optional<Rsa> rsa, DataDirectory dataDirectory) {
-        if (rsa.isPresent()) {
-            PropertyValueDecoder first = new PropertyValueDecoderForRsa(rsa.get());
-            PropertyValueDecoder second = new PropertyValueDecoderForEcho();
-            first.next(second);
-            sqlProperties = new SqlProperties(sqlPropertiesFile, first, dataDirectory);
-        } else {
-            sqlProperties = new SqlProperties(sqlPropertiesFile);
-        }
+
+        // create object
+        p = new SqlProperties(sqlPropertiesFile, rsa);
+
+        // verify url
+        p.setPropertyIfNull("url", String.format("jdbc:derby:%s/resiste", dataDirectory.getPath()));
+
+        // verify username
+        p.setPropertyIfNull("username", "resiste_standalone");
+
+        // verify password
+        p.setPropertyIfNull("password", "x4A03HZ7ZV*lzB%");
+
+        // verify schema
+        p.setPropertyIfNull("schema", "APP");
     }
 
     @Produces
     public SqlProperties produceSqlProperties() {
-        return sqlProperties;
+        return p;
     }
 }

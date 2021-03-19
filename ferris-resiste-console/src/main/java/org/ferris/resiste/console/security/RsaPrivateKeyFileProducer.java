@@ -1,4 +1,4 @@
-package org.ferris.resiste.console.encryption;
+package org.ferris.resiste.console.security;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -14,8 +14,8 @@ public class RsaPrivateKeyFileProducer {
     protected RsaPrivateKeyFile rsaPrivateKey;
 
     @Inject
-    public RsaPrivateKeyFileProducer(EncryptionDirectory encryptionDirectory) {
-        rsaPrivateKey = new RsaPrivateKeyFile(encryptionDirectory);
+    public RsaPrivateKeyFileProducer(SecurityDirectory securityDirectory) {
+        rsaPrivateKey = new RsaPrivateKeyFile(securityDirectory);
     }
 
     @Produces

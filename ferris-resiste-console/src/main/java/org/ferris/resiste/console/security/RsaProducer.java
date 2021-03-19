@@ -1,4 +1,4 @@
-package org.ferris.resiste.console.encryption;
+package org.ferris.resiste.console.security;
 
 import java.util.Optional;
 import javax.enterprise.context.ApplicationScoped;
@@ -16,7 +16,6 @@ public class RsaProducer {
 
     @Inject
     public RsaProducer(RsaPrivateKeyFile rsaPrivateKey) throws Exception {
-
         if (rsaPrivateKey.canRead()) {
             rsa = Optional.of(new Rsa(rsaPrivateKey));
         } else {

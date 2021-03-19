@@ -41,7 +41,7 @@
         
         <fileSet>
             <directory>src/main/assemblies/encryption</directory>
-            <outputDirectory>encryption</outputDirectory>
+            <outputDirectory>security</outputDirectory>
             <includes>
                 <include>*.sh</include>
             </includes>
@@ -51,7 +51,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/assemblies/encryption</directory>
-            <outputDirectory>encryption</outputDirectory>
+            <outputDirectory>security</outputDirectory>
             <excludes>
                 <exclude>*.sh</exclude>
             </excludes>
