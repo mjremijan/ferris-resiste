@@ -92,7 +92,15 @@ public class RssFeedFactory {
                         e.setGuid(re.getUri());
                         e.setTitle(re.getTitle());
                         e.setAuthor(re.getAuthor());
-                        e.setLink(re.getLink());
+                        // Link
+                        {
+                            String link = re.getLink();
+                            if (link.startsWith("http")) {
+                                e.setLink(link);
+                            } else {
+                                e.setLink(feed.getLink() + link);
+                            }
+                        }
                         e.setPublishedDate(re.getPublishedDate());
 
                         // Enclosures
