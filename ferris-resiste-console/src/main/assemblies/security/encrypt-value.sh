@@ -8,8 +8,8 @@ echo -n "Enter again: "
 read -s val2
 echo
 
-if [ "$val1" == "$val2" ]; then
-        b64=`printf "$val2" | openssl rsautl -encrypt -inkey public_key_rsa_4096_pkcs8.pem -pubin | openssl enc -A -base64`
+if [ "$val1" == "$val2" ]; then        
+        b64=`printf '%s' "${val2}" | openssl rsautl -encrypt -inkey public_key_rsa_4096_pkcs8.pem -pubin | openssl enc -A -base64`
         echo
         echo "COPY AND PASTE"
         echo

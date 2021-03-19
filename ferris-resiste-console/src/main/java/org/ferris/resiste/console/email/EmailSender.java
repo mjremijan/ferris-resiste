@@ -7,6 +7,7 @@ import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -102,7 +103,7 @@ public class EmailSender {
             }
 
             log.info(String.format("Attempt email with %s", emailAccount.toString()));
-//            Transport.send(m);
+            Transport.send(m);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

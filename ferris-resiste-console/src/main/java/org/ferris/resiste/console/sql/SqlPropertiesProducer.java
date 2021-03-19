@@ -1,11 +1,14 @@
 package org.ferris.resiste.console.sql;
 
+import java.io.File;
 import java.util.Optional;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import org.ferris.resiste.console.data.DataDirectory;
 import org.ferris.resiste.console.security.Rsa;
+import org.slf4j.Logger;
 
 /**
  *
@@ -14,19 +17,54 @@ import org.ferris.resiste.console.security.Rsa;
 @ApplicationScoped
 public class SqlPropertiesProducer {
 
-    protected SqlProperties p;
+    @Inject
+    protected Logger log;
 
     @Inject
-    public SqlPropertiesProducer(SqlPropertiesFile sqlPropertiesFile, Optional<Rsa> rsa, DataDirectory dataDirectory) {
+    protected SqlPropertiesFile sqlPropertiesFile;
 
+    @Inject
+    protected Optional<Rsa> rsa;
+
+    @Inject
+    protected DataDirectory dataDirectory;
+
+    protected SqlProperties p;
+
+    @PostConstruct
+    protected void postConstruct() {
         // create object
         p = new SqlProperties(sqlPropertiesFile, rsa);
 
-        // verify url
-        p.setPropertyIfNull("url", String.format("jdbc:derby:%s/resiste", dataDirectory.getPath()));
+        // verify derby
+        String url = p.getProperty("url");
+        if (url == null) {
+            // location of database directory
+            File dbdir = new File(dataDirectory, "resiste");
+            url = String.format("jdbc:derby:%s", dbdir.getPath());
+            p.setProperty("url", url);
 
-        // derby stuff
-        System.setProperty("derby.system.home", )
+            // location of derby home
+            System.setProperty("derby.system.home", dbdir.getParent());
+        } else {
+            // location of database
+            // jdbc:derby:[subsubprotocol:][databaseName][;attribute=value]*
+            int start = url.lastIndexOf("derby:") + "derby:".length();
+            int end = url.indexOf(";");
+            end = (end == -1) ? url.length() : end;
+            String substr = url.substring(start, end);
+            log.info(String.format("Database location substring = start=%d, end=%d: \"%s\"%n", start, end, substr));
+            File dbloc = new File(substr);
+
+            // location of derby home
+            if (dbloc.canRead()) {
+                System.setProperty("derby.system.home", dbloc.getParent());
+            } else {
+                // location of derby home
+                System.setProperty("derby.system.home", dataDirectory.getPath());
+            }
+        }
+        log.info(String.format("derby.system.home=\"%s\"", System.getProperty("derby.system.home")));
 
         // verify username
         p.setPropertyIfNull("username", "resiste_standalone");
