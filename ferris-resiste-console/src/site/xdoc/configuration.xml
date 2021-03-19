@@ -153,10 +153,6 @@ aa312231-8510-422b-8f4d-18e7f4ae4405,https://xkcd.com/rss.xml</source>
                 <b>Configure error email body</b> by editing, in the <code>[RESISTE_HOME]/conf/</code>
                 directory, the <code>error_email_body.ftlt</code>.
             </p>
-
-            <p>
-                Configuration complete! Next is <a href="scheduling.html" alt="scheduling">scheduling</a>.
-            </p>
         </section>	     
         
              
@@ -181,7 +177,11 @@ aa312231-8510-422b-8f4d-18e7f4ae4405,https://xkcd.com/rss.xml</source>
                 Resiste only supports a Derby database at this time.
             </p>
             <p>
-                <b>LOCAL</b> Derby database example
+                <span style="font-weight:bold; color:red">NOTE:</span> See <a href="security.html" alt="security">security</a> for 
+                information on encrypting the username and password.
+            </p>
+            <p>
+                <b>LOCAL</b> Example
             </p>
             <source>
 url=jdbc:derby:C:/Users/Mike/Documents/Databases/Derby/Ferris/resiste
@@ -189,13 +189,18 @@ username=resiste_standalone
 password=x4A03HZ7ZV*lzB%
 schema=APP</source> 
 <p>
-                <b>REMOTE</b> Derby database example
+                <b>REMOTE</b> Example
             </p>
             <source>
 url=jdbc:derby://localhost:1527/resiste
 username=resiste_standalone
 password=x4A03HZ7ZV*lzB%
-schema=APP</source>           
-        </section>     
+schema=APP</source> 
+
+          
+            <p>
+                Configuration complete! Next is <a href="security.html" alt="security">security</a>.
+            </p>                              
+        </section>  
     </body>
 </document>
