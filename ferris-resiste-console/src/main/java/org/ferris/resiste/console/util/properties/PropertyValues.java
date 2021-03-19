@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 import java.util.Properties;
 import javax.enterprise.inject.Vetoed;
 
@@ -45,7 +46,19 @@ public class PropertyValues extends Properties {
 
     @Override
     public String getProperty(String key) {
+        System.out.printf("key = %s%n", key);
         String val = super.getProperty(key);
+        System.out.printf("val = %s%n", (val == null) ? "~NULL~" : val);
+
+        Optional<PropertyValueDecoder> responsible
+            = decoder.responsible(val);
+        System.out.printf("Responsible decoder = %s %n", (responsible.isPresent()) ? responsible.get() : "~NOT PRESENT~" );
+
+        Optional<String> map
+            = responsible.map(d -> d.decode(val));
+        System.out.printf("Mapped to Strng = %s %n", (map.isPresent()) ? map.get() : "~NOT PRESENT~" );
+
+        System.out.printf("decoded = %n");
         return decoder
             .responsible(val)
             .map(d -> d.decode(val))

@@ -19,7 +19,7 @@ public class RsaPrivateKeyFileProducer {
     }
 
     @Produces
-    public RsaPrivateKeyFile produceRsaPrivateKey() {
+    public RsaPrivateKeyFile produceRsaPrivateKeyFile() {
         return rsaPrivateKey;
     }
 }

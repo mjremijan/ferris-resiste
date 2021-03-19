@@ -19,6 +19,7 @@ public class PropertyValueDecoderForRsa extends PropertyValueDecoder {
 
     @Override
     public Optional<PropertyValueDecoder> responsible(String value) {
+        System.out.printf("PropertyValueDecoderForEcho.responsible {%s}%n", value);
         return
             (value == null)
                 ? super.responsible(value)

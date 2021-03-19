@@ -41,6 +41,25 @@
         </fileSet>
         
         <fileSet>
+            <directory>src/main/assemblies/encryption</directory>
+            <outputDirectory>encryption</outputDirectory>
+            <includes>
+                <include>*.sh</include>
+            </includes>
+            <filtered>false</filtered>
+            <fileMode>0744</fileMode>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/assemblies/encryption</directory>
+            <outputDirectory>encryption</outputDirectory>
+            <excludes>
+                <exclude>*.sh</exclude>
+            </excludes>
+            <filtered>false</filtered>
+        </fileSet>
+        
+        <fileSet>
             <directory>target/site</directory>
             <outputDirectory>docs</outputDirectory>
             <includes>

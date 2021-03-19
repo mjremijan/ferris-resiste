@@ -1,7 +1,5 @@
 package org.ferris.resiste.console.encryption;
 
-import org.ferris.resiste.console.conf.*;
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -17,15 +15,12 @@ public class EncryptionDirectoryProducer {
     protected EncryptionDirectory encryptionDirectory;
 
     @Inject
-    protected ApplicationDirectory applicationDirectory;
-
-    @PostConstruct
-    public void postConstruct() {
+    public void EncryptionDirectoryProducer(ApplicationDirectory applicationDirectory) {
         encryptionDirectory = new EncryptionDirectory(applicationDirectory);
     }
 
     @Produces
-    public EncryptionDirectory produceConfDirectory() {
+    public EncryptionDirectory produceEncryptionDirectory() {
         return encryptionDirectory;
     }
 }
