@@ -41,6 +41,25 @@
         </fileSet>
         
         <fileSet>
+            <directory>src/main/assemblies/security</directory>
+            <outputDirectory>security</outputDirectory>
+            <includes>
+                <include>*.sh</include>
+            </includes>
+            <filtered>false</filtered>
+            <fileMode>0744</fileMode>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/assemblies/security</directory>
+            <outputDirectory>security</outputDirectory>
+            <excludes>
+                <exclude>*.sh</exclude>
+            </excludes>
+            <filtered>false</filtered>
+        </fileSet>
+        
+        <fileSet>
             <directory>target/site</directory>
             <outputDirectory>docs</outputDirectory>
             <includes>

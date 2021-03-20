@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+    <properties>
+        <title>Ferris Resiste</title>
+        <author email="mjremijan@yahoo.com">Michael Remijan</author>
+    </properties>
+
+    <body>
+        <section name="Security">
+            <p>
+                Resiste has a security option to encrypt the values in <code>db.properties</code>. 
+                This is specifically targeted at the <b>database password</b>, however, you can encrypt any
+                of the values in <code>db.properties</code>.
+            </p>
+            <p>
+                Resiste uses RSA-4096 public/private key asymmetric encryption. 
+                <a href="https://mjremijan.blogspot.com/2020/04/encrypt-with-openssl-decrypt-with-java.html">See my blog article</a> for all the details.
+            </p>
+            <p>
+                All key generation and encryption occurs outside the the application. This means that you
+                are free to generate new keys and re-encrypt the <code>db.properties</code> values at any time. 
+                No code changes are required. 
+            </p>
+        </section>
+		
+        <section name="Linux / openssl">
+            <p>
+                Resiste uses <code>openssl</code> for generating keys and encrypting values. I've only used
+                <code>openssl</code> on Linux. I don't know if it would work on Windows, Cygwin, or other 
+                platforms. You can try!
+            </p>           
+        </section>
+        
+        <section name="Generate Keys">
+            <p>
+                The first thing you need to do is generate the public/private keys that are
+                used for encryption/decryption. The scripts are located in the 
+                <code>[RESISTE_HOME]/security/</code> directory. Open a shell and execute
+                <code>[RESISTE_HOME]/security/generate-keys.sh</code> directory. 
+            </p>
+            <p>
+                That's it! Now you're ready to encrypt values.
+            </p>
+            <p>
+                <img src="images/generate-keys.jpg" />
+            </p>           
+        </section>
+        
+        <section name="Encrypt Value">
+            <p>
+                Once the keys are generated, you can use the public key to encrypt a value.
+                Open a shell and execute
+                <code>[RESISTE_HOME]/security/encrypt-value.sh</code>. It will prompt you twice
+                for the value to verify it was entered correctly. What you type will not echo
+                to the console. The script will output a Base64 encoded, encrypted version of 
+                your value. Copy this entire value - 
+                <b>Including the beginning <code>rsa{</code> and ending <code>}</code></b>.
+            </p>
+            <p>
+                <img src="images/encrypt-value.jpg" />
+            </p>           
+        </section>
+		
+        <section name="Paste">
+            <p>
+                Paste the Base64 encoded, encrypted version of your value into <code>db.properties</code>.
+            </p>
+            <p>
+                Note the beginning <code>rsa{</code>
+            </p>
+            <p>
+                Note the ending <code>}</code>
+            </p>
+            <p>
+                Note it is a single value all on one line. See how the line numbers in Notepad++ expand.
+            </p>
+            <p>
+                <img src="images/db.properties.jpg" />
+            </p> 
+        </section>
+		
+        <section name="Encrypt More">
+            <p>
+                Any value in <code>db.properties</code> can be encrypted in this way. It 
+                is not just for the password value.  
+            </p>
+		
+            <p>
+                Security complete! Next is <a href="scheduling.html" alt="scheduling">scheduling</a>.
+            </p>                              
+        </section>  
+    </body>
+</document>
