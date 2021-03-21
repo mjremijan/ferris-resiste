@@ -11,6 +11,7 @@ org.ferris.resiste.console.main
 org.ferris.resiste.console.retry
 org.ferris.resiste.console.rome
 org.ferris.resiste.console.rss
+org.ferris.resiste.console.security
 org.ferris.resiste.console.splash
 org.ferris.resiste.console.sql
 org.ferris.resiste.console.text.i18n

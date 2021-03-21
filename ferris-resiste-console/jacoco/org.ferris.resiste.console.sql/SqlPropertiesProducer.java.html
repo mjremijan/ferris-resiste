@@ -1,28 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../resources/report.gif" type="image/gif"/><title>SqlPropertiesProducer.java</title><link rel="stylesheet" href="../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ferris-resiste-console</a> &gt; <a href="index.source.html" class="el_package">org.ferris.resiste.console.sql</a> &gt; <span class="el_source">SqlPropertiesProducer.java</span></div><h1>SqlPropertiesProducer.java</h1><pre class="source lang-java linenums">package org.ferris.resiste.console.sql;
 
+import java.io.File;
+import java.util.Optional;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
-import org.ferris.resiste.console.conf.*;
 import org.ferris.resiste.console.data.DataDirectory;
+import org.ferris.resiste.console.security.Rsa;
+import org.slf4j.Logger;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
 @ApplicationScoped
-public class SqlPropertiesProducer {
-
-    protected SqlProperties sqlProperties;
+<span class="nc" id="L18">public class SqlPropertiesProducer {</span>
 
     @Inject
-<span class="nc" id="L19">    public SqlPropertiesProducer(ConfDirectory confDirectory, DataDirectory dataDirectory) {</span>
-<span class="nc" id="L20">        sqlProperties = new SqlProperties(confDirectory, dataDirectory);</span>
-<span class="nc" id="L21">    }</span>
+    protected Logger log;
+
+    @Inject
+    protected SqlPropertiesFile sqlPropertiesFile;
+
+    @Inject
+    protected Optional&lt;Rsa&gt; rsa;
+
+    @Inject
+    protected DataDirectory dataDirectory;
+
+    protected SqlProperties p;
+
+    @PostConstruct
+    protected void postConstruct() {
+        // create object
+<span class="nc" id="L37">        p = new SqlProperties(sqlPropertiesFile, rsa);</span>
+
+        // verify derby
+<span class="nc" id="L40">        String url = p.getProperty(&quot;url&quot;);</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        if (url == null) {</span>
+            // location of database directory
+<span class="nc" id="L43">            File dbdir = new File(dataDirectory, &quot;resiste&quot;);</span>
+<span class="nc" id="L44">            url = String.format(&quot;jdbc:derby:%s&quot;, dbdir.getPath());</span>
+<span class="nc" id="L45">            p.setProperty(&quot;url&quot;, url);</span>
+
+            // location of derby home
+<span class="nc" id="L48">            System.setProperty(&quot;derby.system.home&quot;, dbdir.getParent());</span>
+<span class="nc" id="L49">        } else {</span>
+            // location of database
+            // jdbc:derby:[subsubprotocol:][databaseName][;attribute=value]*
+<span class="nc" id="L52">            int start = url.lastIndexOf(&quot;derby:&quot;) + &quot;derby:&quot;.length();</span>
+<span class="nc" id="L53">            int end = url.indexOf(&quot;;&quot;);</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            end = (end == -1) ? url.length() : end;</span>
+<span class="nc" id="L55">            String substr = url.substring(start, end);</span>
+<span class="nc" id="L56">            log.info(String.format(&quot;Database location substring = start=%d, end=%d: \&quot;%s\&quot;%n&quot;, start, end, substr));</span>
+<span class="nc" id="L57">            File dbloc = new File(substr);</span>
+
+            // location of derby home
+<span class="nc bnc" id="L60" title="All 2 branches missed.">            if (dbloc.canRead()) {</span>
+<span class="nc" id="L61">                System.setProperty(&quot;derby.system.home&quot;, dbloc.getParent());</span>
+            } else {
+                // location of derby home
+<span class="nc" id="L64">                System.setProperty(&quot;derby.system.home&quot;, dataDirectory.getPath());</span>
+            }
+        }
+<span class="nc" id="L67">        log.info(String.format(&quot;derby.system.home=\&quot;%s\&quot;&quot;, System.getProperty(&quot;derby.system.home&quot;)));</span>
+
+        // verify username
+<span class="nc" id="L70">        p.setPropertyIfNull(&quot;username&quot;, &quot;resiste_standalone&quot;);</span>
+
+        // verify password
+<span class="nc" id="L73">        p.setPropertyIfNull(&quot;password&quot;, &quot;x4A03HZ7ZV*lzB%&quot;);</span>
+
+        // verify schema
+<span class="nc" id="L76">        p.setPropertyIfNull(&quot;schema&quot;, &quot;APP&quot;);</span>
+<span class="nc" id="L77">    }</span>
 
     @Produces
     public SqlProperties produceSqlProperties() {
-<span class="nc" id="L25">        return sqlProperties;</span>
+<span class="nc" id="L81">        return p;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

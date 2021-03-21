@@ -1,68 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../resources/report.gif" type="image/gif"/><title>SqlProperties.java</title><link rel="stylesheet" href="../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ferris-resiste-console</a> &gt; <a href="index.source.html" class="el_package">org.ferris.resiste.console.sql</a> &gt; <span class="el_source">SqlProperties.java</span></div><h1>SqlProperties.java</h1><pre class="source lang-java linenums">package org.ferris.resiste.console.sql;
 
+import java.io.File;
 import java.util.Optional;
 import java.util.StringJoiner;
 import javax.enterprise.inject.Vetoed;
-import org.ferris.resiste.console.conf.ConfDirectory;
-import org.ferris.resiste.console.data.DataDirectory;
-import org.ferris.resiste.console.io.AbstractPropertiesFile;
+import org.ferris.resiste.console.security.Rsa;
+import org.ferris.resiste.console.security.SecureProperties;
 
 /**
  *
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
 @Vetoed
-public class SqlProperties extends AbstractPropertiesFile {
+public class SqlProperties extends SecureProperties {
 
-    private static final long serialVersionUID = 375890234508843L;
-
-    protected DataDirectory dataDirectory;
+    private static final long serialVersionUID = 3890234537753408843L;
 
     @Override
     public String toString() {
-<span class="nc" id="L23">        StringJoiner sj = new StringJoiner(&quot;,&quot;, &quot;[&quot;, &quot;]&quot;);</span>
-<span class="nc" id="L24">        sj.add(String.format(&quot;url=%s&quot;, getUrl()));</span>
-<span class="nc" id="L25">        sj.add(String.format(&quot;username=%s&quot;, getUsername()));</span>
-<span class="nc" id="L26">        sj.add(String.format(&quot;schema=%s&quot;, getSchema()));</span>
-<span class="nc" id="L27">        return sj.toString();</span>
+<span class="nc" id="L21">        StringJoiner sj = new StringJoiner(&quot;,&quot;, &quot;[&quot;, &quot;]&quot;);</span>
+<span class="nc" id="L22">        sj.add(String.format(&quot;url=%s&quot;, getUrl()));</span>
+<span class="nc" id="L23">        sj.add(String.format(&quot;username=%s&quot;, getUsername()));</span>
+<span class="nc" id="L24">        sj.add(String.format(&quot;schema=%s&quot;, getSchema()));</span>
+<span class="nc" id="L25">        return sj.toString();</span>
     }
 
-    public SqlProperties(ConfDirectory confDirectory, DataDirectory dataDirectory) {
-<span class="nc" id="L31">        super(confDirectory, String.format(&quot;db.properties&quot;));</span>
-<span class="nc" id="L32">        this.dataDirectory = dataDirectory;</span>
-<span class="nc" id="L33">    }</span>
+    public SqlProperties(File file, Optional&lt;Rsa&gt; rsa) {
+<span class="nc" id="L29">        super(file, rsa);</span>
+<span class="nc" id="L30">    }</span>
 
     public String getSchema() {
-<span class="nc" id="L36">        Optional&lt;String&gt; schema</span>
-<span class="nc" id="L37">            = Optional.ofNullable(super.toProperties().getProperty(&quot;schema&quot;));</span>
-<span class="nc" id="L38">        return schema.orElseGet(() -&gt; &quot;APP&quot;);</span>
+<span class="nc" id="L33">        return getProperty(&quot;schema&quot;);</span>
     }
 
     public String getPassword() {
-<span class="nc" id="L42">        Optional&lt;String&gt; password</span>
-<span class="nc" id="L43">            = Optional.ofNullable(super.toProperties().getProperty(&quot;password&quot;));</span>
-<span class="nc" id="L44">        return password.orElseGet(() -&gt; &quot;x4A03HZ7ZV*lzB%&quot;);</span>
+<span class="nc" id="L37">        return getProperty(&quot;password&quot;);</span>
     }
 
     public String getUsername() {
-<span class="nc" id="L48">        Optional&lt;String&gt; username</span>
-<span class="nc" id="L49">            = Optional.ofNullable(super.toProperties().getProperty(&quot;username&quot;));</span>
-<span class="nc" id="L50">        return username.orElseGet(() -&gt; &quot;resiste_standalone&quot;);</span>
+<span class="nc" id="L41">        return getProperty(&quot;username&quot;);</span>
     }
 
     public String getUrl() {
-<span class="nc" id="L54">        Optional&lt;String&gt; url</span>
-<span class="nc" id="L55">            = Optional.ofNullable(super.toProperties().getProperty(&quot;url&quot;));</span>
-<span class="nc" id="L56">        return url.orElseGet(() -&gt; {</span>
-            try {
-<span class="nc" id="L58">                return String.format(</span>
-                      &quot;jdbc:derby:%s/resiste&quot;
-<span class="nc" id="L60">                    , dataDirectory.getCanonicalPath()</span>
-                );
-<span class="nc" id="L62">            } catch (Throwable t) {</span>
-<span class="nc" id="L63">                throw new RuntimeException(t);</span>
-            }
-        });
+<span class="nc" id="L45">        return getProperty(&quot;url&quot;);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

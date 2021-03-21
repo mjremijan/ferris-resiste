@@ -33,109 +33,124 @@ import org.slf4j.Logger;
 
     @ExceptionRetry
     public RssFeed build(RssUrl feedUrl) throws IOException, FeedException {
-<span class="nc" id="L36">        log.debug(String.format(&quot;ENTER %s&quot;, feedUrl));</span>
+        try {
+<span class="nc" id="L37">            return build(feedUrl, Optional.of(&quot;deflate, br&quot;));</span>
+<span class="nc" id="L38">        } catch (Exception ignore) {</span>
+<span class="nc" id="L39">            return build(feedUrl, Optional.empty());</span>
+        }
+    }
 
-<span class="nc" id="L38">        String rawXml = &quot;RAW_XML&quot;;</span>
+    private RssFeed build(RssUrl feedUrl, Optional&lt;String&gt; acceptEncoding) throws IOException, FeedException {
+<span class="nc" id="L44">        log.debug(String.format(&quot;ENTER %s&quot;, feedUrl));</span>
+
+<span class="nc" id="L46">        String rawXml = &quot;RAW_XML&quot;;</span>
 
         try {
+<span class="nc" id="L49">            HttpURLConnection connection = (HttpURLConnection)feedUrl.getUrl().openConnection();</span>
+<span class="nc" id="L50">            connection.setRequestProperty(&quot;user-agent&quot;, &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36&quot;);</span>
+<span class="nc" id="L51">            connection.setRequestProperty(&quot;accept&quot;, &quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3&quot;);</span>
+<span class="nc" id="L52">            acceptEncoding.ifPresent(s -&gt; connection.setRequestProperty(&quot;accept-encoding&quot;, s));</span>
+<span class="nc" id="L53">            connection.setRequestProperty(&quot;accept-language&quot;, &quot;en-US,en;q=0.9&quot;);</span>
+<span class="nc" id="L54">            connection.setRequestProperty(&quot;upgrade-insecure-requests&quot;, &quot;1&quot;);</span>
+<span class="nc" id="L55">            connection.connect();</span>
 
-<span class="nc" id="L42">            HttpURLConnection connection = (HttpURLConnection)feedUrl.getUrl().openConnection();</span>
-<span class="nc" id="L43">            connection.setRequestProperty(&quot;user-agent&quot;, &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36&quot;);</span>
-<span class="nc" id="L44">            connection.setRequestProperty(&quot;accept&quot;, &quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3&quot;);</span>
-<span class="nc" id="L45">            connection.setRequestProperty(&quot;accept-encoding&quot;, &quot;deflate, br&quot;);</span>
-<span class="nc" id="L46">            connection.setRequestProperty(&quot;accept-language&quot;, &quot;en-US,en;q=0.9&quot;);</span>
-<span class="nc" id="L47">            connection.setRequestProperty(&quot;upgrade-insecure-requests&quot;, &quot;1&quot;);</span>
-<span class="nc" id="L48">            connection.connect();</span>
-
-<span class="nc bnc" id="L50" title="All 2 branches missed.">            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {</span>
-<span class="nc" id="L51">                System.out.printf(&quot;Response code is not OK...it is: %d%n&quot;, connection.getResponseCode());</span>
-<span class="nc" id="L52">                String errorString = &quot;UNABLE TO OBTAIN&quot;;</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {</span>
+<span class="nc" id="L58">                System.out.printf(&quot;Response code is not OK...it is: %d%n&quot;, connection.getResponseCode());</span>
+<span class="nc" id="L59">                String errorString = &quot;UNABLE TO OBTAIN&quot;;</span>
                 try {
-<span class="nc" id="L54">                    errorString</span>
-<span class="nc" id="L55">                        = new BufferedReader(new InputStreamReader(connection.getErrorStream(), &quot;UTF-8&quot;)).lines().collect(Collectors.joining(&quot;\n&quot;));</span>
-<span class="nc" id="L56">                } catch (Exception ignore) {}</span>
-                
-<span class="nc" id="L58">                throw new RuntimeException(</span>
-<span class="nc" id="L59">                    String.format(</span>
+<span class="nc" id="L61">                    errorString</span>
+<span class="nc" id="L62">                        = new BufferedReader(new InputStreamReader(connection.getErrorStream(), &quot;UTF-8&quot;)).lines().collect(Collectors.joining(&quot;\n&quot;));</span>
+<span class="nc" id="L63">                } catch (Exception ignore) {}</span>
+
+<span class="nc" id="L65">                throw new RuntimeException(</span>
+<span class="nc" id="L66">                    String.format(</span>
                         &quot;HTTP response is not OK. CODE=%d, ERROR_STRING=\&quot;%s\&quot;&quot;
-<span class="nc" id="L61">                        , connection.getResponseCode()</span>
+<span class="nc" id="L68">                        , connection.getResponseCode()</span>
                         , errorString
                     )
                 );
             }
 
-<span class="nc" id="L67">            rawXml</span>
-<span class="nc" id="L68">                = new BufferedReader(new InputStreamReader(connection.getInputStream(), &quot;UTF-8&quot;)).lines().collect(Collectors.joining(&quot;\n&quot;));</span>
+<span class="nc" id="L74">            rawXml</span>
+<span class="nc" id="L75">                = new BufferedReader(new InputStreamReader(connection.getInputStream(), &quot;UTF-8&quot;)).lines().collect(Collectors.joining(&quot;\n&quot;));</span>
 
-<span class="nc" id="L70">            com.rometools.rome.feed.synd.SyndFeed romeFeed</span>
-<span class="nc" id="L71">                = new SyndFeedInput().build(new XmlReader(new ByteArrayInputStream(rawXml.getBytes(&quot;UTF-8&quot;))));</span>
+<span class="nc" id="L77">            com.rometools.rome.feed.synd.SyndFeed romeFeed</span>
+<span class="nc" id="L78">                = new SyndFeedInput().build(new XmlReader(new ByteArrayInputStream(rawXml.getBytes(&quot;UTF-8&quot;))));</span>
 
-<span class="nc" id="L73">            List&lt;com.rometools.rome.feed.synd.SyndEntry&gt; romeEntries</span>
-<span class="nc" id="L74">                = romeFeed.getEntries();</span>
+<span class="nc" id="L80">            List&lt;com.rometools.rome.feed.synd.SyndEntry&gt; romeEntries</span>
+<span class="nc" id="L81">                = romeFeed.getEntries();</span>
 
-<span class="nc" id="L76">            RssFeed feed = new RssFeed();</span>
-<span class="nc" id="L77">            feed.setId(feedUrl.getId());</span>
-<span class="nc" id="L78">            feed.setLink(romeFeed.getLink());</span>
-<span class="nc" id="L79">            feed.setTitle(romeFeed.getTitle());</span>
+<span class="nc" id="L83">            RssFeed feed = new RssFeed();</span>
+<span class="nc" id="L84">            feed.setId(feedUrl.getId());</span>
+<span class="nc" id="L85">            feed.setLink(romeFeed.getLink());</span>
+<span class="nc" id="L86">            feed.setTitle(romeFeed.getTitle());</span>
 
-<span class="nc" id="L81">            feed.setEntries(</span>
-<span class="nc" id="L82">                romeEntries.stream()</span>
-<span class="nc" id="L83">                    .map(re -&gt; {</span>
-<span class="nc" id="L84">                        RssEntry e = new RssEntry();</span>
-<span class="nc" id="L85">                        e.setGuid(re.getUri());</span>
-<span class="nc" id="L86">                        e.setTitle(re.getTitle());</span>
-<span class="nc" id="L87">                        e.setAuthor(re.getAuthor());</span>
-<span class="nc" id="L88">                        e.setLink(re.getLink());</span>
-<span class="nc" id="L89">                        e.setPublishedDate(re.getPublishedDate());</span>
+<span class="nc" id="L88">            feed.setEntries(</span>
+<span class="nc" id="L89">                romeEntries.stream()</span>
+<span class="nc" id="L90">                    .map(re -&gt; {</span>
+<span class="nc" id="L91">                        RssEntry e = new RssEntry();</span>
+<span class="nc" id="L92">                        e.setGuid(re.getUri());</span>
+<span class="nc" id="L93">                        e.setTitle(re.getTitle());</span>
+<span class="nc" id="L94">                        e.setAuthor(re.getAuthor());</span>
+                        // Link
+                        {
+<span class="nc" id="L97">                            String link = re.getLink();</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">                            if (link.startsWith(&quot;http&quot;)) {</span>
+<span class="nc" id="L99">                                e.setLink(link);</span>
+                            } else {
+<span class="nc" id="L101">                                e.setLink(feed.getLink() + link);</span>
+                            }
+                        }
+<span class="nc" id="L104">                        e.setPublishedDate(re.getPublishedDate());</span>
 
                         // Enclosures
-<span class="nc" id="L92">                        Optional&lt;List&lt;SyndEnclosure&gt;&gt; enclosures</span>
-<span class="nc" id="L93">                            = Optional.ofNullable(re.getEnclosures());</span>
+<span class="nc" id="L107">                        Optional&lt;List&lt;SyndEnclosure&gt;&gt; enclosures</span>
+<span class="nc" id="L108">                            = Optional.ofNullable(re.getEnclosures());</span>
                         // Foreign markup
-<span class="nc" id="L95">                        Optional&lt;List&lt;Element&gt;&gt; foreignMarkups</span>
-<span class="nc" id="L96">                            = Optional.ofNullable(re.getForeignMarkup());</span>
+<span class="nc" id="L110">                        Optional&lt;List&lt;Element&gt;&gt; foreignMarkups</span>
+<span class="nc" id="L111">                            = Optional.ofNullable(re.getForeignMarkup());</span>
 
                         // Images
-<span class="nc" id="L99">                        enclosures.ifPresent(</span>
-<span class="nc" id="L100">                            se -&gt; se.stream().filter(a -&gt; a.getType().toLowerCase().startsWith(&quot;image&quot;)).forEach(</span>
-<span class="nc" id="L101">                                b -&gt; e.addImage(new RssImage(b.getType(), b.getUrl())))</span>
+<span class="nc" id="L114">                        enclosures.ifPresent(</span>
+<span class="nc" id="L115">                            se -&gt; se.stream().filter(a -&gt; a.getType().toLowerCase().startsWith(&quot;image&quot;)).forEach(</span>
+<span class="nc" id="L116">                                b -&gt; e.addImage(new RssImage(b.getType(), b.getUrl())))</span>
                         );
-<span class="nc" id="L103">                        foreignMarkups.ifPresent(</span>
-<span class="nc" id="L104">                            fm -&gt; fm.stream()</span>
-<span class="nc" id="L105">                                .filter(el -&gt; el.getName().toLowerCase().equals(&quot;thumbnail&quot;))</span>
-<span class="nc" id="L106">                                .map(el -&gt; el.getAttribute(&quot;url&quot;))</span>
-<span class="nc bnc" id="L107" title="All 2 branches missed.">                                .filter(at -&gt; at != null)</span>
-<span class="nc" id="L108">                                .map(at -&gt; StringUtils.trimToNull(at.getValue()))</span>
-<span class="nc bnc" id="L109" title="All 2 branches missed.">                                .filter(s -&gt; s != null)</span>
-<span class="nc" id="L110">                                .forEach(s -&gt; e.addImage(new RssImage(&quot;image/thumbnail&quot;, s)))</span>
+<span class="nc" id="L118">                        foreignMarkups.ifPresent(</span>
+<span class="nc" id="L119">                            fm -&gt; fm.stream()</span>
+<span class="nc" id="L120">                                .filter(el -&gt; el.getName().toLowerCase().equals(&quot;thumbnail&quot;))</span>
+<span class="nc" id="L121">                                .map(el -&gt; el.getAttribute(&quot;url&quot;))</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">                                .filter(at -&gt; at != null)</span>
+<span class="nc" id="L123">                                .map(at -&gt; StringUtils.trimToNull(at.getValue()))</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">                                .filter(s -&gt; s != null)</span>
+<span class="nc" id="L125">                                .forEach(s -&gt; e.addImage(new RssImage(&quot;image/thumbnail&quot;, s)))</span>
                         );
 
                         // Other media files
-<span class="nc" id="L114">                        enclosures.ifPresent(</span>
-<span class="nc bnc" id="L115" title="All 2 branches missed.">                            se -&gt; se.stream().filter(a -&gt; !a.getType().toLowerCase().startsWith(&quot;image&quot;)).forEach(</span>
-<span class="nc" id="L116">                                b -&gt; e.addMediaFile(new RssMediaFile(b.getType(), b.getUrl())))</span>
+<span class="nc" id="L129">                        enclosures.ifPresent(</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">                            se -&gt; se.stream().filter(a -&gt; !a.getType().toLowerCase().startsWith(&quot;image&quot;)).forEach(</span>
+<span class="nc" id="L131">                                b -&gt; e.addMediaFile(new RssMediaFile(b.getType(), b.getUrl())))</span>
                         );
 
                         // Content
-<span class="nc" id="L120">                        StringBuilder sp = new StringBuilder(&quot;&quot;);</span>
-<span class="nc bnc" id="L121" title="All 4 branches missed.">                        if (re.getContents() != null &amp;&amp; !re.getContents().isEmpty()) {</span>
-<span class="nc" id="L122">                            re.getContents().stream()</span>
-<span class="nc" id="L123">                                .forEach(sc -&gt; sp.append(sc.getValue()));</span>
-<span class="nc bnc" id="L124" title="All 2 branches missed.">                        } else if (re.getDescription() != null) {</span>
-<span class="nc" id="L125">                            sp.append(re.getDescription().getValue());</span>
+<span class="nc" id="L135">                        StringBuilder sp = new StringBuilder(&quot;&quot;);</span>
+<span class="nc bnc" id="L136" title="All 4 branches missed.">                        if (re.getContents() != null &amp;&amp; !re.getContents().isEmpty()) {</span>
+<span class="nc" id="L137">                            re.getContents().stream()</span>
+<span class="nc" id="L138">                                .forEach(sc -&gt; sp.append(sc.getValue()));</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">                        } else if (re.getDescription() != null) {</span>
+<span class="nc" id="L140">                            sp.append(re.getDescription().getValue());</span>
                         }
-<span class="nc" id="L127">                        e.setContents(sp.toString());</span>
+<span class="nc" id="L142">                        e.setContents(sp.toString());</span>
 
-<span class="nc" id="L129">                        return e;</span>
-<span class="nc" id="L130">                    }).collect(Collectors.toCollection(LinkedList::new))</span>
+<span class="nc" id="L144">                        return e;</span>
+<span class="nc" id="L145">                    }).collect(Collectors.toCollection(LinkedList::new))</span>
             );
 
-<span class="nc" id="L133">            return feed;</span>
-<span class="nc" id="L134">        } catch (FeedException e) {</span>
-<span class="nc" id="L135">            log.error(String.format(&quot;Error parsing RSS feed \&quot;%s\&quot;&quot;, feedUrl.getUrl().toString()));</span>
-<span class="nc" id="L136">            log.error(String.format(&quot;%nRAW_XML%n%s&quot;, rawXml));</span>
-<span class="nc" id="L137">            throw new FeedException(</span>
-<span class="nc" id="L138">                String.format(&quot;URL=\&quot;%s\&quot;, RAW_XML=\&quot;%s\&quot;&quot;, feedUrl.getUrl().toString(), rawXml),</span>
+<span class="nc" id="L148">            return feed;</span>
+<span class="nc" id="L149">        } catch (FeedException e) {</span>
+<span class="nc" id="L150">            log.error(String.format(&quot;Error parsing RSS feed \&quot;%s\&quot;&quot;, feedUrl.getUrl().toString()));</span>
+<span class="nc" id="L151">            log.error(String.format(&quot;%nRAW_XML%n%s&quot;, rawXml));</span>
+<span class="nc" id="L152">            throw new FeedException(</span>
+<span class="nc" id="L153">                String.format(&quot;URL=\&quot;%s\&quot;, RAW_XML=\&quot;%s\&quot;&quot;, feedUrl.getUrl().toString(), rawXml),</span>
                  e);
         }
     }
