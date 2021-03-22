@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.ferris</groupId>
+        <artifactId>ferris-resiste</artifactId>
+        <version>1.2.0.0</version>
+    </parent>
+    
+    <!--
+     | Project info
+     | Site - Project Information - Summary
+    -->
+    <artifactId>ferris-resiste-derby-user</artifactId>
+    <packaging>jar</packaging>
+    <name>ferris-resiste-derby-user</name>    
+    <description>A 100% pure Java stand-alone and self-contained RSS-to-email application (it even comes with its own JRE).</description>
+
+    <!--
+     | Project properties
+    -->
+    <properties>
+        <!-- Don't use the "." character for the property names. The site plugin
+        cannot handle user-defined property names that contain "." -->
+        <ferrisJacocoVersion>0.7.5.201505241946</ferrisJacocoVersion>
+        <ferrisWindowsAssemblyId>windows-x86-64-jre</ferrisWindowsAssemblyId>
+        <ferrisLinuxAssemblyId>linux-x86-64-jre</ferrisLinuxAssemblyId>
+    </properties>
+
+    <!--
+     | For multi-module site generation, this
+     | URL needs to be set to a "parent"/"module" value.
+    -->
+    <url>https://${ferrisUrlHostName}/${project.parent.artifactId}/${project.artifactId}/</url>
+
+    <!--
+     | For multi-module site generation, this URL needs 
+     | to be set to the "parent"/"module" directory of the URL
+    -->
+    <distributionManagement>
+        <site>
+            <id>github.gh-pages</id>
+            <url>${project.url}</url>
+        </site>
+    </distributionManagement>      
+    
+    <!--
+     | Configure dependency management
+    -->
+    <dependencyManagement>
+        <dependencies>
+            <!--
+             | This refers to the Windows specific JAR file created
+             | during the packaging phase.  The assembly needs this
+             | dependency defined so it can find the JAR file.
+            -->
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${project.artifactId}</artifactId>
+                <version>${project.version}</version>
+                <classifier>windows</classifier>
+            </dependency>
+            
+            <!--
+             | This refers to the Linux specific JAR file created
+             | during the packaging phase.  The assembly needs this
+             | dependency defined so it can find the JAR file.
+            -->
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${project.artifactId}</artifactId>
+                <version>${project.version}</version>
+                <classifier>linux</classifier>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+	
+    <!--
+     | Configure build options
+    -->
+    <build>
+        <!--
+         | Configure resources
+        -->
+        <resources>
+            <!--
+             | Include everything in resources and don't filter
+            -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        
+        <!--
+         | Configure plugins to customize build
+        -->
+        <plugins>
+            <!--
+             | Configure how the JAR file(s) are built
+             | - Need a Windows-specific JAR
+             | - Need a Linux-specific JAR
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>                
+                <executions>
+                    <!--
+                     | Don't create the default JAR for the project
+                     | since I need to create two other JAR files
+                     | which are specific to Windows and Linux
+                    -->
+                    <execution>
+                        <id>default-jar</id>
+                        <phase />
+                    </execution>
+                    <!--
+                     | Windows specific JAR
+                     | - Path to ..\conf\
+                    -->
+                    <execution>
+                        <id>windows-jar-execution</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>windows</classifier>
+                            <archive>
+                                <manifestEntries>
+                                    <Class-Path>..\conf\</Class-Path>
+                                    <Implementation-URL>${project.parent.scm.url}</Implementation-URL>
+                                </manifestEntries>
+                                <addMavenDescriptor>false</addMavenDescriptor>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <mainClass>org.ferris.resiste.console.main.Main</mainClass>
+                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>                                    
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </execution>
+                </executions>                
+            </plugin>
+        </plugins>
+    </build>
+    
+    <!--
+     | Configure dependency options
+    -->
+    <dependencies>
+        <!-- TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST -->
+        <!-- TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST -->
+        <!-- 
+         | JUNIT 
+        -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE -->
+        <!-- COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE -->
+        <!-- 
+         | UTILITIES 
+        -->
+        
+        <!-- 
+         | CDI 
+        -->
+        <dependency>
+            <groupId>org.jboss.weld.se</groupId>
+            <artifactId>weld-se-core</artifactId>
+            <version>3.0.3.Final</version>
+        </dependency>
+
+        <!--
+         | DERBY
+        -->
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.14.2.0</version>
+        </dependency> 
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbyclient</artifactId>
+            <version>10.14.2.0</version>
+        </dependency>
+    </dependencies>
+    
+    <!--
+     | Configure profile options
+    -->
+    <profiles>
+        <profile>
+            <id>assembly-zip</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>windows-jre-assembly</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>src/main/assemblies/windows/windows-jre-assembly.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>assembly-unzip</id>
+            <build>
+                <plugins>                    
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.7</version>
+                        <executions>
+                            <execution>
+                                <phase>validate</phase>
+                                <configuration>
+                                    <target>
+                                        <unzip src="${project.build.directory}/${project.artifactId}-${project.version}-${ferrisWindowsAssemblyId}.zip" dest="${project.build.directory}/unziped" />
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
+</project>

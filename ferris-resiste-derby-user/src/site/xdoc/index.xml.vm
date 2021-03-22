@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+    <properties>
+        <title>Ferris Resiste</title>
+        <author email="mjremijan@yahoo.com">Michael Remijan</author>
+    </properties>
+
+    <!-- Optional HEAD element, which is copied as is into the XHTML <head> element
+<head>
+     <meta ... />
+</head>
+    -->
+
+    <body>
+        <section name="">
+            <div id="twStart">
+                <h2>Start Using Resiste Console</h2>
+                <span class="nav-header">An RSS to email client</span>
+                <a href="${project.parent.scm.url}/releases/download/release/${project.version}/${project.build.finalName}-${ferrisWindowsAssemblyId}.zip">
+                    <img src="images/windows-icon.png" />Download for Windows
+                </a>
+				&nbsp; &nbsp; &nbsp; &nbsp;
+                <a href="${project.parent.scm.url}/releases/download/release/${project.version}/${project.build.finalName}-${ferrisLinuxAssemblyId}.tar.gz">
+                    <img src="images/linux-icon.png" />Download for Linux
+                </a>
+				&nbsp; &nbsp; &nbsp; &nbsp;
+                <a href="${project.parent.scm.url}/tree/master/${project.artifactId}">       
+                    <img src="images/octocat-icon.png" />Visit on GitHub
+                </a>
+            </div>
+        </section>
+		
+        <section name="Get Started">
+            <ol>
+                <li>
+                    Click one of the <span style="font-style:italic;">download</span>
+                    links above. <br /><br />
+                </li>
+                <li>
+                    Start with <a href="installation.html">installation</a>
+                </li>
+            </ol>
+        </section>
+
+    </body>
+</document>

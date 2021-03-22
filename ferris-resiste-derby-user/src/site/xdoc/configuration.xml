@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+    <properties>
+        <title>Ferris Resiste</title>
+        <author email="mjremijan@yahoo.com">Michael Remijan</author>
+    </properties>
+
+    <body>
+        <section name="Configuration">
+            <p>
+                Configuring Resiste is not that difficult.  
+                This page documents everything you need to do.
+            </p>
+        </section>
+		
+        <section name="JRE">
+            <p>
+                Resiste requires Java 8. The Windows and Linux downloads come embedded
+                with a Java 8 JRE, so Resiste does not depend on the system-level JRE to run.  
+            </p>
+            <p>
+                However, if you want to override the JRE that comes embedded
+                with Resiste, you can do so by editing, in the <code>[RESISTE_HOME]/bin/</code>
+                directory, the <code>start-resiste.sh</code> and <code>start-resiste.bat</code> 
+                files.
+            </p>            
+        </section>
+		
+        <section name="Logging">
+            <p>
+                See the <a href="logging.html">Logging page</a> for more information
+                about configuring logging.
+            </p>
+        </section>
+		
+        <section name="How to Send Email (SMTP Account)">
+            <p>
+                Resiste needs the SMTP information for your email provider. Each
+                email provider is different so how you get this information is 
+                up to you.  
+            </p>
+            <p>
+                In the <code>[RESISTE_HOME]/conf/</code> directory, make a copy
+                of <code>email(example).properties</code> as <code>email.properties</code>.
+                Edit <code>email.properties</code>, adding your SMTP account
+                details.
+            </p>
+            <source>
+# 
+# This file holds the information needed to access your email account.
+# you should rename this file "email.properties" in order to get
+# Resiste to find it.  If the "email.properties" file is not found when
+# Resiste starts, the application will print an error message and exit.
+#
+
+# @SINCE 1.0.0.0
+#  Value is either "true" or "false:
+#  If "true" an SSL connection is used to connect to the SMTP server
+#  If "false" an UN-ENCRYPTED connection is used to connect to the SMTP server
+#
+# @SINCE 1.1.9.0
+#  Value is either "true" or "false:
+#  If "true" an SSL connection is used to connect to the SMTP server
+#  If "false" a TLS connection is used to connect to the SMTP server.
+#
+sslEnabled=true || false
+
+# This is the name of the SMTP host machine.
+host=smtp.somewhere.org
+
+# This is the port number of the SMTP host machine.
+# The same host may support both SSL and TLS but on
+# different ports. So make sure your port number here
+# matches with the 'sslEnabled' configuration above.
+port=44
+
+# This is what you use in the “username” field when
+# you login. Typically this is the same as your email
+# address, but this isn't always the case.
+username=account
+
+# This is what you use in the “password” field when
+# you login. This value is CLEAR TEXT, so keep this
+# properties file safe.
+password=password
+
+# This is the email address you want for the
+# email's FROM field. Enter the value using
+# the format shown below. Typically this is
+# the email address for the account.
+# WARNING: If you make this an email address other
+# than the one for the account, the email may
+# be immediately flagged as SPAM.
+emailAddress=FIRSTNAME LASTNAME &lt;ADDRESS@EMAIL.COM&gt;
+
+# This is the email address you want for the
+# email's TO field. Enter the value using
+# the format shown below.  For testing, it's a good 
+# idea to send it to yourself first.
+sendToAddress=FIRSTNAME LASTNAME &lt;ADDRESS@EMAIL.COM&gt;</source>            
+        </section>
+		
+        <section name="RSS URLs to Watch">
+            <p>
+                Resiste will watch any RSS URL you configure.
+                In the <code>[RESISTE_HOME]/conf/</code> directory, add your
+                RSS URLs to <code>rss_urls.csv</code>.
+            </p>
+            <p>
+                This is a simple comma-separated data file.  Here is an example:
+            </p>
+            <source>
+aa312231-8510-422b-8f4d-18e7f4ae4405,https://xkcd.com/rss.xml</source>
+            <p>
+                Each line has 2 fields
+            </p>            
+            <ol>
+                <li>ID</li>
+                <li>URL</li>
+            </ol>
+            <p>
+                <b>ID</b> can be any value you want, as long as it is unique.
+                I suggest using an <a href="https://www.uuidgenerator.net/">Online UUID Generator Tool</a>
+                to generate unique values.  But they can also be as simple as 1,2,3,4.
+            </p>
+            <p>
+                <b>URL</b> is the URL of the RSS feed you want to keep track of.
+                Typically, all you need to do is copy the link from your browser and
+                paste it in.
+            </p>
+        </section>
+        
+        <section name="RSS Email">
+            <p>
+                <b>Configure RSS email subject</b> by editing, in the <code>[RESISTE_HOME]/conf/</code>
+                directory, the <code>rss_email_subject.ftlt</code>.
+            </p>
+            <p>
+                <b>Configure RSS email body</b> by editing, in the <code>[RESISTE_HOME]/conf/</code>
+                directory, the <code>rss_email_body.ftlt</code>.
+            </p>
+        </section>
+        
+        <section name="Error Email">
+            <p>
+                <b>Configure error email subject</b> by editing, in the <code>[RESISTE_HOME]/conf/</code>
+                directory, the <code>error_email_subject.ftlt</code>.
+            </p>
+            <p>
+                <b>Configure error email body</b> by editing, in the <code>[RESISTE_HOME]/conf/</code>
+                directory, the <code>error_email_body.ftlt</code>.
+            </p>
+        </section>	     
+        
+             
+        <section name="Database location">
+            <p>
+                By default, Resiste will use a built-in Derby database to store
+                the RSS history.  The built-in Derby database is located in
+                <code>[RESISTE_HOME]/data/resiste</code>  
+            </p>
+            <p>
+                In general, you never need to mess with this database.  However,
+                if you want to move the Derby database somewhere else, you can
+                configure this.  In the <code>[RESISTE_HOME]/conf/</code> directory, 
+                configure the location of the Derby database by updating 
+                <code>db.properties</code>.  
+            </p>
+            <p>
+                Keep the <code>db.properties</code> file completely commented out
+                to use the built-in Derby database. 
+            </p>
+            <p>
+                Resiste only supports a Derby database at this time.
+            </p>
+            <p>
+                <span style="font-weight:bold; color:red">NOTE:</span> See <a href="security.html" alt="security">security</a> for 
+                information on encrypting the username and password.
+            </p>
+            <p>
+                <b>LOCAL</b> Example
+            </p>
+            <source>
+url=jdbc:derby:C:/Users/Mike/Documents/Databases/Derby/Ferris/resiste
+username=resiste_standalone
+password=x4A03HZ7ZV*lzB%
+schema=APP</source> 
+<p>
+                <b>REMOTE</b> Example
+            </p>
+            <source>
+url=jdbc:derby://localhost:1527/resiste
+username=resiste_standalone
+password=x4A03HZ7ZV*lzB%
+schema=APP</source> 
+
+          
+            <p>
+                Configuration complete! Next is <a href="security.html" alt="security">security</a>.
+            </p>                              
+        </section>  
+    </body>
+</document>

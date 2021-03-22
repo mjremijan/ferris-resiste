@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+	<properties>
+		<title>Ferris Resuste</title>
+		<author email="mjremijan@yahoo.com">Michael Remijan</author>
+	</properties>
+
+	<body>
+		<section name="Scheduling to Run">
+			<p>
+				<b>Windows</b>
+			</p>
+			<p>
+				Use the Task Scheduler to schedule running the 
+				<code>${project.build.finalName}-${ferrisWindowsAssemblyId}/bin/start-resiste.bat</code> file. 
+				Microsoft has a <a href="http://windows.microsoft.com/en-US/windows/schedule-task#1TC=windows-7">Schedule a task</a>
+				page with all the details.				
+			</p>
+			
+			<p>
+				<b>Linux</b>
+			</p>
+			<p>
+				Use <code>CRON</code> to schedule the running of the application.
+			</p>
+			<source># Run Resiste email every 10 minutes
+0,10,20,30,40,50 * * * * /home/username/${project.build.finalName}-${ferrisLinuxAssemblyId}/bin/start-resiste.sh &gt; /dev/null</source>
+			<p>
+				Happy Resiste'ing!
+			</p>
+		</section>
+	</body>
+</document>

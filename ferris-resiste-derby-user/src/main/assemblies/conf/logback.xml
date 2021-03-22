@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- For assistance related to logback-translator or configuration  -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user             -->
+<!--                                                                -->
+<!-- For professional support please see                            -->
+<!--    http://www.qos.ch/shop/products/professionalSupport         -->
+<!--                                                                -->
+<configuration scan="true" scanPeriod="5 minutes" packagingData="true" debug="false">
+    
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+    
+    <shutdownHook />
+    
+    <!--    
+    <appender name="STDOUT"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender> 
+    -->
+    
+    <appender name="FILE" class="org.ferris.resiste.console.logger.RollingFileAppender">
+        <append>true</append>
+        <rollingPolicy class="org.ferris.resiste.console.logger.TimeBasedRollingPolicy">
+            <!-- keep 6 months worth of history -->
+            <maxHistory>6</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <!-- %date{yyyy-MM-dd HH:mm:ss}  %class{0}.M(): %msg%n -->
+            <pattern>%date{yyyy-MM-dd HH:mm:ss} [%thread] [%-5level] %class{0}.%M\(\): %msg%n</pattern>
+            <immediateFlush>true</immediateFlush>
+        </encoder>
+    </appender>
+    
+
+    <logger name="org.jboss.weld" level="ERROR"/>
+    <logger name="org.ferris.resiste.console" level="INFO"/>
+
+    <root level="INFO">
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

@@ -1,0 +1,24 @@
+<project name="Ferris Resiste Console" xmlns="http://maven.apache.org/DECORATION/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
+ 
+    <bannerLeft>
+        <src>images/site-banner-left.png</src>
+        <href>index.html</href>
+    </bannerLeft>
+    
+    <body>
+        <menu ref="parent" />
+        
+        <menu name="Ferris Resiste Console">
+            <item name="About" href="index.html" />
+            <item name="Installation" href="installation.html" />
+            <item name="Configuration" href="configuration.html" /> 
+            <item name="Security" href="security.html" /> 
+            <item name="Logging" href="logging.html" />                                 
+            <item name="Scheduling to Run" href="scheduling.html" />               
+        </menu>		
+        
+        <menu ref="reports"/>
+    </body>   
+</project>
