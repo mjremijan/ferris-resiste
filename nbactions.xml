@@ -32,6 +32,21 @@
             
         </goals>
     </action>
+    <action>
+            <actionName>CUSTOM-Plugin updates</actionName>
+            <displayName>Plugin updates</displayName>
+            <goals>
+                <goal>versions:display-plugin-updates</goal>
+                
+            </goals>
+        </action>
+    <action>
+            <actionName>CUSTOM-Dependency updates</actionName>
+            <displayName>Dependency updates</displayName>
+            <goals>
+                <goal>versions:display-dependency-updates</goal>
+            </goals>
+        </action>
     
         
         
