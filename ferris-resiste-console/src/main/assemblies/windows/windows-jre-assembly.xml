@@ -69,7 +69,7 @@
         </fileSet>
         
         <fileSet>
-            <directory>src/main/assemblies/windows/zulu8.40.0.25-ca-jre8.0.222-win_x64/jre</directory>
+            <directory>download/${ferrisWindowsJavaDownloadVersion}</directory>
             <outputDirectory>jre</outputDirectory>
             <includes>
                 <include>**</include>

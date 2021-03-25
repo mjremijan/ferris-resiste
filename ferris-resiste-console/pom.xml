@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.ferris</groupId>
         <artifactId>ferris-resiste</artifactId>
-        <version>1.1.11.0-SNAPSHOT</version>
+        <version>1.2.0.1-SNAPSHOT</version>
     </parent>
     
     <!--
@@ -23,9 +23,16 @@
     <properties>
         <!-- Don't use the "." character for the property names. The site plugin
         cannot handle user-defined property names that contain "." -->
-        <ferrisJacocoVersion>0.7.5.201505241946</ferrisJacocoVersion>
+        <ferrisJacocoVersion>0.8.6</ferrisJacocoVersion>
         <ferrisWindowsAssemblyId>windows-x86-64-jre</ferrisWindowsAssemblyId>
+        <ferrisWindowsJavaDownloadVersion>zulu11.45.27-ca-jdk11.0.10-win_x64</ferrisWindowsJavaDownloadVersion>
+        <ferrisWindowsJavaDownloadFile>${ferrisWindowsJavaDownloadVersion}.zip</ferrisWindowsJavaDownloadFile>
+        <ferrisWindowsJavaDownloadUrl>https://cdn.azul.com/zulu/bin/${ferrisWindowsJavaDownloadFile}</ferrisWindowsJavaDownloadUrl>
+        
         <ferrisLinuxAssemblyId>linux-x86-64-jre</ferrisLinuxAssemblyId>
+        <ferrisLinuxJavaDownloadVersion>zulu11.45.27-ca-jdk11.0.10-linux_x64</ferrisLinuxJavaDownloadVersion>
+        <ferrisLinuxJavaDownloadFile>${ferrisLinuxJavaDownloadVersion}.zip</ferrisLinuxJavaDownloadFile>
+        <ferrisLinuxJavaDownloadUrl>https://cdn.azul.com/zulu/bin/${ferrisLinuxJavaDownloadFile}</ferrisLinuxJavaDownloadUrl>                     
     </properties>
 
     <!--
@@ -165,7 +172,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.6</version>                
                 <executions>
                     <!--
                      | Don't create the default JAR for the project
@@ -247,6 +253,15 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        <!-- 
+         | MOCKITO 
+        -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>2.26.0</version>
+            <scope>test</scope>
+        </dependency>
 
         <!-- COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE -->
         <!-- COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE -->
@@ -261,7 +276,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.7</version>
+            <version>3.12.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -286,6 +301,17 @@
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.activation</groupId>
+                    <artifactId>activation</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>javax.activation</artifactId>
+            <version>1.2.0</version>
         </dependency>
         
         <!-- 
@@ -295,6 +321,21 @@
             <groupId>org.jboss.weld.se</groupId>
             <artifactId>weld-se-core</artifactId>
             <version>3.0.3.Final</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.spec.javax.interceptor</groupId>
+                    <artifactId>jboss-interceptors-api_1.2_spec</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.spec.javax.el</groupId>
+                    <artifactId>jboss-el-api_3.0_spec</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>javax.interceptor</groupId>
+            <artifactId>javax.interceptor-api</artifactId>
+            <version>1.2</version>
         </dependency>
 
         <!-- 
@@ -323,12 +364,12 @@
         <dependency>
             <groupId>javax.el</groupId>
             <artifactId>javax.el-api</artifactId>
-            <version>2.2.4</version>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>javax.el</artifactId>
-            <version>2.2.4</version>
+            <version>2.2.6</version>
         </dependency>
         
         <!-- 
@@ -346,19 +387,23 @@
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
-            <version>10.14.2.0</version>
+            <version>10.15.2.0</version>
         </dependency> 
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derbyclient</artifactId>
-            <version>10.14.2.0</version>
+            <version>10.15.2.0</version>
         </dependency>
+        
+        <!--
+         | Java 11 Runtime (Java EE)
+        -->
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>2.26.0</version>
-            <scope>test</scope>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
         </dependency>
+       
     </dependencies>
     
     <!--
@@ -369,6 +414,46 @@
             <id>assembly-zip</id>
             <build>
                 <plugins>
+                    <!--
+                     | Download Java 11. It contains files too big to commit to GitHub so it can't be embedded in the project
+                    -->
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>download-java11-binaries-and-unzip</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <mkdir dir="download" />
+                                        <get 
+                                            skipexisting="true" 
+                                            src="${ferrisWindowsJavaDownloadUrl}" 
+                                            dest="download"
+                                        />
+                                        <unzip
+                                            overwrite="false"
+                                            src="download/${ferrisWindowsJavaDownloadFile}"
+                                            dest="download"
+                                        />
+                                        <get 
+                                            skipexisting="true" 
+                                            src="${ferrisLinuxJavaDownloadUrl}" 
+                                            dest="download"
+                                        />
+                                        <unzip
+                                            overwrite="false"
+                                            src="download/${ferrisLinuxJavaDownloadFile}"
+                                            dest="download"
+                                        />
+                                    </target>
+                                </configuration>                                
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
@@ -404,18 +489,19 @@
                 </plugins>
             </build>
         </profile>
-        
-        
         <profile>
             <id>assembly-unzip</id>
             <build>
                 <plugins>                    
                     <plugin>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.7</version>
                         <executions>
                             <execution>
-                                <phase>validate</phase>
+                                <id>unzip-windows-assembly-and-copy-emailproperties</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
                                 <configuration>
                                     <target>
                                         <unzip src="${project.build.directory}/${project.artifactId}-${project.version}-${ferrisWindowsAssemblyId}.zip" dest="${project.build.directory}/unziped" />
@@ -424,10 +510,7 @@
                                             todir="${project.build.directory}/unziped/${project.artifactId}-${project.version}-${ferrisWindowsAssemblyId}/conf"
                                         />
                                     </target>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
+                                </configuration>                                
                             </execution>
                         </executions>
                     </plugin>
@@ -441,22 +524,6 @@
     -->
     <reporting>
         <plugins>
-            <!--
-              | Use this plugin to change the "Web Browser Access" URL 
-              | for the "scm" report page.  The default does not generate
-              | a correct direct link URL for a sub-module project on GitHub.
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.9</version>
-                <configuration>
-                    <webAccessUrl>
-                        ${ferrisWebAccessUrl}
-                    </webAccessUrl>
-                </configuration>
-            </plugin>
-                    
             <!--    
               | Use this plugin to include the Jacoco unit test coverage report
               |
@@ -483,7 +550,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.9</version>
+                <configuration>
+                    <webAccessUrl>
+                        ${ferrisWebAccessUrl}
+                    </webAccessUrl>
+                </configuration>                
                 <reportSets>
                     <reportSet>
                         <id>Report Set 1</id>
@@ -503,5 +574,4 @@
             </plugin> 
         </plugins>
     </reporting>
-    
 </project>

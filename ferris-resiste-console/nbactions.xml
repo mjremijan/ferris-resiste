@@ -3,7 +3,7 @@
     <action>
         <actionName>CUSTOM-Clean and Verify</actionName>
         <displayName>Clean and Verify</displayName>
-        <goals>
+        <goals>            
             <goal>clean</goal>
             <goal>verify</goal>
         </goals>
@@ -29,7 +29,7 @@
             <actionName>CUSTOM-Assembly unzip (target)</actionName>
             <displayName>Unzip into target</displayName>
             <goals>
-                <goal>validate</goal>
+                <goal>initialize</goal>
             </goals>
             <activatedProfiles>
                 <activatedProfile>assembly-zip</activatedProfile>

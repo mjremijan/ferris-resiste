@@ -70,7 +70,7 @@
         </fileSet>
         
         <fileSet>
-            <directory>src/main/assemblies/linux/zulu8.40.0.25-ca-jdk8.0.222-linux_x64/jre</directory>
+            <directory>download/${ferrisLinuxJavaDownloadVersion}</directory>
             <outputDirectory>jre</outputDirectory>
             <includes>
                 <include>**</include>
@@ -82,10 +82,11 @@
         </fileSet>
         
         <fileSet>
-            <directory>src/main/assemblies/linux/zulu8.40.0.25-ca-jdk8.0.222-linux_x64/jre</directory>
+            <directory>download/${ferrisLinuxJavaDownloadVersion}</directory>
             <outputDirectory>jre</outputDirectory>
             <includes>
                 <include>bin/java</include>
+                <include>bin/javaw</include>
             </includes>
             <filtered>false</filtered>
             <fileMode>0744</fileMode>
