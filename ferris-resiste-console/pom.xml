@@ -223,6 +223,7 @@
                             <archive>
                                 <manifestEntries>
                                     <Class-Path>../conf/</Class-Path>
+                                    <Implementation-URL>${project.parent.scm.url}</Implementation-URL>
                                 </manifestEntries>
                                 <addMavenDescriptor>false</addMavenDescriptor>
                                 <manifest>

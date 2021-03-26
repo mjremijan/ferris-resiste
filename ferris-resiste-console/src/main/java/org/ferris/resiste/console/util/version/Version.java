@@ -19,7 +19,8 @@ public class Version {
     protected Package getPackage() {
         Package p = null;
         try {
-            p = Package.getPackage(getClass().getPackage().getName());
+            ClassLoader l = getClass().getClassLoader();
+            p = l.getDefinedPackage(getClass().getPackage().getName());
         } catch (Throwable t) {
             // do nothing
         }
