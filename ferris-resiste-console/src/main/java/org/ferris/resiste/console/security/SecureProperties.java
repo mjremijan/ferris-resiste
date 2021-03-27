@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.Optional;
 import java.util.Properties;
 import javax.enterprise.inject.Vetoed;
+import org.ferris.resiste.console.security.Rsa;
 
 /**
  *
@@ -64,6 +65,11 @@ public class SecureProperties extends Properties {
 
     /**
      * Similar to #setPropery() but the value is set iff a value doesn't already exist.
+     *
+     * @param key - The key to be placed into this property list.
+     * @param value - The value corresponding to <code>key</code>.
+     *
+     * @return The previous value of the specified key in this property list, or null if it did not have one.
      */
     public Object setPropertyIfNull(String key, String value) {
         return setProperty(
