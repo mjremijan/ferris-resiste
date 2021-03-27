@@ -284,47 +284,6 @@
             </plugin>
             
             <!--
-             | Use this plugin to run an ANT script
-            -->
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <!--
-                 | Inherited false means sub-modules do not run this plugin.
-                -->
-                <inherited>false</inherited>
-                <executions>
-                    <!--
-                     | Fix some of the Jacoco generated files.  The GitHub IO
-                     | website does not like the ".resources/" directory because
-                     | it starts with a "." character.  So rename the directory
-                     | to "resources" and do a search and replace in the files.
-                    -->
-                    <execution>
-                        <phase>site-deploy</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                Rename the ".resources" directory 
-                                <move file="target/staging/ferris-resiste-console/jacoco/.resources" tofile="target/staging/ferris-resiste-console/jacoco/resources" />
-                                Replace ".resources" in HTML files 
-                                <replaceregexp flags="g">
-                                    <regexp pattern="\.resources" />
-                                    <substitution expression="resources" />
-                                    <fileset dir="target/staging/ferris-resiste-console/jacoco">
-                                        <include name="**/*.html" />
-                                        <include name="**/*.css" />
-                                        <include name="**/*.js" />
-                                    </fileset>
-                                </replaceregexp>
-                            </target>
-                        </configuration>								
-                    </execution>
-                </executions>
-            </plugin>
-            
-            <!--
              | Use this plugin to upload the site to GitHub.
             -->        
             <plugin>
