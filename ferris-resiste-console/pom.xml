@@ -196,7 +196,7 @@
                             <classifier>windows</classifier>
                             <archive>
                                 <manifestEntries>
-                                    <Class-Path>..\conf\</Class-Path>
+                                    <Class-Path>..\conf\</Class-Path>    
                                     <Implementation-URL>${project.parent.scm.url}</Implementation-URL>
                                 </manifestEntries>
                                 <addMavenDescriptor>false</addMavenDescriptor>
@@ -561,10 +561,10 @@
                         <id>Report Set 1</id>
                         <reports>
                             <report>summary</report>                                    
-                            <report>project-team</report>
+                            <report>team</report>
                             <report>scm</report>
-                            <report>issue-tracking</report>
-                            <report>license</report>
+                            <report>issue-management</report>
+                            <report>licenses</report>
                             <report>dependencies</report>
                             <report>dependency-management</report>
                             <report>plugins</report>

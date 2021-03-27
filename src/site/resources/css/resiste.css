@@ -68,3 +68,6 @@ div#twStart A {
     font-weight:bold;
     background-image: none;
 }
+a[title="Project Reports"] {
+  display: none;
+}

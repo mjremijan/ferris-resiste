@@ -62,7 +62,7 @@
      | Site - Project Information - Issue Management
     -->
     <issueManagement>
-        <url>https://github.com/mjremijan/ferris-resiste/issues</url>
+        <url>https://ferris-jira.atlassian.net/browse/RESISTE</url>
         <system>GitHub</system>
     </issueManagement>
     
@@ -180,7 +180,8 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <!-- Refer to Jira bug https://issues.apache.org/jira/browse/MJAVADOC-673 -->
+                    <version>3.0.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -283,47 +284,6 @@
             </plugin>
             
             <!--
-             | Use this plugin to run an ANT script
-            -->
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <!--
-                 | Inherited false means sub-modules do not run this plugin.
-                -->
-                <inherited>false</inherited>
-                <executions>
-                    <!--
-                     | Fix some of the Jacoco generated files.  The GitHub IO
-                     | website does not like the ".resources/" directory because
-                     | it starts with a "." character.  So rename the directory
-                     | to "resources" and do a search and replace in the files.
-                    -->
-                    <execution>
-                        <phase>site-deploy</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                Rename the ".resources" directory 
-                                <move file="target/staging/ferris-resiste-console/jacoco/.resources" tofile="target/staging/ferris-resiste-console/jacoco/resources" />
-                                Replace ".resources" in HTML files 
-                                <replaceregexp flags="g">
-                                    <regexp pattern="\.resources" />
-                                    <substitution expression="resources" />
-                                    <fileset dir="target/staging/ferris-resiste-console/jacoco">
-                                        <include name="**/*.html" />
-                                        <include name="**/*.css" />
-                                        <include name="**/*.js" />
-                                    </fileset>
-                                </replaceregexp>
-                            </target>
-                        </configuration>								
-                    </execution>
-                </executions>
-            </plugin>
-            
-            <!--
              | Use this plugin to upload the site to GitHub.
             -->        
             <plugin>
@@ -369,13 +329,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <!--
-                 | Inherited true means sub-modules will run this plugin.
-                -->
-                <inherited>true</inherited>
-                <!--
-                 | Use this link to generate the links to Java API classes.
-                -->
                 <configuration>
                     <links>
                         <link>https://docs.oracle.com/en/java/javase/11/docs/api/</link>
@@ -386,27 +339,13 @@
                      | All sub-modules will generate JavaDocs
                     -->
                     <reportSet>
-                        <id>default</id><!-- by default, id = "default" -->
+                        <id>default</id>
                         <reports>
                             <report>javadoc</report>
                         </reports>
                     </reportSet>
-                    <!--
-                     | Only the parent project will generate
-                     | aggregate JavaDocs of all sub-modules
-                    -->
-                    <reportSet>
-                        <id>aggregate</id>
-                        <!--
-                         | Inherited false means sub-modules do not run this report
-                        -->
-                        <inherited>false</inherited>
-                        <reports>
-                            <report>aggregate</report>
-                        </reports>
-                    </reportSet>
                 </reportSets>
-            </plugin> 
+            </plugin>
 
             <!--
              | Use this plugin to configure what shows up on the

@@ -17,5 +17,5 @@ module FerrisResisteConsole {
     requires org.apache.commons.lang3;
     requires jdom2;
     requires javax.interceptor.api;
-    
+
 }
