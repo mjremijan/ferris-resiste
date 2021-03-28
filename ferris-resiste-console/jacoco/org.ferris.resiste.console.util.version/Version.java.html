@@ -19,71 +19,72 @@ import org.ferris.resiste.console.lang.StringUtils;
     protected Package getPackage() {
 <span class="nc" id="L20">        Package p = null;</span>
         try {
-<span class="nc" id="L22">            p = Package.getPackage(getClass().getPackage().getName());</span>
-<span class="nc" id="L23">        } catch (Throwable t) {</span>
+<span class="nc" id="L22">            ClassLoader l = getClass().getClassLoader();</span>
+<span class="nc" id="L23">            p = l.getDefinedPackage(getClass().getPackage().getName());</span>
+<span class="nc" id="L24">        } catch (Throwable t) {</span>
             // do nothing
-<span class="nc" id="L25">        }</span>
-<span class="nc" id="L26">        return p;</span>
+<span class="nc" id="L26">        }</span>
+<span class="nc" id="L27">        return p;</span>
     }
 
     /**
      * @return {@link Package#getImplementationTitle() }
      */
     public String getImplementationTitle() {
-<span class="nc" id="L33">        String s = &quot;&quot;;</span>
-<span class="nc" id="L34">        Package pack = getPackage();</span>
-<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (pack != null) {</span>
-<span class="nc" id="L36">            s = StringUtils.trimToEmpty(pack.getImplementationTitle());</span>
+<span class="nc" id="L34">        String s = &quot;&quot;;</span>
+<span class="nc" id="L35">        Package pack = getPackage();</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        if (pack != null) {</span>
+<span class="nc" id="L37">            s = StringUtils.trimToEmpty(pack.getImplementationTitle());</span>
         }
-<span class="nc bnc" id="L38" title="All 2 branches missed.">        if (s.isEmpty()) {</span>
-<span class="nc" id="L39">            s = UNKOWN;</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        if (s.isEmpty()) {</span>
+<span class="nc" id="L40">            s = UNKOWN;</span>
         }
-<span class="nc" id="L41">        return s;</span>
+<span class="nc" id="L42">        return s;</span>
     }
 
     /**
      * @return {@link Package#getImplementationVersion() }
      */
     public String getImplementationVersion() {
-<span class="nc" id="L48">        String s = &quot;&quot;;</span>
-<span class="nc" id="L49">        Package pack = getPackage();</span>
-<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (pack != null) {</span>
-<span class="nc" id="L51">            s = StringUtils.trimToEmpty(pack.getImplementationVersion());</span>
+<span class="nc" id="L49">        String s = &quot;&quot;;</span>
+<span class="nc" id="L50">        Package pack = getPackage();</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if (pack != null) {</span>
+<span class="nc" id="L52">            s = StringUtils.trimToEmpty(pack.getImplementationVersion());</span>
         }
-<span class="nc bnc" id="L53" title="All 2 branches missed.">        if (s.isEmpty()) {</span>
-<span class="nc" id="L54">            s = UNKOWN;</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (s.isEmpty()) {</span>
+<span class="nc" id="L55">            s = UNKOWN;</span>
         }
-<span class="nc" id="L56">        return s;</span>
+<span class="nc" id="L57">        return s;</span>
     }
 
     /**
      * @return {@link Package#getImplementationVendor() }
      */
     public String getImplementationVendor() {
-<span class="nc" id="L63">        String s = &quot;&quot;;</span>
-<span class="nc" id="L64">        Package pack = getPackage();</span>
-<span class="nc bnc" id="L65" title="All 2 branches missed.">        if (pack != null) {</span>
-<span class="nc" id="L66">            s = StringUtils.trimToEmpty(pack.getImplementationVendor());</span>
+<span class="nc" id="L64">        String s = &quot;&quot;;</span>
+<span class="nc" id="L65">        Package pack = getPackage();</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (pack != null) {</span>
+<span class="nc" id="L67">            s = StringUtils.trimToEmpty(pack.getImplementationVendor());</span>
         }
-<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (s.isEmpty()) {</span>
-<span class="nc" id="L69">            s = UNKOWN;</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (s.isEmpty()) {</span>
+<span class="nc" id="L70">            s = UNKOWN;</span>
         }
-<span class="nc" id="L71">        return s;</span>
+<span class="nc" id="L72">        return s;</span>
     }
 
     public String getImplementationUrl() {
-<span class="nc" id="L75">        String s = &quot;&quot;;</span>
+<span class="nc" id="L76">        String s = &quot;&quot;;</span>
         try {
-<span class="nc" id="L77">            URL fileUrl = this.getClass().getProtectionDomain().getCodeSource().getLocation();</span>
-<span class="nc" id="L78">            URL jarUrl = new URL(String.format(&quot;jar:%s!/&quot;, fileUrl.toString()));</span>
-<span class="nc" id="L79">            JarURLConnection jarConnection = (JarURLConnection) jarUrl.openConnection();</span>
-<span class="nc" id="L80">            Manifest manifest = jarConnection.getManifest();</span>
-<span class="nc" id="L81">            Attributes attributes = manifest.getMainAttributes();</span>
-<span class="nc" id="L82">            s = StringUtils.defaultIfBlank(attributes.getValue(&quot;Implementation-URL&quot;), UNKOWN);</span>
-<span class="nc" id="L83">        } catch (Exception e) {</span>
-<span class="nc" id="L84">            s = UNKOWN;</span>
-<span class="nc" id="L85">        }</span>
-<span class="nc" id="L86">        return s;</span>
+<span class="nc" id="L78">            URL fileUrl = this.getClass().getProtectionDomain().getCodeSource().getLocation();</span>
+<span class="nc" id="L79">            URL jarUrl = new URL(String.format(&quot;jar:%s!/&quot;, fileUrl.toString()));</span>
+<span class="nc" id="L80">            JarURLConnection jarConnection = (JarURLConnection) jarUrl.openConnection();</span>
+<span class="nc" id="L81">            Manifest manifest = jarConnection.getManifest();</span>
+<span class="nc" id="L82">            Attributes attributes = manifest.getMainAttributes();</span>
+<span class="nc" id="L83">            s = StringUtils.defaultIfBlank(attributes.getValue(&quot;Implementation-URL&quot;), UNKOWN);</span>
+<span class="nc" id="L84">        } catch (Exception e) {</span>
+<span class="nc" id="L85">            s = UNKOWN;</span>
+<span class="nc" id="L86">        }</span>
+<span class="nc" id="L87">        return s;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
