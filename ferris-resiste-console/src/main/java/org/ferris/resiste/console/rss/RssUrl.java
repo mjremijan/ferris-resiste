@@ -24,7 +24,15 @@ public class RssUrl {
     public RssUrl(String id, String url) {
         this.id = id;
         try {
-            this.url = new URL(url);
+            if (url.startsWith("classpath:")) {
+                url = url.substring(10);
+                this.url = getClass().getClassLoader().getResource(url);
+                if (this.url == null) {
+                    throw new RuntimeException("Resource not found \"" +url+ "\"");
+                }
+            } else {
+                this.url = new URL(url);
+            }
         } catch (Exception e) {
             throw new RuntimeException(
                   String.format("Problem creating a URL object for \"%s\"", url)

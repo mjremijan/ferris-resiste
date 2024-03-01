@@ -9,6 +9,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URLConnection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -46,29 +47,32 @@ public class RssFeedFactory {
         String rawXml = "RAW_XML";
 
         try {
-            HttpURLConnection connection = (HttpURLConnection)feedUrl.getUrl().openConnection();
-            connection.setRequestProperty("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
-            connection.setRequestProperty("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
-            acceptEncoding.ifPresent(s -> connection.setRequestProperty("accept-encoding", s));
-            connection.setRequestProperty("accept-language", "en-US,en;q=0.9");
-            connection.setRequestProperty("upgrade-insecure-requests", "1");
-            connection.connect();
+            URLConnection connection = feedUrl.getUrl().openConnection();
+            if (connection instanceof HttpURLConnection) {
+                HttpURLConnection httpConnection = (HttpURLConnection)connection;
+                httpConnection.setRequestProperty("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
+                httpConnection.setRequestProperty("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
+                acceptEncoding.ifPresent(s -> httpConnection.setRequestProperty("accept-encoding", s));
+                httpConnection.setRequestProperty("accept-language", "en-US,en;q=0.9");
+                httpConnection.setRequestProperty("upgrade-insecure-requests", "1");
+                httpConnection.connect();
 
-            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                System.out.printf("Response code is not OK...it is: %d%n", connection.getResponseCode());
-                String errorString = "UNABLE TO OBTAIN";
-                try {
-                    errorString
-                        = new BufferedReader(new InputStreamReader(connection.getErrorStream(), "UTF-8")).lines().collect(Collectors.joining("\n"));
-                } catch (Exception ignore) {}
+                if (httpConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                    System.out.printf("Response code is not OK...it is: %d%n", httpConnection.getResponseCode());
+                    String errorString = "UNABLE TO OBTAIN";
+                    try {
+                        errorString
+                            = new BufferedReader(new InputStreamReader(httpConnection.getErrorStream(), "UTF-8")).lines().collect(Collectors.joining("\n"));
+                    } catch (Exception ignore) {}
 
-                throw new RuntimeException(
-                    String.format(
-                        "HTTP response is not OK. CODE=%d, ERROR_STRING=\"%s\""
-                        , connection.getResponseCode()
-                        , errorString
-                    )
-                );
+                    throw new RuntimeException(
+                        String.format(
+                            "HTTP response is not OK. CODE=%d, ERROR_STRING=\"%s\""
+                            , httpConnection.getResponseCode()
+                            , errorString
+                        )
+                    );
+                }
             }
 
             rawXml
@@ -92,13 +96,11 @@ public class RssFeedFactory {
                         e.setGuid(re.getUri());
                         e.setTitle(re.getTitle());
                         e.setAuthor(re.getAuthor());
+                        e.setLink(re.getLink());
                         // Link
                         {
-                            String link = re.getLink();
-                            if (link.startsWith("http")) {
-                                e.setLink(link);
-                            } else {
-                                e.setLink(feed.getLink() + link);
+                            if (!e.getLink().startsWith("http")) {
+                                e.setLink(feed.getLink() + e.getLink());
                             }
                         }
                         e.setPublishedDate(re.getPublishedDate());

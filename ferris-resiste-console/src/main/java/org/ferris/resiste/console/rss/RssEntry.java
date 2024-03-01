@@ -11,6 +11,11 @@ import javax.enterprise.inject.Vetoed;
  */
 @Vetoed
 public class RssEntry {
+    
+    private static String trim(String in) {
+        return (in == null) ? null : in.trim();
+    }
+    
     public String guid;
 
     public String getGuid() {
@@ -18,7 +23,7 @@ public class RssEntry {
     }
 
     public void setGuid(String guid) {
-        this.guid = guid;
+        this.guid = trim(guid);
     }
 
     public String title;
@@ -28,7 +33,7 @@ public class RssEntry {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = trim(title);
     }
 
     public String contents;
@@ -38,7 +43,7 @@ public class RssEntry {
     }
 
     public void setContents(String contents) {
-        this.contents = contents;
+        this.contents = trim(contents);
     }
 
     public String author;
@@ -48,7 +53,7 @@ public class RssEntry {
     }
 
     public void setAuthor(String author) {
-        this.author = author;
+        this.author = trim(author);
     }
 
     public String link;
@@ -58,7 +63,7 @@ public class RssEntry {
     }
 
     public void setLink(String link) {
-        this.link = link;
+        this.link = trim(link);
     }
 
     public Date publishedDate;
