@@ -5,15 +5,17 @@
             <p>
                 ${author}.&nbsp;&nbsp;
                 (${publishedDate}).&nbsp;&nbsp;
-                <span style="font-style: italic;">${title}</span>.&nbsp;&nbsp;
-                Retrieved from <a href="${linkHref}">${linkText}</a>.&nbsp;&nbsp;GUID ${guid}
+                <span style="font-style: italic;">${title}</span>.
+            </p>
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;<a href="${linkHref}">${linkText}</a>.&nbsp;&nbsp;GUID ${guid}
             </p>
         </div>
-                
+
         <!-- contents -->
         <div style="border:0px solid black; font-family:Georgia,serif;">${contents}</div>
-        
-        
+
+
         <!-- images -->
         <#if images?size != 0>
             <#list images as image>
@@ -21,8 +23,8 @@
                     <img style="max-width:99%;" src="${image.url}" />
                 </div>
             </#list>
-        </#if>        
-                        
+        </#if>
+
         <!-- media files -->
         <#if mediaFiles?size != 0>
             <#list mediaFiles as mediaFile>
