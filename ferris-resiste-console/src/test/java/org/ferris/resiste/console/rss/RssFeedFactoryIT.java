@@ -43,7 +43,7 @@ public class RssFeedFactoryIT {
     public void testMarsLocal() throws Exception {
         
         RssUrl rssUrl
-            = new RssUrl("junitid", "classpath:mars.nasa.gov.xml");
+            = new RssUrl("junitid", "classpath://mars.nasa.gov.xml");
 
         RssFeed rssFeed
             = rssFeedFactory.build(rssUrl);

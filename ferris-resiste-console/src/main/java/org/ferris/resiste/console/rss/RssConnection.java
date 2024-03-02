@@ -2,6 +2,7 @@ package org.ferris.resiste.console.rss;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.StringJoiner;
 
 /**
@@ -9,14 +10,10 @@ import java.util.StringJoiner;
  * @author Michael
  */
 abstract class RssConnection {
-    protected RssUrl url;
+    protected URL url;
 
-    protected RssConnection(RssUrl url) {
+    protected RssConnection(URL url) {
         this.url = url;
-    }
-
-    protected RssUrl getUrl() {
-        return url;
     }
 
     @Override

@@ -35,19 +35,15 @@ public class RssFeedFactory {
 
     @ExceptionRetry
     public RssFeed build(RssUrl feedUrl) throws IOException, FeedException {
-        return
-           feedUrl.isClasspath() 
-                ? build(feedUrl.getId(), new RssConnectionForClasspath(feedUrl))
-                : build(feedUrl.getId(), new RssConnectionForHttp(feedUrl))
-        ;
-    }
-
-    private RssFeed build(String id, RssConnection connection) throws IOException, FeedException {
-        log.debug(String.format("ENTER %s, %s", id, connection));
+        
+        log.debug(String.format("ENTER %s", feedUrl));
 
         String rawXml = "RAW_XML";
 
         try {
+            RssConnection connection
+                = feedUrl.openConnection();
+            
             rawXml
                 = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8")).lines().collect(Collectors.joining("\n"));
 
@@ -58,7 +54,7 @@ public class RssFeedFactory {
                 = romeFeed.getEntries();
 
             RssFeed feed = new RssFeed();
-            feed.setId(id);
+            feed.setId(feedUrl.getId());
             feed.setLink(romeFeed.getLink());
             feed.setTitle(romeFeed.getTitle());
 
@@ -66,21 +62,31 @@ public class RssFeedFactory {
                 romeEntries.stream()
                     .map(re -> {
                         RssEntry e = new RssEntry();
+                        
+                        // GUID
                         e.setGuid(re.getUri());
+                        
+                        // Title
                         e.setTitle(re.getTitle());
+                        
+                        // Author
                         e.setAuthor(re.getAuthor());
-                        e.setLink(re.getLink());
+                        
                         // Link
+                        e.setLink(re.getLink());                       
                         {
                             if (!e.getLink().startsWith("http")) {
                                 e.setLink(feed.getLink() + e.getLink());
                             }
                         }
+                        
+                        // Published date
                         e.setPublishedDate(re.getPublishedDate());
 
                         // Enclosures
                         Optional<List<SyndEnclosure>> enclosures
                             = Optional.ofNullable(re.getEnclosures());
+                        
                         // Foreign markup
                         Optional<List<Element>> foreignMarkups
                             = Optional.ofNullable(re.getForeignMarkup());
@@ -122,10 +128,10 @@ public class RssFeedFactory {
 
             return feed;
         } catch (FeedException e) {
-            log.error(String.format("Error parsing RSS feed \"%s\"", connection.getUrl().toString()));
+            log.error(String.format("Error parsing RSS feed \"%s\"", feedUrl.toString()));
             log.error(String.format("%nRAW_XML%n%s", rawXml));
             throw new FeedException(
-                String.format("URL=\"%s\", RAW_XML=\"%s\"", connection.getUrl().toString(), rawXml),
+                String.format("URL=\"%s\", RAW_XML=\"%s\"", feedUrl.toString(), rawXml),
                  e);
         }
     }

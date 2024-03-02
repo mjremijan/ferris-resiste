@@ -2,6 +2,7 @@ package org.ferris.resiste.console.rss;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 /**
  *
@@ -9,12 +10,12 @@ import java.io.InputStream;
  */
 class RssConnectionForClasspath extends RssConnection {
 
-    protected RssConnectionForClasspath(RssUrl url) {
+    protected RssConnectionForClasspath(URL url) {
         super(url);
     }
 
     @Override
     protected InputStream getInputStream() throws IOException {
-        return url.getUrl().openConnection().getInputStream();
+        return url.openConnection().getInputStream();
     } 
 }

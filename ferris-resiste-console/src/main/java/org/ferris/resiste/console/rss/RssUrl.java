@@ -19,29 +19,33 @@ public class RssUrl {
         StringJoiner sj = new StringJoiner(", ", "[RssUrl ", "]");
         sj.add(String.format("id:%s", (id == null) ? "null" : id));
         sj.add(String.format("url:%s", (url == null) ? "null" : url));
+        sj.add(String.format("connection:%s", (connection == null) ? "null" : connection));
         return sj.toString();
     }
 
     public RssUrl(String id, String url) {
         this.id = id;
-        try {
-            if (url.startsWith("classpath:")) {
-                isClasspath = true;
-                url = url.substring(10);
-                this.url = getClass().getClassLoader().getResource(url);
-                if (this.url == null) {
-                    throw new RuntimeException("Resource not found \"" +url+ "\"");
-                }
-            } else {
-                isClasspath = false;
-                this.url = new URL(url);
+        
+        if (url.startsWith("classpath://")) {
+            url = url.substring(12);
+            this.url = getClass().getClassLoader().getResource(url);
+            if (this.url == null) {
+                throw new RuntimeException("Resource not found \"" +url+ "\"");
             }
-        } catch (Exception e) {
-            throw new RuntimeException(
-                  String.format("Problem creating a URL object for \"%s\"", url)
-                , e
-            );
+            connection = new RssConnectionForClasspath(this.url);
+        } 
+        else {
+            try {
+                this.url = new URL(url);
+                connection = new RssConnectionForHttp(this.url);
+            } catch (Exception e) {
+                throw new RuntimeException(
+                      String.format("Problem creating a URL object for \"%s\"", url)
+                    , e
+                );
+            }
         }
+        
     }
 
     public String getId() {
@@ -52,7 +56,7 @@ public class RssUrl {
         return url;
     }
     
-    public RssConnection getConnection() {
+    public RssConnection openConnection() {        
         return connection;
     }
 

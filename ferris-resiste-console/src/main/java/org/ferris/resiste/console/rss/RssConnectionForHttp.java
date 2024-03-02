@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
  */
 class RssConnectionForHttp extends RssConnection {
 
-    protected RssConnectionForHttp(RssUrl url) {
+    protected RssConnectionForHttp(URL url) {
         super(url);
     }
 
@@ -29,7 +30,7 @@ class RssConnectionForHttp extends RssConnection {
 
     private InputStream getInputStream(Optional<String> acceptEncoding) throws IOException
     {            
-        HttpURLConnection httpConnection = (HttpURLConnection)url.getUrl().openConnection();
+        HttpURLConnection httpConnection = (HttpURLConnection)url.openConnection();
         httpConnection.setRequestProperty("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
         httpConnection.setRequestProperty("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
         acceptEncoding.ifPresent(s -> httpConnection.setRequestProperty("accept-encoding", s));
