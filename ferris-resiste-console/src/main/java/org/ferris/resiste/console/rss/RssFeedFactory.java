@@ -7,12 +7,13 @@ import com.rometools.rome.io.XmlReader;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URLConnection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -34,47 +35,19 @@ public class RssFeedFactory {
 
     @ExceptionRetry
     public RssFeed build(RssUrl feedUrl) throws IOException, FeedException {
-        try {
-            return build(feedUrl, Optional.of("deflate, br"));
-        } catch (Exception ignore) {
-            return build(feedUrl, Optional.empty());
-        }
+        return
+           feedUrl.isClasspath() 
+                ? build(feedUrl.getId(), new RssConnectionForClasspath(feedUrl))
+                : build(feedUrl.getId(), new RssConnectionForHttp(feedUrl))
+        ;
     }
 
-    private RssFeed build(RssUrl feedUrl, Optional<String> acceptEncoding) throws IOException, FeedException {
-        log.debug(String.format("ENTER %s", feedUrl));
+    private RssFeed build(String id, RssConnection connection) throws IOException, FeedException {
+        log.debug(String.format("ENTER %s, %s", id, connection));
 
         String rawXml = "RAW_XML";
 
         try {
-            URLConnection connection = feedUrl.getUrl().openConnection();
-            if (connection instanceof HttpURLConnection) {
-                HttpURLConnection httpConnection = (HttpURLConnection)connection;
-                httpConnection.setRequestProperty("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
-                httpConnection.setRequestProperty("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
-                acceptEncoding.ifPresent(s -> httpConnection.setRequestProperty("accept-encoding", s));
-                httpConnection.setRequestProperty("accept-language", "en-US,en;q=0.9");
-                httpConnection.setRequestProperty("upgrade-insecure-requests", "1");
-                httpConnection.connect();
-
-                if (httpConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                    System.out.printf("Response code is not OK...it is: %d%n", httpConnection.getResponseCode());
-                    String errorString = "UNABLE TO OBTAIN";
-                    try {
-                        errorString
-                            = new BufferedReader(new InputStreamReader(httpConnection.getErrorStream(), "UTF-8")).lines().collect(Collectors.joining("\n"));
-                    } catch (Exception ignore) {}
-
-                    throw new RuntimeException(
-                        String.format(
-                            "HTTP response is not OK. CODE=%d, ERROR_STRING=\"%s\""
-                            , httpConnection.getResponseCode()
-                            , errorString
-                        )
-                    );
-                }
-            }
-
             rawXml
                 = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8")).lines().collect(Collectors.joining("\n"));
 
@@ -85,7 +58,7 @@ public class RssFeedFactory {
                 = romeFeed.getEntries();
 
             RssFeed feed = new RssFeed();
-            feed.setId(feedUrl.getId());
+            feed.setId(id);
             feed.setLink(romeFeed.getLink());
             feed.setTitle(romeFeed.getTitle());
 
@@ -149,10 +122,10 @@ public class RssFeedFactory {
 
             return feed;
         } catch (FeedException e) {
-            log.error(String.format("Error parsing RSS feed \"%s\"", feedUrl.getUrl().toString()));
+            log.error(String.format("Error parsing RSS feed \"%s\"", connection.getUrl().toString()));
             log.error(String.format("%nRAW_XML%n%s", rawXml));
             throw new FeedException(
-                String.format("URL=\"%s\", RAW_XML=\"%s\"", feedUrl.getUrl().toString(), rawXml),
+                String.format("URL=\"%s\", RAW_XML=\"%s\"", connection.getUrl().toString(), rawXml),
                  e);
         }
     }

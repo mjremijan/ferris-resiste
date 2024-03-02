@@ -12,6 +12,7 @@ import javax.enterprise.inject.Vetoed;
 public class RssUrl {
     protected String id;
     protected URL url;
+    protected boolean isClasspath;
 
     @Override
     public String toString() {
@@ -25,12 +26,14 @@ public class RssUrl {
         this.id = id;
         try {
             if (url.startsWith("classpath:")) {
+                isClasspath = true;
                 url = url.substring(10);
                 this.url = getClass().getClassLoader().getResource(url);
                 if (this.url == null) {
                     throw new RuntimeException("Resource not found \"" +url+ "\"");
                 }
             } else {
+                isClasspath = false;
                 this.url = new URL(url);
             }
         } catch (Exception e) {
@@ -47,6 +50,10 @@ public class RssUrl {
 
     public URL getUrl() {
         return url;
+    }
+    
+    public boolean isClasspath() {
+        return isClasspath;
     }
 
 }
