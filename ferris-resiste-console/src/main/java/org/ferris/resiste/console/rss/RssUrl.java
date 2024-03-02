@@ -12,7 +12,7 @@ import javax.enterprise.inject.Vetoed;
 public class RssUrl {
     protected String id;
     protected URL url;
-    protected boolean isClasspath;
+    protected RssConnection connection;
 
     @Override
     public String toString() {
@@ -52,8 +52,8 @@ public class RssUrl {
         return url;
     }
     
-    public boolean isClasspath() {
-        return isClasspath;
+    public RssConnection getConnection() {
+        return connection;
     }
 
 }
