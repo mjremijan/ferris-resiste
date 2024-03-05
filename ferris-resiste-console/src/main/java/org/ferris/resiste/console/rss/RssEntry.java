@@ -1,8 +1,12 @@
 package org.ferris.resiste.console.rss;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.StringJoiner;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 import javax.enterprise.inject.Vetoed;
 
 /**
@@ -42,10 +46,108 @@ public class RssEntry {
         return contents;
     }
 
-    public void setContents(String contents) {
-        this.contents = trim(contents);
+    public void setContents(String theContents) {
+        contents = trim(theContents);
+        
+        // This code will look for <img> tags within
+        // the contents of the RSS entry. The idea is
+        // for this code to remove the "height" and
+        // "width" attributes from the <img> tag so
+        // that pictures display without being too
+        // big.
+        {
+            List<Img> theTags
+                = new LinkedList<>();
+
+            char [] htmlArr 
+                = contents.toCharArray();
+
+            // Find all of the <img> tags and their contents
+            for (int begin=0; begin<htmlArr.length; begin++) {
+                if (htmlArr[begin] == '<') {
+                    String tag = contents.substring(begin, Math.min(begin+4, contents.length())).toLowerCase();
+                    if (tag.equalsIgnoreCase("<img")) {
+                        int end = contents.indexOf('>', begin);
+                        if (end != -1) {
+                            String imgstr 
+                                = contents.substring(begin, Math.min(end + 1, contents.length()));
+                            if (imgstr != null) {
+                                int h = imgstr.toLowerCase().indexOf("height");
+                                int w = imgstr.toLowerCase().indexOf("width");
+                                if (h != -1) {
+                                    h = begin + h;
+                                }
+                                if (w != -1) {
+                                    w = begin + w;
+                                }
+                                if (h != -1 || w != -1) {
+                                    theTags.add(
+                                        new Img(begin, end, w, h, imgstr)
+                                    );
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Sort the index values for the "height"
+            // and "width" atrributes from lowest to
+            // highests, removing "-1" values meaning
+            // the attribute wasn not found
+            List<Integer> sortedIndexes 
+            = theTags.stream()
+                .map(t -> Arrays.asList(t.heightBegin, t.widthBegin))
+                .flatMap(list -> list.stream())
+                .filter(i -> i != -1)
+                .sorted()
+                .collect(Collectors.toList())
+            ;
+            
+            // Recreate the contents of the RSS entry, but
+            // remove the "height" and "width" attributes...
+            // or making them ineffective to HTML rendering
+            AtomicInteger index = new AtomicInteger(0);
+            List<String> split = sortedIndexes.stream()
+                .map(end -> 
+                        contents.substring(index.getAndSet(end), Math.min(end, contents.length()))
+                        + "resiste"
+                ).collect(Collectors.toList())
+            ;
+            split.add(contents.substring(index.get()));
+            
+            // Save final contents
+            contents = String.join("", split);
+        }
     }
 
+    class Img {
+        Integer tagBegin;
+        Integer tagEnd;
+        Integer widthBegin;
+        Integer heightBegin;
+        String contents;
+
+        public Img(Integer tagBegin, Integer tagEnd, Integer widthBegin, Integer heightBegin, String contents) {
+            this.tagBegin = tagBegin;
+            this.tagEnd = tagEnd;
+            this.widthBegin = widthBegin;
+            this.heightBegin = heightBegin;
+            this.contents = contents;
+        }
+
+        @Override
+        public String toString() {
+            StringJoiner sj = new StringJoiner(", ", "[Img ", "]");
+            sj.add(String.format("tagBegin:%s", (tagBegin == null) ? "null" : tagBegin));
+            sj.add(String.format("tagEnd:%s", (tagEnd == null) ? "null" : tagEnd));
+            sj.add(String.format("widthBegin:%s", (widthBegin == null) ? "null" : widthBegin));
+            sj.add(String.format("heightBegin:%s", (heightBegin == null) ? "null" : heightBegin));
+            sj.add(String.format("contents:\"%s\"", contents));
+            return sj.toString();
+        }
+    }
+    
     public String author;
 
     public String getAuthor() {
@@ -97,6 +199,6 @@ public class RssEntry {
     }
 
 
-
+    
 
 }
