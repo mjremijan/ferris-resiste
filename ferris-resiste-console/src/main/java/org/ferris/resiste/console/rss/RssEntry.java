@@ -55,6 +55,7 @@ public class RssEntry {
         // "width" attributes from the <img> tag so
         // that pictures display without being too
         // big.
+        try 
         {
             List<Img> theTags
                 = new LinkedList<>();
@@ -118,6 +119,12 @@ public class RssEntry {
             
             // Save final contents
             contents = String.join("", split);
+        } catch (Exception e) {
+            throw new RuntimeException(
+                String.format("An problem occured trying to process the <img> "
+                    + "tags of the RssEntry content. Original HTML: \"%s\"",theContents)
+              , e
+            );
         }
     }
 
