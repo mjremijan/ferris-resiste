@@ -54,4 +54,30 @@ public class RssFeedFactoryIT {
         Assert.assertEquals("https://mars.nasa.gov/news/9549/", entries.get(0).getLink());
         Assert.assertEquals("https://mars.nasa.gov/news/9448/", entries.get(entries.size()-1).getLink());
     }
+    
+    @Test
+    public void testArtemisRemote() throws Exception {
+        RssUrl rssUrl
+            = new RssUrl("junitid"
+                    , "https://www.nasa.gov/missions/artemis/feed/");
+
+        RssFeed rssFeed
+            = rssFeedFactory.build(rssUrl);
+
+        Assert.assertEquals("junitid", rssFeed.getId());
+        Assert.assertEquals("Artemis – NASA", rssFeed.getTitle());
+    }
+
+    @Test
+    public void testChristianityTodayRemote() throws Exception {
+        RssUrl rssUrl
+            = new RssUrl("junitid"
+                    , "https://www.christiantoday.com/rss/feed");
+
+        RssFeed rssFeed
+            = rssFeedFactory.build(rssUrl);
+
+        Assert.assertEquals("junitid", rssFeed.getId());
+        Assert.assertEquals("Christian Today", rssFeed.getTitle());
+    }
 }

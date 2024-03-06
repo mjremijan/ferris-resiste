@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -20,20 +19,12 @@ class RssConnectionForHttp extends RssConnection {
     }
 
     @Override
-    protected InputStream getInputStream() throws IOException {    
-        try {
-            return getInputStream(Optional.of("deflate, br"));
-        } catch (Exception ignore) {
-            return getInputStream(Optional.empty());
-        }
-    }
-
-    private InputStream getInputStream(Optional<String> acceptEncoding) throws IOException
+    protected InputStream getInputStream() throws IOException
     {            
         HttpURLConnection httpConnection = (HttpURLConnection)url.openConnection();
         httpConnection.setRequestProperty("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
         httpConnection.setRequestProperty("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
-        acceptEncoding.ifPresent(s -> httpConnection.setRequestProperty("accept-encoding", s));
+        httpConnection.setRequestProperty("accept-encoding", "identity");
         httpConnection.setRequestProperty("accept-language", "en-US,en;q=0.9");
         httpConnection.setRequestProperty("upgrade-insecure-requests", "1");
         httpConnection.connect();
@@ -57,3 +48,4 @@ class RssConnectionForHttp extends RssConnection {
         return httpConnection.getInputStream();
     }
 }
+    
