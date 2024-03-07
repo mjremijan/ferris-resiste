@@ -1,8 +1,10 @@
 package org.ferris.resiste.console.rss;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Optional;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -30,26 +32,32 @@ public class RssHistoryRepository {
 
         StringBuilder sp = new StringBuilder();
         sp.append(" select ");
-        sp.append("     feed_id, entry_id, published_on ");
+        sp.append("     feed_id, entry_id, published_on, last_found_on ");
         sp.append(" from ");
         sp.append("     rss_entry_history ");
         sp.append(" where ");
         sp.append("     feed_id=? ");
         sp.append("     and ");
         sp.append("     entry_id=? ");
+        sp.append(" for update of ");
+        sp.append("     last_found_on ");
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
-            stmt = conn.prepareStatement(sp.toString());
+            stmt = conn.prepareUpdatableStatement(sp.toString());
+            
             stmt.setString(1, feedId);
             stmt.setString(2, entryId);
 
             rs = stmt.executeQuery();
             if (rs.next()) {
-                retval =Optional.of(
+                retval = Optional.of(
                     new RssHistory(feedId, feedId, rs.getTimestamp("published_on").toInstant())
                 );
+                
+                rs.updateDate(4, Date.valueOf(LocalDate.now()));
+                rs.updateRow();
             }
 
         } catch (Throwable t) {
