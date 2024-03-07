@@ -7,6 +7,7 @@ import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import static org.ferris.resiste.console.rss.RssHistoryEvent.CLEANUP;
 import static org.ferris.resiste.console.rss.RssHistoryEvent.STORE;
 import org.slf4j.Logger;
 
@@ -45,5 +46,11 @@ public class RssHistoryService {
                 )
             )
         );
+    }
+    
+    protected void observeCleanup(
+        @Observes @Priority(CLEANUP) RssHistoryEvent evnt
+    ) {
+        repository.cleanup();        
     }
 }

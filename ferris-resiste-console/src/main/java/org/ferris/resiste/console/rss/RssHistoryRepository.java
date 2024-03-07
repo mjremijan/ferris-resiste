@@ -27,6 +27,9 @@ public class RssHistoryRepository {
     protected SqlConnection conn;
 
     public Optional<RssHistory> find(String feedId, String entryId) {
+        
+        log.info(String.format("Find RSS entry history feedId=\"%s\", entryId=\"%s\"", feedId, entryId));
+        
         Optional<RssHistory> retval
             = Optional.empty();
 
@@ -75,7 +78,8 @@ public class RssHistoryRepository {
 
 
     protected void store(RssHistory h) {
-        log.info(String.format("Store feed entry in history %s", h));
+        
+        log.info(String.format("Store RSS entry history %s", h));
 
         StringBuilder sp = new StringBuilder();
         sp.append(" insert into rss_entry_history ");
@@ -125,6 +129,33 @@ public class RssHistoryRepository {
                 String.format("Problem inserting in history table %s:"
                     , String.valueOf(h)
                 ), t
+            );
+        } finally {
+            conn.close(stmt, rs);
+        }
+    }
+    
+    
+    public void cleanup() {
+        
+        log.info("Cleanup RSS entry history");
+        
+        StringBuilder sp = new StringBuilder();
+        sp.append(" delete from ");
+        sp.append("     rss_entry_history ");
+        sp.append(" where ");
+        sp.append("     last_found_on < ? ");
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = conn.prepareStatement(sp.toString());
+            stmt.setDate(1, Date.valueOf(LocalDate.now()));
+            int deletedRows = stmt.executeUpdate();
+            log.info(String.format("Deleted %d rows from RSS entry history", deletedRows));
+        } catch (Throwable t) {
+            throw new RuntimeException(
+                "Problem cleaning up the RSS entry history table.", t
             );
         } finally {
             conn.close(stmt, rs);
