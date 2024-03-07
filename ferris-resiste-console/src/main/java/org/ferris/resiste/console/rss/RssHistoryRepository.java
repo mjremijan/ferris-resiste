@@ -83,9 +83,9 @@ public class RssHistoryRepository {
 
         StringBuilder sp = new StringBuilder();
         sp.append(" insert into rss_entry_history ");
-        sp.append("     (feed_id, entry_id, published_on) ");
+        sp.append("     (feed_id, entry_id, published_on, last_found_on) ");
         sp.append(" values ");
-        sp.append("     (?, ?, ?) ");
+        sp.append("     (?, ?, ?, ?) ");
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -114,6 +114,9 @@ public class RssHistoryRepository {
 
             // PublishedOn
             stmt.setTimestamp(3, Timestamp.from(h.getPublished()));
+            
+            // LastFoundOn
+            stmt.setDate(4, Date.valueOf(LocalDate.now()));
 
             // Execute
             int changed = stmt.executeUpdate();
