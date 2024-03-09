@@ -1,25 +1,25 @@
 <html>
     <body>
         <!-- apa reference -->
-        <div style="clear:both; border: 0px solid black; font-family:Georgia,serif; margin-top:20px;">
+        <div style="clear:both; border: 1px solid black; font-family:Georgia,serif; margin-top:20px;">
             <p>
-                ${author}.&nbsp;&nbsp;
-                (${publishedDate}).&nbsp;&nbsp;
-                <span style="font-style: italic;">${title}</span>.
-            </p>
-            <p>
-                &nbsp;&nbsp;&nbsp;&nbsp;<a href="${linkHref}">${linkText}</a>.&nbsp;&nbsp;GUID ${guid}
+                ${author}.&nbsp;(${publishedDate}).
+                &nbsp;<span style="font-style: italic;">${title}</span>.
+                &nbsp;<a href="${linkHref}">${linkText}</a>.
+                &nbsp;GUID ${guid}.
             </p>
         </div>
 
         <!-- contents -->
-        <div style="border:0px solid black; font-family:Georgia,serif;">${contents}</div>
-
+        <div style="border: 2px solid red;">
+           ${contents}
+        </div>
 
         <!-- images -->
         <#if images?size != 0>
+            <p style="font-weight:bold">Images</p>
             <#list images as image>
-                <div style="border: 0px solid blue; white-space:nowrap; max-width:99% ">
+                <div style="border: 1px solid blue; white-space:nowrap; max-width:99% ">
                     <img style="max-width:99%;" src="${image.url}" />
                 </div>
             </#list>
@@ -27,6 +27,7 @@
 
         <!-- media files -->
         <#if mediaFiles?size != 0>
+            <p style="font-weight:bold">Media Files</p>
             <#list mediaFiles as mediaFile>
                 <p>
                     ${mediaFile.type}: <a href="${mediaFile.url}">${mediaFile.url}</a>
