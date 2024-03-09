@@ -71,7 +71,7 @@ public class RssEntryTest {
 //    }
     
      @Test
-     public void testReplaceAll() {
+     public void testReplaceAllLowerCase() {
         String html
             = "  this <img> tag and <img/> \n and \n <img /> and <img></img>  \n\n  ";
         
@@ -80,6 +80,20 @@ public class RssEntryTest {
         
         String replaceAll
             = html.replaceAll("<img", "<img style=\"width:100%; object-fit:cover;\" ");
+        
+        Assert.assertEquals(expected, replaceAll);  
+     }
+     
+     @Test
+     public void testReplaceAllMixedCase() {
+        String html
+            = "  this <IMG> tag and <Img/> \n and \n <iMg /> and <imG></img>  \n\n  ";
+        
+        String expected
+            = "  this <img style=\"width:100%; object-fit:cover;\" > tag and <img style=\"width:100%; object-fit:cover;\" /> \n and \n <img style=\"width:100%; object-fit:cover;\"  /> and <img style=\"width:100%; object-fit:cover;\" ></img>  \n\n  ";
+        
+        String replaceAll
+            = html.replaceAll("<[iI][mM][gG]", "<img style=\"width:100%; object-fit:cover;\" ");
         
         Assert.assertEquals(expected, replaceAll);  
      }
