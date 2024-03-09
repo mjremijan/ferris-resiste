@@ -87,13 +87,19 @@ public class RssEntryTest {
      @Test
      public void testReplaceAllMixedCase() {
         String html
-            = "  this <IMG> tag and <Img/> \n and \n <iMg /> and <imG></img>  \n\n  ";
+            = "  this <IMG> tag "
+                + "and <Img/> \n "
+                + "and \n <iMg /> "
+                + "and <imG></img>  \n\n  ";
         
         String expected
-            = "  this <img style=\"width:100%; object-fit:cover;\" > tag and <img style=\"width:100%; object-fit:cover;\" /> \n and \n <img style=\"width:100%; object-fit:cover;\"  /> and <img style=\"width:100%; object-fit:cover;\" ></img>  \n\n  ";
+            = "  this <IMG style=\"width:100%; object-fit:cover;\" > tag "
+                + "and <Img style=\"width:100%; object-fit:cover;\" /> \n "
+                + "and \n <iMg style=\"width:100%; object-fit:cover;\"  /> "
+                + "and <imG style=\"width:100%; object-fit:cover;\" ></img>  \n\n  ";
         
         String replaceAll
-            = html.replaceAll("<[iI][mM][gG]", "<img style=\"width:100%; object-fit:cover;\" ");
+            = html.replaceAll("<([iI])([mM])([gG])", "<$1$2$3 style=\"width:100%; object-fit:cover;\" ");
         
         Assert.assertEquals(expected, replaceAll);  
      }
