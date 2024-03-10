@@ -31,18 +31,7 @@
                 </p>
             </#list>
         </#if>
-
-        <!-- entry reference -->
-        <div style="clear:both; border: 0px solid black; font-family:Georgia,serif; color:#e6e6e6">
-            <p>
-                feed_id: ${feedId}
-            </p>
-            <p>
-                entry_id: ${entryId}
-            </p>
-        </div>
         
-
         <!-- version -->
         <div style="border: 0px solid blue; white-space:nowrap; max-width:99% ">
             <div style="border:0px solid black; padding-right:8px; display: inline-block; ">
@@ -54,6 +43,17 @@
             <div style="clear: both;"></div>
         </div>
         <!-- end version -->
+
+
+        <!-- entry reference -->
+        <div style="border: 0px solid blue; white-space:nowrap; max-width:99% ">
+            <div style="vertical-align:top; border:0px solid black; display: inline-block; width:90%; font-family: 'Franklin Gothic Book',sans-serif; color:#cccccc">
+                <p>Feed ID: ${feedId}</p>
+                <p>Entry ID: ${entryId}</p>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+        <!-- end entry reference -->
     </body>
 </html>
 
