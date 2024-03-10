@@ -38,7 +38,7 @@ public class RssHistoryService {
                 e -> repository.store(
                     new RssHistory(
                           f.getId()
-                        , e.getGuid()
+                        , e.getEntryId()
                         , Optional.ofNullable(e.getPublishedDate())
                             .map(d -> d.toInstant())
                             .orElse(Instant.now())

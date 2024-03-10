@@ -37,7 +37,7 @@ public class SyndFilterService {
                 // Loop over all the entries in a feed, remove entry if it exists in history
                 rf.getEntries().removeIf(re -> {
                     String feedId = rf.getId();
-                    String entryId = re.getGuid();
+                    String entryId = re.getEntryId();
                     boolean exists = historyService.exists(feedId, entryId);
                     if (!exists) {
                         log.info(String.format(

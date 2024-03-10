@@ -60,8 +60,11 @@ public class RssFeedFactory {
                     .map(re -> {
                         RssEntry e = new RssEntry();
                         
-                        // GUID
-                        e.setGuid(re.getUri());
+                        // FeedId
+                        e.setFeedId(feedUrl.getId());
+                        
+                        // EntryId
+                        e.setEntryId(re.getUri());
                         
                         // Title
                         e.setTitle(re.getTitle());

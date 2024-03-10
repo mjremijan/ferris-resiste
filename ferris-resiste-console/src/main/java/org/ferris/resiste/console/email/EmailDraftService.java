@@ -194,8 +194,11 @@ public class EmailDraftService {
         List<RssMediaFile> mediaFiles
             = se.getMediaFiles();
 
-        // GUID
-        String guid = se.getGuid();
+        // FeedId
+        String feedId = se.getFeedId();
+        
+        // EntryId
+        String entryId = se.getEntryId();
 
 
         // Render
@@ -212,7 +215,8 @@ public class EmailDraftService {
             root.put("projectUrl", projectUrl);
             root.put("images", images);
             root.put("mediaFiles", mediaFiles);
-            root.put("guid", guid);
+            root.put("feedId", feedId);
+            root.put("entryId", entryId);
 
             bodyTemplate.process(root, out);
 

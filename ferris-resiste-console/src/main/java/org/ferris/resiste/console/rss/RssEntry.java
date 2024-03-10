@@ -20,14 +20,24 @@ public class RssEntry {
         return (in == null) ? null : in.trim();
     }
     
-    public String guid;
-
-    public String getGuid() {
-        return guid;
+    public String feedId;
+    
+    public String getFeedId() {
+        return feedId;
     }
 
-    public void setGuid(String guid) {
-        this.guid = trim(guid);
+    public void setFeedId(String feedId) {
+        this.feedId = trim(feedId);
+    }
+    
+    public String entryId;
+
+    public String getEntryId() {
+        return entryId;
+    }
+
+    public void setEntryId(String entryId) {
+        this.entryId = trim(entryId);
     }
 
     public String title;
@@ -209,8 +219,4 @@ public class RssEntry {
     public void addMediaFile(RssMediaFile mediaFile) {
         mediaFiles.add(mediaFile);
     }
-
-
-    
-
 }
