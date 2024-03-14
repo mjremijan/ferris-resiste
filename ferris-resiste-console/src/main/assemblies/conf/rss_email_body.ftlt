@@ -16,7 +16,7 @@
         <#if images?size != 0>
             <p style="font-weight:bold">Images</p>
             <#list images as image>
-                <div style="border: 1px solid blue; white-space:nowrap; max-width:99% ">
+                <div style="border: 0px solid blue; white-space:nowrap; max-width:99% ">
                     <img style="max-width:99%;" src="${image.url}" />
                 </div>
             </#list>
