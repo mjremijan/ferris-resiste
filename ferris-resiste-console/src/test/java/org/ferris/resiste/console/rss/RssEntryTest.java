@@ -10,14 +10,14 @@ import org.junit.Test;
 public class RssEntryTest {
 
     @Test
-    public void test_setContents_removes_hieght_and_width() {
+    public void test_setContents_removes_height_and_width() {
         String html 
             = "<p><a href=\"https://mars.nasa.gov/news/9549/\">\n" +
               "<img src=\"https://mars.nasa.gov/system/news_items/main_images/9549_PIA24925_MAIN.jpg\" \n   style=\"padding-right:10px; \n padding-bottom:5px;\" \n align=\"left\" \n alt=\"Read article: Team Assessing SHERLOC Instrument on NASA's Perseverance Rover\" \n width=\"100\" \n height=\"75\" \n border=\"0\" /></a><br /><img src='' height='5' foo='bar' width=9></img><br />Engineers are working to stabilize a dust cover on one of the science instrument’s cameras.</p><img src=\"f\"   width=''/><br clear=\"all\"/><img src='b' height=5></img><br /><img <";
 
         String expected 
             = "<p><a href=\"https://mars.nasa.gov/news/9549/\">\n" +
-              "<img style=\"width:99%; max-width:99%;\"  src=\"https://mars.nasa.gov/system/news_items/main_images/9549_PIA24925_MAIN.jpg\" \n   style=\"padding-right:10px; \n padding-bottom:5px;\" \n align=\"left\" \n alt=\"Read article: Team Assessing SHERLOC Instrument on NASA's Perseverance Rover\" \n resistewidth=\"100\" \n resisteheight=\"75\" \n border=\"0\" /></a><br /><img style=\"width:99%; max-width:99%;\"  src='' resisteheight='5' foo='bar' resistewidth=9></img><br />Engineers are working to stabilize a dust cover on one of the science instrument’s cameras.</p><img style=\"width:99%; max-width:99%;\"  src=\"f\"   resistewidth=''/><br clear=\"all\"/><img style=\"width:99%; max-width:99%;\"  src='b' resisteheight=5></img><br /><img style=\"width:99%; max-width:99%;\"  <";
+              "<img src=\"https://mars.nasa.gov/system/news_items/main_images/9549_PIA24925_MAIN.jpg\" \n   style=\"padding-right:10px; \n padding-bottom:5px;\" \n align=\"left\" \n alt=\"Read article: Team Assessing SHERLOC Instrument on NASA's Perseverance Rover\" \n style=\"width:99%; max-width:99%;\" resistewidth=\"100\" \n resisteheight=\"75\" \n border=\"0\" /></a><br /><img src='' resisteheight='5' foo='bar' style=\"width:99%; max-width:99%;\" resistewidth=9></img><br />Engineers are working to stabilize a dust cover on one of the science instrument’s cameras.</p><img src=\"f\"   style=\"width:99%; max-width:99%;\" resistewidth=''/><br clear=\"all\"/><img src='b' resisteheight=5></img><br /><img <";
         
         RssEntry entry = new RssEntry(); 
         
@@ -54,7 +54,7 @@ public class RssEntryTest {
         String html = 
             "this <img> tag and <img/> and <img /> and <img></img>";
         String expected =
-            "this <img style=\"width:99%; max-width:99%;\" > tag and <img style=\"width:99%; max-width:99%;\" /> and <img style=\"width:99%; max-width:99%;\"  /> and <img style=\"width:99%; max-width:99%;\" ></img>";   
+            "this <img> tag and <img/> and <img /> and <img></img>";   
         
         RssEntry entry = new RssEntry();
         entry.setContents(html);
@@ -69,7 +69,7 @@ public class RssEntryTest {
             = "  this <img> tag and <img/> \n and \n <img /> and <img></img>  \n\n  ";
         
         String expected 
-            = "this <img style=\"width:99%; max-width:99%;\"  style=\"width:99%; max-width:99%;\" > tag and <img style=\"width:99%; max-width:99%;\" /> \n and \n <img style=\"width:99%; max-width:99%;\"  /> and <img style=\"width:99%; max-width:99%;\" ></img>";
+            = "this <img> tag and <img/> \n and \n <img /> and <img></img>";
 
         RssEntry entry = new RssEntry();
         entry.setContents(html);
