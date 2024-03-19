@@ -1,6 +1,7 @@
 package org.ferris.resiste.console.rss;
 
 import java.util.List;
+import java.util.Optional;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +31,7 @@ public class RssFeedFactoryIT {
     @Test
     public void testMarsRemote() throws Exception {
         RssUrl rssUrl
-            = new RssUrl("junitid", "https://mars.nasa.gov/rss/api/?feed=news&category=all&feedtype=rss");
+            = new RssUrl("junitid", "https://mars.nasa.gov/rss/api/?feed=news&category=all&feedtype=rss", Optional.empty());
 
         RssFeed rssFeed
             = rssFeedFactory.build(rssUrl);
@@ -43,7 +44,7 @@ public class RssFeedFactoryIT {
     public void testMarsLocal() throws Exception {
         
         RssUrl rssUrl
-            = new RssUrl("junitid", "classpath://mars.nasa.gov.xml");
+            = new RssUrl("junitid", "classpath://mars.nasa.gov.xml", Optional.empty());
 
         RssFeed rssFeed
             = rssFeedFactory.build(rssUrl);
@@ -59,7 +60,7 @@ public class RssFeedFactoryIT {
     public void testArtemisRemote() throws Exception {
         RssUrl rssUrl
             = new RssUrl("junitid"
-                    , "https://www.nasa.gov/missions/artemis/feed/");
+                    , "https://www.nasa.gov/missions/artemis/feed/", Optional.empty());
 
         RssFeed rssFeed
             = rssFeedFactory.build(rssUrl);
@@ -72,7 +73,7 @@ public class RssFeedFactoryIT {
     public void testChristianityTodayRemote() throws Exception {
         RssUrl rssUrl
             = new RssUrl("junitid"
-                    , "https://www.christiantoday.com/rss/feed");
+                    , "https://www.christiantoday.com/rss/feed", Optional.empty());
 
         RssFeed rssFeed
             = rssFeedFactory.build(rssUrl);

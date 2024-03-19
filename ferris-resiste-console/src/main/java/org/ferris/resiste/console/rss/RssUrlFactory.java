@@ -1,6 +1,7 @@
 package org.ferris.resiste.console.rss;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.ferris.resiste.console.lang.StringUtils;
@@ -32,9 +33,9 @@ public class RssUrlFactory {
         String[] tokens
             = commaSeparatedFeedData.split(",");
 
-        if (tokens.length != 2) {
+        if (tokens.length != 2 && tokens.length != 3) {
             throw new RuntimeException(
-                String.format("Token length is %d, not 2: \"%s\"", tokens.length, commaSeparatedFeedData)
+                String.format("Token length is %d which is not 2 or 3: \"%s\"", tokens.length, commaSeparatedFeedData)
             );
         }
 
@@ -51,7 +52,21 @@ public class RssUrlFactory {
                 String.format("URL trimmed to empty: \"%s\"", commaSeparatedFeedData)
             );
         }
+        
+        Optional<Pattern> match =  Optional.empty();
+        if (tokens.length == 3) {
+            String s = tokens[2].trim();
+            if (!id.isEmpty()) {
+                try {
+                    match = Optional.of(Pattern.compile(s));
+                } catch (Exception e) {
+                    throw new RuntimeException(
+                        String.format("Regex pattern \"%s\" failed to compile", s)
+                    );
+                }
+            }
+        }
 
-        return Optional.of(new RssUrl(id, url));
+        return Optional.of(new RssUrl(id, url, match));
     }
 }

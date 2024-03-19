@@ -1,7 +1,9 @@
 package org.ferris.resiste.console.rss;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.StringJoiner;
+import java.util.regex.Pattern;
 import javax.enterprise.inject.Vetoed;
 
 /**
@@ -12,6 +14,7 @@ import javax.enterprise.inject.Vetoed;
 public class RssUrl {
     protected String id;
     protected URL url;
+    protected Optional<Pattern> pattern;
     protected RssConnection connection;
 
     @Override
@@ -23,8 +26,9 @@ public class RssUrl {
         return sj.toString();
     }
 
-    public RssUrl(String id, String url) {
+    public RssUrl(String id, String url, Optional<Pattern> pattern) {
         this.id = id;
+        this.pattern = pattern;
         
         if (url.startsWith("classpath://")) {
             url = url.substring(12);
@@ -59,5 +63,8 @@ public class RssUrl {
     public RssConnection openConnection() {        
         return connection;
     }
-
+    
+    public Optional<Pattern> getPattern() {
+        return pattern;
+    }
 }
