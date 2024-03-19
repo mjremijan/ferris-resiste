@@ -17,7 +17,7 @@ public class RssEntryTest {
 
         String expected 
             = "<p><a href=\"https://mars.nasa.gov/news/9549/\">\n" +
-              "<img src=\"https://mars.nasa.gov/system/news_items/main_images/9549_PIA24925_MAIN.jpg\" \n   style=\"padding-right:10px; \n padding-bottom:5px;\" \n align=\"left\" \n alt=\"Read article: Team Assessing SHERLOC Instrument on NASA's Perseverance Rover\" \n style=\"width:99%; max-width:99%;\" resistewidth=\"100\" \n resisteheight=\"75\" \n border=\"0\" /></a><br /><img src='' resisteheight='5' foo='bar' style=\"width:99%; max-width:99%;\" resistewidth=9></img><br />Engineers are working to stabilize a dust cover on one of the science instrument’s cameras.</p><img src=\"f\"   style=\"width:99%; max-width:99%;\" resistewidth=''/><br clear=\"all\"/><img src='b' resisteheight=5></img><br /><img <";
+              "<img style=\"max-width: 99%;\" src=\"https://mars.nasa.gov/system/news_items/main_images/9549_PIA24925_MAIN.jpg\" \n   style=\"padding-right:10px; \n padding-bottom:5px;\" \n align=\"left\" \n alt=\"Read article: Team Assessing SHERLOC Instrument on NASA's Perseverance Rover\" \n resistewidth=\"100\" \n resisteheight=\"75\" \n border=\"0\" /></a><br /><img style=\"max-width: 99%;\" src='' resisteheight='5' foo='bar' resistewidth=9></img><br />Engineers are working to stabilize a dust cover on one of the science instrument’s cameras.</p><img style=\"max-width: 99%;\" src=\"f\"   resistewidth=''/><br clear=\"all\"/><img style=\"max-width: 99%;\" src='b' resisteheight=5></img><br /><img style=\"max-width: 99%;\" <";
         
         RssEntry entry = new RssEntry(); 
         
@@ -54,7 +54,7 @@ public class RssEntryTest {
         String html = 
             "this <img> tag and <img/> and <img /> and <img></img>";
         String expected =
-            "this <img> tag and <img/> and <img /> and <img></img>";   
+            "this <img style=\"max-width: 99%;\"> tag and <img style=\"max-width: 99%;\"/> and <img style=\"max-width: 99%;\" /> and <img style=\"max-width: 99%;\"></img>";   
         
         RssEntry entry = new RssEntry();
         entry.setContents(html);
