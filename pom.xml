@@ -8,7 +8,7 @@
     -->
     <groupId>org.ferris</groupId>
     <artifactId>ferris-resiste</artifactId>
-    <version>1.2.1.6</version>
+    <version>1.2.1.7-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>ferris-resiste</name>
     <description>An RSS to email system.</description>
