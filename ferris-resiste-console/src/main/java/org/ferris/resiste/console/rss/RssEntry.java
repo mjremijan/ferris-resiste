@@ -140,7 +140,7 @@ public class RssEntry {
         
         // This code will add more styling to the <img>, hopefully to help Yahoo!
         this.contents
-            = contents.replaceAll("resistewidth", "style=\"width:99%; max-width:99%;\" resistewidth");
+            = contents.replaceAll("<([iI])([mM])([gG])", "<$1$2$3 style=\"max-width: 99%;\" ");
     }
 
     class Img {
