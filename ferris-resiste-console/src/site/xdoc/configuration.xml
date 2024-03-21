@@ -113,23 +113,51 @@ sendToAddress=FIRSTNAME LASTNAME &lt;ADDRESS@EMAIL.COM&gt;</source>
                 This is a simple comma-separated data file.  Here is an example:
             </p>
             <source>
-aa312231-8510-422b-8f4d-18e7f4ae4405,https://xkcd.com/rss.xml</source>
+# Example #1
+#   Get all of the RSS entries for xkcd
+#
+0e088fc2-4cff-45af-a49f-ff96091cd476,https://xkcd.com/rss.xml
+
+# Example #2
+#   Get RSS entries for christiantoday.com matching the regular expression:        
+#       (forgiveness|miracles?) 
+#   This will find entries only with the words forgiveness, miracle, or miracles.
+2890a6c2-bb26-4a13-9b4a-0bd73dd2ef90,https://www.christiantoday.com/rss/feed,regex[[(forgiveness|miracles?)]]</source>
             <p>
-                Each line has 2 fields
+                Each line has 2 required fields and 1 optional field
             </p>            
             <ol>
                 <li>ID</li>
                 <li>URL</li>
+                <li>REGEX</li>
             </ol>
             <p>
-                <b>ID</b> can be any value you want, as long as it is unique.
+                <b>ID</b>. REQUIRED. Can be any value you want, as long as it is unique.
                 I suggest using an <a href="https://www.uuidgenerator.net/">Online UUID Generator Tool</a>
                 to generate unique values.  But they can also be as simple as 1,2,3,4.
             </p>
             <p>
-                <b>URL</b> is the URL of the RSS feed you want to keep track of.
+                <b>URL</b>. REQUIRED. Is the URL of the RSS feed you want to keep track of.
                 Typically, all you need to do is copy the link from your browser and
                 paste it in.
+            </p>
+            <p>
+                <b>REGEX</b>. OPTIONAL. A regular expression used to match RSS
+                entries. RESISTE matches the regular expression against the 
+                entry <b>title</b> and the entry <b>contents</b>. If either the 
+                title or the contents match the regular expression, the
+                entry will be emailed to you. Otherwise, the entry will not be
+                emailed to you.
+                
+                Use <a href="https://regex101.com/">https://regex101.com/</a> to
+                test your regular expression. Once you have it right, paste it
+                into <code>rss_urls.csv</code>, surrounding the regular expression
+                with <code>regex[[]]</code>. Here is an example. This regular 
+                expression will match an entry that has any of these three words
+                (1) forgiveness, (2) miracle, (3) miracles.
+            </p>
+            <p>
+                <code>regex[[(forgiveness|miracles?)]]</code>
             </p>
         </section>
         
