@@ -1,6 +1,7 @@
 package org.ferris.resiste.console.rss;
 
 import java.util.Optional;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -30,43 +31,70 @@ public class RssUrlFactory {
             return Optional.empty();
         }
 
-        String[] tokens
-            = commaSeparatedFeedData.split(",");
-        // ^([^,]+),([^,]+)(,regex\[\[(.+)\]\])?$
-
-        if (tokens.length != 2 && tokens.length != 3) {
+        Pattern p 
+            = Pattern.compile("([^,]+),([^,]+)(,\\s*data\\[\\[(.+)\\]\\])?$", Pattern.MULTILINE);       
+        //    ^ asserts position at start of a line
+        //    1st Capturing Group ([^,]+)
+        //    Match a single character not present in the list below [^,]
+        //    + matches the previous token between one and unlimited times, as many times as possible, giving back as needed (greedy)
+        //    , matches the character , with index 4410 (2C16 or 548) literally (case sensitive)
+        //    , matches the character , with index 4410 (2C16 or 548) literally (case sensitive)
+        //    2nd Capturing Group ([^,]+)
+        //    Match a single character not present in the list below [^,]
+        //    + matches the previous token between one and unlimited times, as many times as possible, giving back as needed (greedy)
+        //    , matches the character , with index 4410 (2C16 or 548) literally (case sensitive)
+        //    3rd Capturing Group (,\s*+regex\[\[(.+)\]\])?
+        //    ? matches the previous token between zero and one times, as many times as possible, giving back as needed (greedy)
+        //    , matches the character , with index 4410 (2C16 or 548) literally (case sensitive)
+        //    \s matches any whitespace character (equivalent to [\r\n\t\f\v ])
+        //    *+ matches the previous token between zero and unlimited times, as many times as possible, without giving back (possessive)
+        //    regex matches the characters regex literally (case sensitive)
+        //    \[ matches the character [ with index 9110 (5B16 or 1338) literally (case sensitive)
+        //    \[ matches the character [ with index 9110 (5B16 or 1338) literally (case sensitive)
+        //    4th Capturing Group (.+)
+        //    . matches any character (except for line terminators)
+        //    + matches the previous token between one and unlimited times, as many times as possible, giving back as needed (greedy)
+        //    \] matches the character ] with index 9310 (5D16 or 1358) literally (case sensitive)
+        //    \] matches the character ] with index 9310 (5D16 or 1358) literally (case sensitive)
+        //    $ asserts position at the end of a line
+        Matcher m = p.matcher(commaSeparatedFeedData);
+        
+        if (!m.matches()) {
             throw new RuntimeException(
-                String.format("Token length is %d which is not 2 or 3: \"%s\"", tokens.length, commaSeparatedFeedData)
+                String.format("Line \"%s\" does not match regex pattern \"%s\"", commaSeparatedFeedData, p.pattern())
             );
         }
-
-        String id = tokens[0].trim();
+        
+        for (int i=0; i<m.groupCount(); i++) {
+            String t = m.group(i);
+            System.out.printf("group %d = \"%s\"%n",i,t);
+        }
+            
+        String id = m.group(1).trim();
         if (id.isEmpty()) {
             throw new RuntimeException(
                 String.format("ID trimmed to empty: \"%s\"", commaSeparatedFeedData)
             );
         }
 
-        String url = tokens[1].trim();
+        String url = m.group(2).trim();
         if (url.isEmpty()) {
             throw new RuntimeException(
                 String.format("URL trimmed to empty: \"%s\"", commaSeparatedFeedData)
             );
         }
         
-        Optional<Pattern> match =  Optional.empty();
-        if (tokens.length == 3) {
-            String s = tokens[2].trim();
-            if (!id.isEmpty()) {
-                try {
-                    match = Optional.of(Pattern.compile(s));
-                } catch (Exception e) {
-                    throw new RuntimeException(
-                        String.format("Regex pattern \"%s\" failed to compile", s)
-                    );
-                }
-            }
-        }
+        Optional<Pattern> match =  Optional.empty();        
+//        if (m.groupCount() == 4) {
+//            String s = m.group(4).trim();
+//            try {
+//                match = Optional.of(Pattern.compile(s));
+//            } catch (Exception e) {
+//                throw new RuntimeException(
+//                    String.format("User defined regex pattern \"%s\" failed to compile", s)
+//                );
+//            }
+//        }
 
         return Optional.of(new RssUrl(id, url, match));
     }
