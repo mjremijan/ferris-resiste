@@ -1,6 +1,26 @@
 # Data Format:
-# some_unique_id,url_of_the_feed
+#   some_unique_id,url_of_the_feed,regex[[pattern_to_match_entries]]
 #
-# Example:
-aa312231-8510-422b-8f4d-18e7f4ae4405,https://xkcd.com/rss.xml
-#zz312231-8510-422b-8f4d-18e7f4ae4405,https://www.christiantoday.com/rss/feed
+# some_unique_id
+#   REQUIRED
+#   I'd suggest a UUID value
+#
+# url_of_the_feed
+#   REQUIRED
+#   URL of the RSS feed. Starts with http or https.
+#
+# regex[[pattern_to_match_entries]]
+#   OPTIONAL
+#   Your regular expression is surrounded by the string "regex[[]]" 
+#
+
+# Example #1
+#   Get all of the RSS entries for xkcd
+#
+0e088fc2-4cff-45af-a49f-ff96091cd476,https://xkcd.com/rss.xml
+
+# Example #2
+#   Get RSS entries for christiantoday.com matching the regular expression:        
+#       (forgiveness|miracles?) 
+#   This will find entries only with the words forgiveness, miracle, or miracles.
+2890a6c2-bb26-4a13-9b4a-0bd73dd2ef90,https://www.christiantoday.com/rss/feed,regex[[(forgiveness|miracles?)]]
