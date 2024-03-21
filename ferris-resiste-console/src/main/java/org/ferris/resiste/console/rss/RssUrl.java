@@ -23,6 +23,7 @@ public class RssUrl {
         sj.add(String.format("id:%s", (id == null) ? "null" : id));
         sj.add(String.format("url:%s", (url == null) ? "null" : url));
         sj.add(String.format("connection:%s", (connection == null) ? "null" : connection));
+        sj.add(String.format("pattern:%s", (pattern.isEmpty()) ? "null" : pattern.get().toString()));
         return sj.toString();
     }
 

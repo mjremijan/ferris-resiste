@@ -315,6 +315,21 @@
                     </execution>
                 </executions>
             </plugin>
+            
+            <!--
+             | Configure surefire plugin to ignore the 
+             | module-path so @Mock will work.
+             |
+             | References:
+             |   https://stackoverflow.com/questions/64120676/mockito-in-maven-using-jpms-cannot-access-a-member-of-class-with-modifiers-priv
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <useModulePath>false</useModulePath>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
