@@ -32,7 +32,7 @@ public class RssUrlFactory {
         }
 
         Pattern p 
-            = Pattern.compile("([^,]+),([^,]+)(,\\s*regex\\[\\[(.+)\\]\\]\\s*)?$", Pattern.MULTILINE);
+            = Pattern.compile("^([^,]+),([^,]+)(,\\s*regex\\[\\[(.+)\\]\\]\\s*)?$", Pattern.MULTILINE);
         //    ^ asserts position at start of a line
         //    1st Capturing Group ([^,]+)
         //    Match a single character not present in the list below [^,]
@@ -43,11 +43,11 @@ public class RssUrlFactory {
         //    Match a single character not present in the list below [^,]
         //    + matches the previous token between one and unlimited times, as many times as possible, giving back as needed (greedy)
         //    , matches the character , with index 4410 (2C16 or 548) literally (case sensitive)
-        //    3rd Capturing Group (,\s*+regex\[\[(.+)\]\])?
+        //    3rd Capturing Group (,\s*regex\[\[(.+)\]\]\s*)?
         //    ? matches the previous token between zero and one times, as many times as possible, giving back as needed (greedy)
         //    , matches the character , with index 4410 (2C16 or 548) literally (case sensitive)
         //    \s matches any whitespace character (equivalent to [\r\n\t\f\v ])
-        //    *+ matches the previous token between zero and unlimited times, as many times as possible, without giving back (possessive)
+        //    * matches the previous token between zero and unlimited times, as many times as possible, giving back as needed (greedy)
         //    regex matches the characters regex literally (case sensitive)
         //    \[ matches the character [ with index 9110 (5B16 or 1338) literally (case sensitive)
         //    \[ matches the character [ with index 9110 (5B16 or 1338) literally (case sensitive)
@@ -56,6 +56,8 @@ public class RssUrlFactory {
         //    + matches the previous token between one and unlimited times, as many times as possible, giving back as needed (greedy)
         //    \] matches the character ] with index 9310 (5D16 or 1358) literally (case sensitive)
         //    \] matches the character ] with index 9310 (5D16 or 1358) literally (case sensitive)
+        //    \s matches any whitespace character (equivalent to [\r\n\t\f\v ])
+        //    * matches the previous token between zero and unlimited times, as many times as possible, giving back as needed (greedy)
         //    $ asserts position at the end of a line
         Matcher m = p.matcher(commaSeparatedFeedData);
         
