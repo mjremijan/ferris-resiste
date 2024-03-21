@@ -32,6 +32,7 @@ public class RssUrlFactory {
 
         String[] tokens
             = commaSeparatedFeedData.split(",");
+        // ^([^,]+),([^,]+)(,regex\[\[(.+)\]\])?$
 
         if (tokens.length != 2 && tokens.length != 3) {
             throw new RuntimeException(
