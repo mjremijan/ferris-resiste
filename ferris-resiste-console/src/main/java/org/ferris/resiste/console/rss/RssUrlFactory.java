@@ -32,7 +32,7 @@ public class RssUrlFactory {
         }
 
         Pattern p 
-            = Pattern.compile("([^,]+),([^,]+)(,\\s*regex\\[\\[(.+)\\]\\])?$", Pattern.MULTILINE);
+            = Pattern.compile("([^,]+),([^,]+)(,\\s*regex\\[\\[(.+)\\]\\]\\s*)?$", Pattern.MULTILINE);
         //    ^ asserts position at start of a line
         //    1st Capturing Group ([^,]+)
         //    Match a single character not present in the list below [^,]
