@@ -16,13 +16,13 @@
             </p>
         </section>
 		
-        <section name="JRE">
+        <section name="Java">
             <p>
-                Resiste requires Java 8. The Windows and Linux downloads come embedded
-                with a Java 8 JRE, so Resiste does not depend on the system-level JRE to run.  
+                Resiste requires Java 11. The Windows and Linux downloads come embedded
+                with a Java 11, so Resiste does not depend on the system-level Java installation to run.  
             </p>
             <p>
-                However, if you want to override the JRE that comes embedded
+                However, if you want to override the Java version that comes embedded
                 with Resiste, you can do so by editing, in the <code>[RESISTE_HOME]/bin/</code>
                 directory, the <code>start-resiste.sh</code> and <code>start-resiste.bat</code> 
                 files.
@@ -191,25 +191,23 @@ sendToAddress=FIRSTNAME LASTNAME &lt;ADDRESS@EMAIL.COM&gt;</source>
                 <code>[RESISTE_HOME]/data/resiste</code>  
             </p>
             <p>
-                In general, you never need to mess with this database.  However,
-                if you want to move the Derby database somewhere else, you can
-                configure this.  In the <code>[RESISTE_HOME]/conf/</code> directory, 
-                configure the location of the Derby database by updating 
-                <code>db.properties</code>.  
+                <b>Resiste only supports a Derby database at this time.</b> 
+                In general, you never need to mess with the built-in database.
             </p>
-            <p>
-                Keep the <code>db.properties</code> file completely commented out
-                to use the built-in Derby database. 
-            </p>
-            <p>
-                Resiste only supports a Derby database at this time.
+            <p>                
+                However, if you want to move the Derby database to a different 
+                location on your local file system or if you want to use a 
+                remote Derby server, you can configure this. 
+                In the <code>[RESISTE_HOME]/conf/</code> directory, configure the 
+                connection to the Derby database by updating <code>db.properties</code>.
+                Here are a couple examples.
             </p>
             <p>
                 <span style="font-weight:bold; color:red">NOTE:</span> See <a href="security.html" alt="security">security</a> for 
                 information on encrypting the username and password.
-            </p>
+            </p>            
             <p>
-                <b>LOCAL</b> Example
+                <b><u>LOCAL FILE SYSTEM</u> Example</b>
             </p>
             <source>
 url=jdbc:derby:C:/Users/Mike/Documents/Databases/Derby/Ferris/resiste
@@ -217,15 +215,14 @@ username=resiste_standalone
 password=x4A03HZ7ZV*lzB%
 schema=APP</source> 
 <p>
-                <b>REMOTE</b> Example
+                <b><u>REMOTE SERVER</u> Example</b>
             </p>
             <source>
-url=jdbc:derby://localhost:1527/resiste
+url=jdbc:derby://myderbyserver:1527/resiste
 username=resiste_standalone
 password=x4A03HZ7ZV*lzB%
 schema=APP</source> 
-
-          
+            
             <p>
                 Configuration complete! Next is <a href="security.html" alt="security">security</a>.
             </p>                              
