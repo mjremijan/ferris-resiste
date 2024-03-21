@@ -51,9 +51,9 @@ public class RssUrlFactoryTest {
            factory = new RssUrlFactory();
            factory.log = logMock;
         }        
-        String id = "junit1";
-        String url = "https://www.yahoo.com";
-        Pattern pattern = Pattern.compile("kellyoke");
+        String id = "junit2";
+        String url = "https://bar.com";
+        Pattern pattern = Pattern.compile("some_data");
         RssUrl expected = null;
         {
             expected = new RssUrl(id, url, Optional.of(pattern));
@@ -61,7 +61,7 @@ public class RssUrlFactoryTest {
 
         // Test
         RssUrl actual
-            = factory.parse(String.format("%s,%s,%s",id,url,pattern.pattern())).get();
+            = factory.parse(String.format("%s,%s,regex[[%s]]",id,url,pattern.pattern())).get();
        
         Assert.assertEquals(expected.toString(), actual.toString());
     }
@@ -85,8 +85,55 @@ public class RssUrlFactoryTest {
 
         // Test
         RssUrl actual
-            = factory.parse(String.format("%s,%s,%s",id,url,pattern.pattern())).get();
+            = factory.parse(String.format("%s,%s,regex[[%s]]",id,url,pattern.pattern())).get();
        
+        Assert.assertEquals(expected.toString(), actual.toString());
+    }
+    
+    @Test
+    public void test_id_and_url_with_whitespace() {
+        
+        // Setup
+        RssUrlFactory factory;
+        {
+           factory = new RssUrlFactory();
+           factory.log = logMock;
+        }        
+        String id = "junit1";
+        String url = "https://www.yahoo.com";
+        RssUrl expected = null;
+        {
+            expected = new RssUrl(id, url, Optional.empty());
+        }
+
+        // Test
+        RssUrl actual
+            = factory.parse(String.format(" %s  , %s ",id,"https://www.yahoo.com")).get();
+       
+        Assert.assertEquals(expected.toString(), actual.toString());
+    }    
+    
+    @Test
+    public void test_id_and_pattern_with_comma_and_whitespace() {
+        
+        // Setup
+        RssUrlFactory factory;
+        {
+           factory = new RssUrlFactory();
+           factory.log = logMock;
+        }        
+        String id = "junit1";
+        String url = "https://www.yahoo.com";
+        Pattern pattern = Pattern.compile("  kellyoke, and mikeyoke   ");
+        RssUrl expected = null;
+        {
+            expected = new RssUrl(id, url, Optional.of(pattern));
+        }
+
+        // Test
+        RssUrl actual
+            = factory.parse(String.format("  %s,  %s  ,   regex[[%s]]   ",id,url,pattern.pattern())).get();
+        
         Assert.assertEquals(expected.toString(), actual.toString());
     }
        

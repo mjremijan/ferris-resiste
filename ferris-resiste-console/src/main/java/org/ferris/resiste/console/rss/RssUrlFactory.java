@@ -32,7 +32,7 @@ public class RssUrlFactory {
         }
 
         Pattern p 
-            = Pattern.compile("([^,]+),([^,]+)(,\\s*data\\[\\[(.+)\\]\\])?$", Pattern.MULTILINE);       
+            = Pattern.compile("([^,]+),([^,]+)(,\\s*regex\\[\\[(.+)\\]\\])?$", Pattern.MULTILINE);
         //    ^ asserts position at start of a line
         //    1st Capturing Group ([^,]+)
         //    Match a single character not present in the list below [^,]
@@ -64,12 +64,8 @@ public class RssUrlFactory {
                 String.format("Line \"%s\" does not match regex pattern \"%s\"", commaSeparatedFeedData, p.pattern())
             );
         }
-        
-        for (int i=0; i<m.groupCount(); i++) {
-            String t = m.group(i);
-            System.out.printf("group %d = \"%s\"%n",i,t);
-        }
-            
+                         
+        // Regex pattern ensures this capturing group can't be null
         String id = m.group(1).trim();
         if (id.isEmpty()) {
             throw new RuntimeException(
@@ -77,6 +73,7 @@ public class RssUrlFactory {
             );
         }
 
+        // Regex pattern ensures this capturing group can't be null
         String url = m.group(2).trim();
         if (url.isEmpty()) {
             throw new RuntimeException(
@@ -84,18 +81,19 @@ public class RssUrlFactory {
             );
         }
         
-        Optional<Pattern> match =  Optional.empty();        
-//        if (m.groupCount() == 4) {
-//            String s = m.group(4).trim();
-//            try {
-//                match = Optional.of(Pattern.compile(s));
-//            } catch (Exception e) {
-//                throw new RuntimeException(
-//                    String.format("User defined regex pattern \"%s\" failed to compile", s)
-//                );
-//            }
-//        }
+        Optional<Pattern> pattern =  Optional.empty();   
+        // This regex pattern capturing group may be null
+        String userPattern = m.group(4);
+        if (userPattern != null) {            
+            try {
+                pattern = Optional.of(Pattern.compile(userPattern));
+            } catch (Exception e) {
+                throw new RuntimeException(
+                    String.format("User defined regex pattern \"%s\" failed to compile", userPattern)
+                );
+            }
+        }
 
-        return Optional.of(new RssUrl(id, url, match));
+        return Optional.of(new RssUrl(id, url, pattern));
     }
 }
