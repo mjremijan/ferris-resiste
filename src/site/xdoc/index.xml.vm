@@ -14,24 +14,16 @@
                 Resiste is an acronym that stands for:
             </p>
             <p>
-                <span style="padding-left:30px; text-decoration: underline; font-weight:bold;">Re</span>ally <span style="text-decoration: underline; font-weight:bold;">Si</span>mple <span style="text-decoration: underline; font-weight:bold;">S</span>yndication <span style="text-decoration: underline; font-weight:bold;">T</span>o <span style="text-decoration: underline; font-weight:bold;">E</span>mail
+                <span style="padding-left:30px; text-decoration: underline; font-weight:bold;">RE</span>ally <span style="text-decoration: underline; font-weight:bold;">SI</span>mple <span style="text-decoration: underline; font-weight:bold;">S</span>yndication <span style="text-decoration: underline; font-weight:bold;">T</span>o <span style="text-decoration: underline; font-weight:bold;">E</span>mail (RESISTE)
             </p>
         </section>
-        
-        <section name="How It Works">
-            <ol>
-                <li>Loop over each RSS/ATOM feed you've configured</li>
-                <li>Determine the new posts since it last ran</li>
-                <li>Email you the new posts</li>
-            </ol>
-        </section>
 
-        <section name="Modules">
+        <section name="Resiste Console">
             <p>
                 <b>ferris-resiste-console</b> is a 100% pure
                 Java stand-alone and self-contained 
                 RSS-to-email application 
-                (it even comes with its own JRE).  
+                (it even comes with its own Java installation).  
             </p>
             <p>
                 Only 3 simple steps to get up and running:  			
