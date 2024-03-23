@@ -9,24 +9,29 @@ import javax.enterprise.inject.Vetoed;
  */
 @Vetoed
 public class RssFeed {
+    
+    private static String trim(String in) {
+        return (in == null) ? null : in.trim();
+    }
+    
     protected String id;
 
     public String getId() {
         return id;
     }
-
-    public void setId(String id) {
-        this.id = id;
+    
+    public void setId(String id) {     
+        this.id = trim(id);
     }
 
     protected String title;
 
     public String getTitle() {
-        return title;
+        return trim(title);
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = trim(title);
     }
 
     protected String link;
@@ -36,7 +41,7 @@ public class RssFeed {
     }
 
     public void setLink(String link) {
-        this.link = link;
+        this.link = trim(link);
     }
 
     protected List<RssEntry> entries;

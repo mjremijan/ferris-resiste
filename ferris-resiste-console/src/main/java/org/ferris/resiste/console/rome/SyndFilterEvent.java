@@ -12,8 +12,9 @@ import org.ferris.resiste.console.rss.RssFeed;
 @Vetoed
 public class SyndFilterEvent {
 
-    public static final int FILTER = 100;
-    public static final int VIEW = 200;
+    public static final int FILTER_BY_REGEX = 100;
+    public static final int FILTER_BY_HISTORY = 200;
+    public static final int VIEW = 300;
 
     protected List<RssFeed> feeds;
 

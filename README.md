@@ -4,6 +4,10 @@ A **RE**ally **SI**mple **S**yndication **T**o **E**mail system
 
 RSS to email system
 
+# Visit the project website for information
+
+[https://mjremijan.github.io/ferris-resiste/index.html](https://mjremijan.github.io/ferris-resiste/index.html)
+
 # Production Deployment Procedures
 
 1. Commit all files.

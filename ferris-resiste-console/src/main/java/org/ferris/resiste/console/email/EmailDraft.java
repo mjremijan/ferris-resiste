@@ -17,7 +17,10 @@ public class EmailDraft {
     public String toString() {
         StringJoiner sj = new StringJoiner(", ", "[EmailDraft ", "]");
         sj.add(String.format("subject:%s", (subject == null) ? "null" : subject));
-        sj.add(String.format("body:%s", (body == null) ? "null" : body.length()));
+        sj.add(String.format("body_length:%s", (body == null) ? "null" : body.length()));
+        if ("t".equals(System.getProperty("resiste_log_body", "f"))) {
+            sj.add(String.format("body_contents:%s", (body == null) ? "null" : body));
+        }
         return sj.toString();
     }
 

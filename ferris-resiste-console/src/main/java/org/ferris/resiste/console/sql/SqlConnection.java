@@ -40,4 +40,8 @@ public class SqlConnection {
     public PreparedStatement prepareStatement(String sql) throws SQLException {
         return conn.prepareStatement(sql);
     }
+    
+    public PreparedStatement prepareUpdatableStatement(String sql) throws SQLException {
+        return conn.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+    }
 }

@@ -13,6 +13,7 @@ import javax.enterprise.inject.Vetoed;
 public class RssHistoryEvent {
 
     public static final int STORE = 100;
+    public static final int CLEANUP = 200;
 
     @Override
     public String toString() {
