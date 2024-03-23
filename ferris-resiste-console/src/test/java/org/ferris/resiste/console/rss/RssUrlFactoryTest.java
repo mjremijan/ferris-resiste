@@ -136,5 +136,5 @@ public class RssUrlFactoryTest {
         
         Assert.assertEquals(expected.toString(), actual.toString());
     }
-       
+    
 }
