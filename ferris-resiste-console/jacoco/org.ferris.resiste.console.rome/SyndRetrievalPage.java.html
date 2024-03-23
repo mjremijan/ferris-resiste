@@ -49,7 +49,7 @@ import org.slf4j.Logger;
 <span class="nc" id="L49">                console.h2(title, StringUtils.firstTrimToNonNull(sf.getLink(), sf.getTitle()).get());</span>
 <span class="nc" id="L50">                AtomicInteger ai = new AtomicInteger(1);</span>
 <span class="nc" id="L51">                sf.getEntries().stream().forEach(</span>
-<span class="nc" id="L52">                    se -&gt; console.p(entry, ai.getAndIncrement(), se.getGuid())</span>
+<span class="nc" id="L52">                    se -&gt; console.p(entry, ai.getAndIncrement(), se.getEntryId())</span>
                 );
 <span class="nc" id="L54">            }</span>
         );

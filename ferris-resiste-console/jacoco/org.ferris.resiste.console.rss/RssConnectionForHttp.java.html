@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RssConnectionForHttp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ferris-resiste-console</a> &gt; <a href="index.source.html" class="el_package">org.ferris.resiste.console.rss</a> &gt; <span class="el_source">RssConnectionForHttp.java</span></div><h1>RssConnectionForHttp.java</h1><pre class="source lang-java linenums">package org.ferris.resiste.console.rss;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.stream.Collectors;
+
+/**
+ *
+ * @author Michael
+ */
+class RssConnectionForHttp extends RssConnection {
+
+    protected RssConnectionForHttp(URL url) {
+<span class="fc" id="L18">        super(url);</span>
+<span class="fc" id="L19">    }</span>
+
+    @Override
+    protected InputStream getInputStream() throws IOException
+    {            
+<span class="nc" id="L24">        HttpURLConnection httpConnection = (HttpURLConnection)url.openConnection();</span>
+<span class="nc" id="L25">        httpConnection.setRequestProperty(&quot;user-agent&quot;, &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36&quot;);</span>
+<span class="nc" id="L26">        httpConnection.setRequestProperty(&quot;accept&quot;, &quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3&quot;);</span>
+<span class="nc" id="L27">        httpConnection.setRequestProperty(&quot;accept-encoding&quot;, &quot;identity&quot;);</span>
+<span class="nc" id="L28">        httpConnection.setRequestProperty(&quot;accept-language&quot;, &quot;en-US,en;q=0.9&quot;);</span>
+<span class="nc" id="L29">        httpConnection.setRequestProperty(&quot;upgrade-insecure-requests&quot;, &quot;1&quot;);</span>
+<span class="nc" id="L30">        httpConnection.connect();</span>
+
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        if (httpConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {</span>
+<span class="nc" id="L33">            System.out.printf(&quot;Response code is not OK...it is: %d%n&quot;, httpConnection.getResponseCode());</span>
+<span class="nc" id="L34">            String errorString = &quot;UNABLE TO OBTAIN&quot;;</span>
+            try {
+<span class="nc" id="L36">                errorString</span>
+<span class="nc" id="L37">                    = new BufferedReader(new InputStreamReader(httpConnection.getErrorStream(), &quot;UTF-8&quot;)).lines().collect(Collectors.joining(&quot;\n&quot;));</span>
+<span class="nc" id="L38">            } catch (Exception ignore) {}</span>
+
+<span class="nc" id="L40">            throw new RuntimeException(</span>
+<span class="nc" id="L41">                String.format(</span>
+                    &quot;HTTP response is not OK. CODE=%d, ERROR_STRING=\&quot;%s\&quot;&quot;
+<span class="nc" id="L43">                    , httpConnection.getResponseCode()</span>
+                    , errorString
+                )
+            );
+        }
+<span class="nc" id="L48">        return httpConnection.getInputStream();</span>
+    }
+}
+    
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

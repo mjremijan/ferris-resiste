@@ -194,68 +194,72 @@ import org.slf4j.Logger;
 <span class="nc" id="L194">        List&lt;RssMediaFile&gt; mediaFiles</span>
 <span class="nc" id="L195">            = se.getMediaFiles();</span>
 
-        // GUID
-<span class="nc" id="L198">        String guid = se.getGuid();</span>
+        // FeedId
+<span class="nc" id="L198">        String feedId = se.getFeedId();</span>
+        
+        // EntryId
+<span class="nc" id="L201">        String entryId = se.getEntryId();</span>
 
 
         // Render
-<span class="nc" id="L202">        Writer out = new StringWriter();</span>
+<span class="nc" id="L205">        Writer out = new StringWriter();</span>
         try {
-<span class="nc" id="L204">            Map&lt;String, Object&gt; root = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L205">            root.put(&quot;contents&quot;, contents);</span>
-<span class="nc" id="L206">            root.put(&quot;author&quot;, author);</span>
-<span class="nc" id="L207">            root.put(&quot;publishedDate&quot;, publishedDate);</span>
-<span class="nc" id="L208">            root.put(&quot;title&quot;, title);</span>
-<span class="nc" id="L209">            root.put(&quot;linkHref&quot;, linkHref);</span>
-<span class="nc" id="L210">            root.put(&quot;linkText&quot;, linkText);</span>
-<span class="nc" id="L211">            root.put(&quot;projectFinalName&quot;, projectFinalName);</span>
-<span class="nc" id="L212">            root.put(&quot;projectUrl&quot;, projectUrl);</span>
-<span class="nc" id="L213">            root.put(&quot;images&quot;, images);</span>
-<span class="nc" id="L214">            root.put(&quot;mediaFiles&quot;, mediaFiles);</span>
-<span class="nc" id="L215">            root.put(&quot;guid&quot;, guid);</span>
+<span class="nc" id="L207">            Map&lt;String, Object&gt; root = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L208">            root.put(&quot;contents&quot;, contents);</span>
+<span class="nc" id="L209">            root.put(&quot;author&quot;, author);</span>
+<span class="nc" id="L210">            root.put(&quot;publishedDate&quot;, publishedDate);</span>
+<span class="nc" id="L211">            root.put(&quot;title&quot;, title);</span>
+<span class="nc" id="L212">            root.put(&quot;linkHref&quot;, linkHref);</span>
+<span class="nc" id="L213">            root.put(&quot;linkText&quot;, linkText);</span>
+<span class="nc" id="L214">            root.put(&quot;projectFinalName&quot;, projectFinalName);</span>
+<span class="nc" id="L215">            root.put(&quot;projectUrl&quot;, projectUrl);</span>
+<span class="nc" id="L216">            root.put(&quot;images&quot;, images);</span>
+<span class="nc" id="L217">            root.put(&quot;mediaFiles&quot;, mediaFiles);</span>
+<span class="nc" id="L218">            root.put(&quot;feedId&quot;, feedId);</span>
+<span class="nc" id="L219">            root.put(&quot;entryId&quot;, entryId);</span>
 
-<span class="nc" id="L217">            bodyTemplate.process(root, out);</span>
+<span class="nc" id="L221">            bodyTemplate.process(root, out);</span>
 
-<span class="nc" id="L219">            out.flush();</span>
-<span class="nc" id="L220">        } catch (Exception ex) {</span>
-<span class="nc" id="L221">            throw new RuntimeException(</span>
-<span class="nc" id="L222">                String.format(&quot;Problem rendering the email body&quot;)</span>
+<span class="nc" id="L223">            out.flush();</span>
+<span class="nc" id="L224">        } catch (Exception ex) {</span>
+<span class="nc" id="L225">            throw new RuntimeException(</span>
+<span class="nc" id="L226">                String.format(&quot;Problem rendering the email body&quot;)</span>
                 , ex
             );
-<span class="nc" id="L225">        }</span>
-<span class="nc" id="L226">        log.debug(String.format(&quot;RENERED = %n%s&quot;, out.toString()));</span>
+<span class="nc" id="L229">        }</span>
+<span class="nc" id="L230">        log.debug(String.format(&quot;RENERED = %n%s&quot;, out.toString()));</span>
 
-<span class="nc" id="L228">        return out.toString();</span>
+<span class="nc" id="L232">        return out.toString();</span>
     }
 
 
     private String renderSubject(RssFeed sf) {
-<span class="nc" id="L233">        log.debug(&quot;ENTER&quot;);</span>
+<span class="nc" id="L237">        log.debug(&quot;ENTER&quot;);</span>
 
         // Title
-<span class="nc" id="L236">        String title = Optional.ofNullable(StringUtils.trimToNull(sf.getTitle())).orElse(noTitle.toString());</span>
-<span class="nc" id="L237">        log.debug(String.format(&quot;TITLE = \&quot;%s\&quot;&quot;, title));</span>
+<span class="nc" id="L240">        String title = Optional.ofNullable(StringUtils.trimToNull(sf.getTitle())).orElse(noTitle.toString());</span>
+<span class="nc" id="L241">        log.debug(String.format(&quot;TITLE = \&quot;%s\&quot;&quot;, title));</span>
 
         // Subject
-<span class="nc" id="L240">        String subject = StringUtils.abbreviate(title, 45);</span>
-<span class="nc" id="L241">        log.debug(String.format(&quot;SUBJECT = \&quot;%s\&quot;&quot;, subject));</span>
+<span class="nc" id="L244">        String subject = StringUtils.abbreviate(title, 45);</span>
+<span class="nc" id="L245">        log.debug(String.format(&quot;SUBJECT = \&quot;%s\&quot;&quot;, subject));</span>
 
         // Render
-<span class="nc" id="L244">        Writer out = new StringWriter();</span>
+<span class="nc" id="L248">        Writer out = new StringWriter();</span>
         try {
-<span class="nc" id="L246">            Map&lt;String, Object&gt; root = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L247">            root.put(&quot;subject&quot;, subject);</span>
-<span class="nc" id="L248">            subjectTemplate.process(root, out);</span>
-<span class="nc" id="L249">            out.flush();</span>
-<span class="nc" id="L250">        } catch (Exception ex) {</span>
-<span class="nc" id="L251">            throw new RuntimeException(</span>
-<span class="nc" id="L252">                String.format(&quot;Problem rendering the email subject&quot;)</span>
+<span class="nc" id="L250">            Map&lt;String, Object&gt; root = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L251">            root.put(&quot;subject&quot;, subject);</span>
+<span class="nc" id="L252">            subjectTemplate.process(root, out);</span>
+<span class="nc" id="L253">            out.flush();</span>
+<span class="nc" id="L254">        } catch (Exception ex) {</span>
+<span class="nc" id="L255">            throw new RuntimeException(</span>
+<span class="nc" id="L256">                String.format(&quot;Problem rendering the email subject&quot;)</span>
                 , ex
             );
-<span class="nc" id="L255">        }</span>
-<span class="nc" id="L256">        log.debug(String.format(&quot;RENERED = \&quot;%s\&quot;&quot;, out.toString()));</span>
+<span class="nc" id="L259">        }</span>
+<span class="nc" id="L260">        log.debug(String.format(&quot;RENERED = \&quot;%s\&quot;&quot;, out.toString()));</span>
 
-<span class="nc" id="L258">        return out.toString();</span>
+<span class="nc" id="L262">        return out.toString();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

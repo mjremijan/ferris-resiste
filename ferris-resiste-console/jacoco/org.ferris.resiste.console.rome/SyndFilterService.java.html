@@ -5,9 +5,11 @@ import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import static org.ferris.resiste.console.rome.SyndFilterEvent.FILTER;
+import static org.ferris.resiste.console.rome.SyndFilterEvent.FILTER_BY_HISTORY;
+import static org.ferris.resiste.console.rome.SyndFilterEvent.FILTER_BY_REGEX;
 import org.ferris.resiste.console.rss.RssFeed;
 import org.ferris.resiste.console.rss.RssHistoryService;
+import org.ferris.resiste.console.rss.RssUrlService;
 import org.slf4j.Logger;
 
 /**
@@ -15,42 +17,84 @@ import org.slf4j.Logger;
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
 @ApplicationScoped
-<span class="nc" id="L18">public class SyndFilterService {</span>
+<span class="nc" id="L20">public class SyndFilterService {</span>
 
     @Inject
     protected Logger log;
 
     @Inject
     protected RssHistoryService historyService;
-
-    protected void observeFilter(
-        @Observes @Priority(FILTER) SyndFilterEvent evnt
+    
+    @Inject
+    protected RssUrlService service;
+    
+    protected void observeFilterByRegEx(
+        @Observes @Priority(FILTER_BY_REGEX) SyndFilterEvent evnt
     ) {
-<span class="nc" id="L29">        log.info(String.format(&quot;Filter out RssFeed entries already in history %s&quot;, evnt));</span>
+<span class="nc" id="L34">        log.info(String.format(&quot;Filter out RssFeed entries that don't match the RegEx the user defined for the RSS Url %s&quot;, evnt));</span>
+        
+        // Loop over all RssUrl objects
+<span class="nc" id="L37">        service.findAll().stream()</span>
+            // Find RssUrl  that have a pattern
+<span class="nc" id="L39">            .filter(u -&gt; u.getPattern().isPresent())</span>
+            // Loop over RssUrl that have a pattern 
+<span class="nc" id="L41">            .forEach(u -&gt; {</span>
+<span class="nc" id="L42">                evnt.getFeeds().stream()</span>
+                    // Find RssFeed id matching RssUrl id
+<span class="nc" id="L44">                    .filter(f -&gt; f.getId().equals(u.getId()))</span>
+                    // Loop over all RssFeed.entries 
+<span class="nc" id="L46">                    .forEach(f -&gt; f.getEntries()</span>
+                        // Remove if pattern does not match title and does not match contents
+<span class="nc" id="L48">                        .removeIf(</span>
+                            e -&gt; { 
+<span class="nc bnc" id="L50" title="All 4 branches missed.">                                boolean b = (u.getPattern().get().matcher(e.getTitle()).matches() == false &amp;&amp; u.getPattern().get().matcher(e.getContents()).matches() == false);</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">                                if (b) {</span>
+<span class="nc" id="L52">                                    log.info(String.format(</span>
+                                        &quot;Entry does not match regex \&quot;%s\&quot; [Entry feedId=\&quot;%s\&quot;, entryId=\&quot;%s\&quot;, title=\&quot;%s\&quot;, contents=\&quot;%s\&quot;]%n&quot;
+<span class="nc" id="L54">                                        , u.getPattern().get().pattern()</span>
+<span class="nc" id="L55">                                        , e.getFeedId()</span>
+<span class="nc" id="L56">                                        , e.getEntryId()</span>
+<span class="nc" id="L57">                                        , e.getTitle()</span>
+<span class="nc" id="L58">                                        , e.getContents()</span>
+                                    ));
+                                }
+<span class="nc" id="L61">                                return b;</span>
+                            }
+                        )
+                    )
+                ;
+<span class="nc" id="L66">            });</span>
+        ;
+<span class="nc" id="L68">    }</span>
 
-<span class="nc" id="L31">        List&lt;RssFeed&gt; rssFeeds</span>
-<span class="nc" id="L32">            = evnt.getFeeds();</span>
+    protected void observeFilterByHistory(
+        @Observes @Priority(FILTER_BY_HISTORY) SyndFilterEvent evnt
+    ) {
+<span class="nc" id="L73">        log.info(String.format(&quot;Filter out RssFeed entries already in history %s&quot;, evnt));</span>
+
+<span class="nc" id="L75">        List&lt;RssFeed&gt; rssFeeds</span>
+<span class="nc" id="L76">            = evnt.getFeeds();</span>
 
         // Loop over all the feeds, remove feed if it has no more entires
-<span class="nc" id="L35">        rssFeeds.removeIf(</span>
+<span class="nc" id="L79">        rssFeeds.removeIf(</span>
             rf -&gt; {
                 // Loop over all the entries in a feed, remove entry if it exists in history
-<span class="nc" id="L38">                rf.getEntries().removeIf(re -&gt; {</span>
-<span class="nc" id="L39">                    String feedId = rf.getId();</span>
-<span class="nc" id="L40">                    String entryId = re.getGuid();</span>
-<span class="nc" id="L41">                    boolean exists = historyService.exists(feedId, entryId);</span>
-<span class="nc bnc" id="L42" title="All 2 branches missed.">                    if (!exists) {</span>
-<span class="nc" id="L43">                        log.info(String.format(</span>
+<span class="nc" id="L82">                rf.getEntries().removeIf(re -&gt; {</span>
+<span class="nc" id="L83">                    String feedId = rf.getId();</span>
+<span class="nc" id="L84">                    String entryId = re.getEntryId();</span>
+<span class="nc" id="L85">                    boolean exists = historyService.exists(feedId, entryId);</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                    if (!exists) {</span>
+<span class="nc" id="L87">                        log.info(String.format(</span>
                               &quot;History miss! This is a new entry: feed=\&quot;%s\&quot;, entry=\&quot;%s\&quot;, published=%s.&quot;
-<span class="nc" id="L45">                            , feedId, entryId, re.getPublishedDate().toInstant().toString()</span>
+<span class="nc" id="L89">                            , feedId, entryId, re.getPublishedDate().toInstant().toString()</span>
                         ));
                     }
-<span class="nc" id="L48">                    return exists;</span>
+<span class="nc" id="L92">                    return exists;</span>
                 });
-<span class="nc" id="L50">                return rf.getEntries().isEmpty();</span>
+<span class="nc" id="L94">                return rf.getEntries().isEmpty();</span>
             }
         );
 
-<span class="nc" id="L54">    }</span>
+<span class="nc" id="L98">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

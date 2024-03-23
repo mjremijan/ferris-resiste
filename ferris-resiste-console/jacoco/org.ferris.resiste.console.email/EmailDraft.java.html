@@ -17,21 +17,24 @@ public class EmailDraft {
     public String toString() {
 <span class="nc" id="L18">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[EmailDraft &quot;, &quot;]&quot;);</span>
 <span class="nc bnc" id="L19" title="All 2 branches missed.">        sj.add(String.format(&quot;subject:%s&quot;, (subject == null) ? &quot;null&quot; : subject));</span>
-<span class="nc bnc" id="L20" title="All 2 branches missed.">        sj.add(String.format(&quot;body:%s&quot;, (body == null) ? &quot;null&quot; : body.length()));</span>
-<span class="nc" id="L21">        return sj.toString();</span>
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        sj.add(String.format(&quot;body_length:%s&quot;, (body == null) ? &quot;null&quot; : body.length()));</span>
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        if (&quot;t&quot;.equals(System.getProperty(&quot;resiste_log_body&quot;, &quot;f&quot;))) {</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">            sj.add(String.format(&quot;body_contents:%s&quot;, (body == null) ? &quot;null&quot; : body));</span>
+        }
+<span class="nc" id="L24">        return sj.toString();</span>
     }
 
-<span class="nc" id="L24">    public EmailDraft(String subject, String body) {</span>
-<span class="nc" id="L25">        this.subject = subject;</span>
-<span class="nc" id="L26">        this.body = body;</span>
-<span class="nc" id="L27">    }</span>
+<span class="nc" id="L27">    public EmailDraft(String subject, String body) {</span>
+<span class="nc" id="L28">        this.subject = subject;</span>
+<span class="nc" id="L29">        this.body = body;</span>
+<span class="nc" id="L30">    }</span>
 
     public String getSubject() {
-<span class="nc" id="L30">        return subject;</span>
+<span class="nc" id="L33">        return subject;</span>
     }
 
     public String getBody() {
-<span class="nc" id="L34">        return body;</span>
+<span class="nc" id="L37">        return body;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

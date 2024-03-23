@@ -13,22 +13,23 @@ import javax.enterprise.inject.Vetoed;
 public class RssHistoryEvent {
 
     public static final int STORE = 100;
+    public static final int CLEANUP = 200;
 
     @Override
     public String toString() {
-<span class="nc" id="L19">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[RssHistoryEvent &quot;, &quot;]&quot;);</span>
-<span class="nc bnc" id="L20" title="All 2 branches missed.">        sj.add(String.format(&quot;feeds:%s&quot;, (feeds == null) ? &quot;null&quot; : feeds.size()));</span>
-<span class="nc" id="L21">        return sj.toString();</span>
+<span class="nc" id="L20">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[RssHistoryEvent &quot;, &quot;]&quot;);</span>
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        sj.add(String.format(&quot;feeds:%s&quot;, (feeds == null) ? &quot;null&quot; : feeds.size()));</span>
+<span class="nc" id="L22">        return sj.toString();</span>
     }
 
     protected List&lt;RssFeed&gt; feeds;
 
-<span class="nc" id="L26">    public RssHistoryEvent(List&lt;RssFeed&gt; feeds) {</span>
-<span class="nc" id="L27">        this.feeds = new ArrayList&lt;&gt;(feeds);</span>
-<span class="nc" id="L28">    }</span>
+<span class="nc" id="L27">    public RssHistoryEvent(List&lt;RssFeed&gt; feeds) {</span>
+<span class="nc" id="L28">        this.feeds = new ArrayList&lt;&gt;(feeds);</span>
+<span class="nc" id="L29">    }</span>
 
     public List&lt;RssFeed&gt; getFeeds() {
-<span class="nc" id="L31">        return feeds;</span>
+<span class="nc" id="L32">        return feeds;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

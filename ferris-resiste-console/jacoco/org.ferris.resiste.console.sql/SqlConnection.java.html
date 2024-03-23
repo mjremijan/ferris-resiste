@@ -40,5 +40,9 @@ public class SqlConnection {
     public PreparedStatement prepareStatement(String sql) throws SQLException {
 <span class="nc" id="L41">        return conn.prepareStatement(sql);</span>
     }
+    
+    public PreparedStatement prepareUpdatableStatement(String sql) throws SQLException {
+<span class="nc" id="L45">        return conn.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

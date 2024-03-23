@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RssUrl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ferris-resiste-console</a> &gt; <a href="index.source.html" class="el_package">org.ferris.resiste.console.rss</a> &gt; <span class="el_source">RssUrl.java</span></div><h1>RssUrl.java</h1><pre class="source lang-java linenums">package org.ferris.resiste.console.rss;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.StringJoiner;
+import java.util.regex.Pattern;
 import javax.enterprise.inject.Vetoed;
 
 /**
@@ -12,34 +14,59 @@ import javax.enterprise.inject.Vetoed;
 public class RssUrl {
     protected String id;
     protected URL url;
+    protected Optional&lt;Pattern&gt; pattern;
+    protected RssConnection connection;
 
     @Override
     public String toString() {
-<span class="nc" id="L18">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[RssUrl &quot;, &quot;]&quot;);</span>
-<span class="nc bnc" id="L19" title="All 2 branches missed.">        sj.add(String.format(&quot;id:%s&quot;, (id == null) ? &quot;null&quot; : id));</span>
-<span class="nc bnc" id="L20" title="All 2 branches missed.">        sj.add(String.format(&quot;url:%s&quot;, (url == null) ? &quot;null&quot; : url));</span>
-<span class="nc" id="L21">        return sj.toString();</span>
+<span class="fc" id="L22">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[RssUrl &quot;, &quot;]&quot;);</span>
+<span class="pc bpc" id="L23" title="1 of 2 branches missed.">        sj.add(String.format(&quot;id:%s&quot;, (id == null) ? &quot;null&quot; : id));</span>
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">        sj.add(String.format(&quot;url:%s&quot;, (url == null) ? &quot;null&quot; : url));</span>
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">        sj.add(String.format(&quot;connection:%s&quot;, (connection == null) ? &quot;null&quot; : connection));</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        sj.add(String.format(&quot;pattern:%s&quot;, (pattern.isEmpty()) ? &quot;null&quot; : pattern.get().toString()));</span>
+<span class="fc" id="L27">        return sj.toString();</span>
     }
 
-<span class="nc" id="L24">    public RssUrl(String id, String url) {</span>
-<span class="nc" id="L25">        this.id = id;</span>
-        try {
-<span class="nc" id="L27">            this.url = new URL(url);</span>
-<span class="nc" id="L28">        } catch (Exception e) {</span>
-<span class="nc" id="L29">            throw new RuntimeException(</span>
-<span class="nc" id="L30">                  String.format(&quot;Problem creating a URL object for \&quot;%s\&quot;&quot;, url)</span>
-                , e
-            );
-<span class="nc" id="L33">        }</span>
-<span class="nc" id="L34">    }</span>
+<span class="fc" id="L30">    public RssUrl(String id, String url, Optional&lt;Pattern&gt; pattern) {</span>
+<span class="fc" id="L31">        this.id = id;</span>
+<span class="fc" id="L32">        this.pattern = pattern;</span>
+        
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        if (url.startsWith(&quot;classpath://&quot;)) {</span>
+<span class="nc" id="L35">            url = url.substring(12);</span>
+<span class="nc" id="L36">            this.url = getClass().getClassLoader().getResource(url);</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">            if (this.url == null) {</span>
+<span class="nc" id="L38">                throw new RuntimeException(&quot;Resource not found \&quot;&quot; +url+ &quot;\&quot;&quot;);</span>
+            }
+<span class="nc" id="L40">            connection = new RssConnectionForClasspath(this.url);</span>
+        } 
+        else {
+            try {
+<span class="fc" id="L44">                this.url = new URL(url);</span>
+<span class="fc" id="L45">                connection = new RssConnectionForHttp(this.url);</span>
+<span class="nc" id="L46">            } catch (Exception e) {</span>
+<span class="nc" id="L47">                throw new RuntimeException(</span>
+<span class="nc" id="L48">                      String.format(&quot;Problem creating a URL object for \&quot;%s\&quot;&quot;, url)</span>
+                    , e
+                );
+<span class="fc" id="L51">            }</span>
+        }
+        
+<span class="fc" id="L54">    }</span>
 
     public String getId() {
-<span class="nc" id="L37">        return id;</span>
+<span class="nc" id="L57">        return id;</span>
     }
 
     public URL getUrl() {
-<span class="nc" id="L41">        return url;</span>
+<span class="nc" id="L61">        return url;</span>
     }
-
+    
+    public RssConnection openConnection() {        
+<span class="nc" id="L65">        return connection;</span>
+    }
+    
+    public Optional&lt;Pattern&gt; getPattern() {
+<span class="nc" id="L69">        return pattern;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
