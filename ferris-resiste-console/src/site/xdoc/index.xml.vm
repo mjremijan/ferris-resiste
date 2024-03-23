@@ -32,6 +32,15 @@
                 </a>
             </div>
         </section>
+        
+         <section name="How It Works">
+            <ol>
+                <li>Loop over each RSS/ATOM feed you've configured</li>
+                <li>Determine the new posts since it last ran</li>
+                <li>Email you the new posts</li>
+                <li>Databae history automatically cleaned up every 6 months.</li>
+            </ol>
+        </section>
 		
         <section name="Get Started">
             <ol>
@@ -40,7 +49,7 @@
                     links above. <br /><br />
                 </li>
                 <li>
-                    Start with <a href="installation.html">installation</a>
+                    Follow instructions starting with <a href="installation.html">installation</a>
                 </li>
             </ol>
         </section>

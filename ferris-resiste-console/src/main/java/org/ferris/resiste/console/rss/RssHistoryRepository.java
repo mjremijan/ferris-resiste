@@ -153,7 +153,10 @@ public class RssHistoryRepository {
         ResultSet rs = null;
         try {
             stmt = conn.prepareStatement(sp.toString());
-            stmt.setDate(1, Date.valueOf(LocalDate.now()));
+            // 6 months in the past
+            LocalDate ld = LocalDate.now().plusMonths(-6); 
+            log.info(String.format("Deleted RSS entry history older than %s", ld.toString()));
+            stmt.setDate(1, Date.valueOf(ld));
             int deletedRows = stmt.executeUpdate();
             log.info(String.format("Deleted %d rows from RSS entry history", deletedRows));
         } catch (Throwable t) {
