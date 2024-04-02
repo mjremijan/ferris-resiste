@@ -47,7 +47,9 @@ public class SyndFilterService {
                         // Remove if pattern does not match title and does not match contents
                         .removeIf(
                             e -> { 
-                                boolean b = (u.getPattern().get().matcher(e.getTitle()).matches() == false && u.getPattern().get().matcher(e.getContents()).matches() == false);
+                                boolean foundInTitle = u.getPattern().get().matcher(e.getTitle()).find();
+                                boolean foundInContent = u.getPattern().get().matcher(e.getContents()).find();
+                                boolean b = ( foundInTitle == false &&  foundInContent == false);
                                 if (b) {
                                     log.info(String.format(
                                         "Entry does not match regex \"%s\" [Entry feedId=\"%s\", entryId=\"%s\", title=\"%s\", contents=\"%s\"]%n"
