@@ -8,21 +8,21 @@ import javax.enterprise.inject.Vetoed;
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
 @Vetoed
-<span class="nc" id="L11">public class RssFeed {</span>
+<span class="fc" id="L11">public class RssFeed {</span>
     
     private static String trim(String in) {
-<span class="nc bnc" id="L14" title="All 2 branches missed.">        return (in == null) ? null : in.trim();</span>
+<span class="pc bpc" id="L14" title="1 of 2 branches missed.">        return (in == null) ? null : in.trim();</span>
     }
     
     protected String id;
 
     public String getId() {
-<span class="nc" id="L20">        return id;</span>
+<span class="fc" id="L20">        return id;</span>
     }
     
     public void setId(String id) {     
-<span class="nc" id="L24">        this.id = trim(id);</span>
-<span class="nc" id="L25">    }</span>
+<span class="fc" id="L24">        this.id = trim(id);</span>
+<span class="fc" id="L25">    }</span>
 
     protected String title;
 
@@ -47,12 +47,12 @@ import javax.enterprise.inject.Vetoed;
     protected List&lt;RssEntry&gt; entries;
 
     public List&lt;RssEntry&gt; getEntries() {
-<span class="nc" id="L50">        return entries;</span>
+<span class="fc" id="L50">        return entries;</span>
     }
 
     public void setEntries(List&lt;RssEntry&gt; entries) {
-<span class="nc" id="L54">        this.entries = entries;</span>
-<span class="nc" id="L55">    }</span>
+<span class="fc" id="L54">        this.entries = entries;</span>
+<span class="fc" id="L55">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
