@@ -7,8 +7,8 @@ module FerrisResisteConsole {
     requires javax.inject;
     requires javax.annotation.api;
     requires java.sql;
-    requires slf4j.api;
-    requires logback.core;
+    requires org.slf4j;
+    requires ch.qos.logback.core;
     requires freemarker;
     requires mail;
     requires validation.api;
