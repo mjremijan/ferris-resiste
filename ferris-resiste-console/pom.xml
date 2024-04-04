@@ -32,14 +32,15 @@
         <ferrisLinuxAssemblyId>linux-x86-64-jre</ferrisLinuxAssemblyId>
         <ferrisLinuxJavaDownloadVersion>zulu11.45.27-ca-jdk11.0.10-linux_x64</ferrisLinuxJavaDownloadVersion>
         <ferrisLinuxJavaDownloadFile>${ferrisLinuxJavaDownloadVersion}.zip</ferrisLinuxJavaDownloadFile>
-        <ferrisLinuxJavaDownloadUrl>https://cdn.azul.com/zulu/bin/${ferrisLinuxJavaDownloadFile}</ferrisLinuxJavaDownloadUrl>                     
+        <ferrisLinuxJavaDownloadUrl>https://cdn.azul.com/zulu/bin/${ferrisLinuxJavaDownloadFile}</ferrisLinuxJavaDownloadUrl>
+        <ferrisWebAccessUrl>${project.parent.scm.url}/tree/master/${project.artifactId}</ferrisWebAccessUrl>                  
     </properties>
 
     <!--
      | For multi-module site generation, this
      | URL needs to be set to a "parent"/"module" value.
     -->
-    <url>https://${ferrisUrlHostName}/${project.parent.artifactId}/tree/master/${project.artifactId}/</url>
+    <url>https://${ferrisUrlHostName}/${project.parent.artifactId}/${project.artifactId}/</url>
 
     <!--
      | For multi-module site generation, this URL needs 
