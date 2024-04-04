@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.ferris</groupId>
         <artifactId>ferris-resiste</artifactId>
-        <version>1.2.1.11-SNAPSHOT</version>
+        <version>1.2.1.13-SNAPSHOT</version>
     </parent>
     
     <!--
@@ -32,7 +32,8 @@
         <ferrisLinuxAssemblyId>linux-x86-64-jre</ferrisLinuxAssemblyId>
         <ferrisLinuxJavaDownloadVersion>zulu11.45.27-ca-jdk11.0.10-linux_x64</ferrisLinuxJavaDownloadVersion>
         <ferrisLinuxJavaDownloadFile>${ferrisLinuxJavaDownloadVersion}.zip</ferrisLinuxJavaDownloadFile>
-        <ferrisLinuxJavaDownloadUrl>https://cdn.azul.com/zulu/bin/${ferrisLinuxJavaDownloadFile}</ferrisLinuxJavaDownloadUrl>                     
+        <ferrisLinuxJavaDownloadUrl>https://cdn.azul.com/zulu/bin/${ferrisLinuxJavaDownloadFile}</ferrisLinuxJavaDownloadUrl>
+        <ferrisWebAccessUrl>${project.parent.scm.url}/tree/master/${project.artifactId}</ferrisWebAccessUrl>                  
     </properties>
 
     <!--
@@ -107,6 +108,48 @@
          | Configure plugins to customize build
         -->
         <plugins>
+            <!--
+             | Use this plugin to get the name of the
+             | git branch of this code. The branch name
+             | is used in the site index.xml.vm page
+             | to generate the download URL for the release. 
+            -->
+            <plugin>
+                <groupId>io.github.git-commit-id</groupId>
+                <artifactId>git-commit-id-maven-plugin</artifactId>
+                <version>5.0.0</version>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                        <phase>pre-site</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <generateGitPropertiesFilename>${project.build.directory}/git/git.properties</generateGitPropertiesFilename>
+                    <commitIdGenerationMode>full</commitIdGenerationMode>
+                </configuration>
+            </plugin>
+            
+            <!--
+             | Use this plugin to control the generation of the project's website
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <!--
+                 | Pass additional values to the pages
+                -->
+                <configuration>
+                    <attributes>
+                        <ferrisGitTag>${git.tags}</ferrisGitTag>
+                    </attributes>                    
+                </configuration>
+            </plugin>
+                        
             <!--
              | Use this plugin to check code against
              | unit test coverage requriements. 
@@ -515,15 +558,13 @@
                                                includes="*.pem"
                                             />
                                         </copy>
-                                        <copy 
-                                            file="D:\Documents\Development\Resources\ferris-resiste\conf\email.properties"
-                                            todir="${project.build.directory}/unziped/${project.artifactId}-${project.version}-${ferrisWindowsAssemblyId}/conf"
-                                        />
-                                        <copy 
-                                            file="D:\Documents\Development\Resources\ferris-resiste\conf\db.properties"
-                                            todir="${project.build.directory}/unziped/${project.artifactId}-${project.version}-${ferrisWindowsAssemblyId}/conf"
-                                        />
                                         
+                                        <copy todir="${project.build.directory}/unziped/${project.artifactId}-${project.version}-${ferrisWindowsAssemblyId}/conf" overwrite="true">
+                                            <fileset 
+                                               dir="D:\Documents\Development\Resources\ferris-resiste\conf\"
+                                               includes="*"
+                                            />
+                                        </copy>
                                     </target>
                                 </configuration>                                
                             </execution>
