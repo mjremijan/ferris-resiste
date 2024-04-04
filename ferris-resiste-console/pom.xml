@@ -39,7 +39,7 @@
      | For multi-module site generation, this
      | URL needs to be set to a "parent"/"module" value.
     -->
-    <url>https://${ferrisUrlHostName}/${project.parent.artifactId}/${project.artifactId}/</url>
+    <url>https://${ferrisUrlHostName}/${project.parent.artifactId}/tree/master/${project.artifactId}/</url>
 
     <!--
      | For multi-module site generation, this URL needs 
@@ -107,6 +107,48 @@
          | Configure plugins to customize build
         -->
         <plugins>
+            <!--
+             | Use this plugin to get the name of the
+             | git branch of this code. The branch name
+             | is used in the site index.xml.vm page
+             | to generate the download URL for the release. 
+            -->
+            <plugin>
+                <groupId>io.github.git-commit-id</groupId>
+                <artifactId>git-commit-id-maven-plugin</artifactId>
+                <version>5.0.0</version>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                        <phase>pre-site</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <generateGitPropertiesFilename>${project.build.directory}/git/git.properties</generateGitPropertiesFilename>
+                    <commitIdGenerationMode>full</commitIdGenerationMode>
+                </configuration>
+            </plugin>
+            
+            <!--
+             | Use this plugin to control the generation of the project's website
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <!--
+                 | Pass additional values to the pages
+                -->
+                <configuration>
+                    <attributes>
+                        <ferrisGitBranch>${git.branch}</ferrisGitBranch>
+                    </attributes>                    
+                </configuration>
+            </plugin>
+                        
             <!--
              | Use this plugin to check code against
              | unit test coverage requriements. 
