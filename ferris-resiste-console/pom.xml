@@ -557,15 +557,13 @@
                                                includes="*.pem"
                                             />
                                         </copy>
-                                        <copy 
-                                            file="D:\Documents\Development\Resources\ferris-resiste\conf\email.properties"
-                                            todir="${project.build.directory}/unziped/${project.artifactId}-${project.version}-${ferrisWindowsAssemblyId}/conf"
-                                        />
-                                        <copy 
-                                            file="D:\Documents\Development\Resources\ferris-resiste\conf\db.properties"
-                                            todir="${project.build.directory}/unziped/${project.artifactId}-${project.version}-${ferrisWindowsAssemblyId}/conf"
-                                        />
                                         
+                                        <copy todir="${project.build.directory}/unziped/${project.artifactId}-${project.version}-${ferrisWindowsAssemblyId}/conf" overwrite="true">
+                                            <fileset 
+                                               dir="D:\Documents\Development\Resources\ferris-resiste\conf\"
+                                               includes="*"
+                                            />
+                                        </copy>
                                     </target>
                                 </configuration>                                
                             </execution>
