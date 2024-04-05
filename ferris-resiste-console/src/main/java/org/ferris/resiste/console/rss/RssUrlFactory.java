@@ -1,10 +1,10 @@
 package org.ferris.resiste.console.rss;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import org.ferris.resiste.console.lang.StringUtils;
 import org.slf4j.Logger;
 

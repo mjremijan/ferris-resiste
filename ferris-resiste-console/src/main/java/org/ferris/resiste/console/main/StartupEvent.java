@@ -1,7 +1,7 @@
 package org.ferris.resiste.console.main;
 
+import jakarta.enterprise.inject.Vetoed;
 import java.util.StringJoiner;
-import javax.enterprise.inject.Vetoed;
 
 /**
  *

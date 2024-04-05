@@ -1,7 +1,7 @@
 package org.ferris.resiste.console.rss;
 
+import jakarta.enterprise.inject.Vetoed;
 import java.util.List;
-import javax.enterprise.inject.Vetoed;
 
 /**
  *

@@ -1,10 +1,10 @@
 package org.ferris.resiste.console.email;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ValidatorFactory;
 import java.util.Set;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.validation.ConstraintViolation;
-import javax.validation.ValidatorFactory;
 import org.slf4j.Logger;
 
 /**

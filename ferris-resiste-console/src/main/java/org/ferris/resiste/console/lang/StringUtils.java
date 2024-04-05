@@ -1,8 +1,8 @@
 package org.ferris.resiste.console.lang;
 
+import jakarta.enterprise.inject.Vetoed;
 import java.util.Arrays;
 import java.util.Optional;
-import javax.enterprise.inject.Vetoed;
 
 /**
  *

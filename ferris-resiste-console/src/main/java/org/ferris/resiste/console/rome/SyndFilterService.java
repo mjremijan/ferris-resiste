@@ -1,10 +1,10 @@
 package org.ferris.resiste.console.rome;
 
+import jakarta.annotation.Priority;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
 import java.util.List;
-import javax.annotation.Priority;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
 import static org.ferris.resiste.console.rome.SyndFilterEvent.FILTER_BY_HISTORY;
 import static org.ferris.resiste.console.rome.SyndFilterEvent.FILTER_BY_REGEX;
 import org.ferris.resiste.console.rss.RssFeed;

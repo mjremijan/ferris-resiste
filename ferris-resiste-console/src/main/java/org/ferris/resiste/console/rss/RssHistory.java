@@ -1,9 +1,9 @@
 package org.ferris.resiste.console.rss;
 
+import jakarta.enterprise.inject.Vetoed;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.StringJoiner;
-import javax.enterprise.inject.Vetoed;
 
 /**
  *

@@ -1,9 +1,9 @@
 package org.ferris.resiste.console.io;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import org.ferris.resiste.console.text.i18n.LocalizedString;
 import org.ferris.resiste.console.text.i18n.LocalizedStringList;
 

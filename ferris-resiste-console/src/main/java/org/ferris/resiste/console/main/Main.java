@@ -1,12 +1,12 @@
 package org.ferris.resiste.console.main;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
+import jakarta.enterprise.inject.se.SeContainer;
+import jakarta.enterprise.inject.se.SeContainerInitializer;
+import jakarta.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
-import javax.enterprise.inject.se.SeContainer;
-import javax.enterprise.inject.se.SeContainerInitializer;
-import javax.inject.Inject;
 import org.ferris.resiste.console.email.EmailDraftEvent;
 import org.ferris.resiste.console.email.EmailErrorEvent;
 import org.ferris.resiste.console.exit.ExitEvent;

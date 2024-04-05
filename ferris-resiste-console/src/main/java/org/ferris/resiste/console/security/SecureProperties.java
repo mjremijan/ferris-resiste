@@ -1,13 +1,12 @@
 package org.ferris.resiste.console.security;
 
+import jakarta.enterprise.inject.Vetoed;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
 import java.util.Properties;
-import javax.enterprise.inject.Vetoed;
-import org.ferris.resiste.console.security.Rsa;
 
 /**
  *

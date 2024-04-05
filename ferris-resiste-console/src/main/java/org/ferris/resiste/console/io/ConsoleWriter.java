@@ -1,7 +1,7 @@
 package org.ferris.resiste.console.io;
 
+import jakarta.enterprise.inject.Vetoed;
 import java.io.PrintWriter;
-import javax.enterprise.inject.Vetoed;
 
 /**
  *

@@ -1,10 +1,10 @@
 package org.ferris.resiste.console.rome;
 
+import jakarta.annotation.Priority;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.annotation.Priority;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
 import org.ferris.resiste.console.io.Console;
 import org.ferris.resiste.console.lang.StringUtils;
 import static org.ferris.resiste.console.rome.SyndFilterEvent.VIEW;

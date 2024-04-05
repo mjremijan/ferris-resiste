@@ -1,7 +1,7 @@
 package org.ferris.resiste.console.exception;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import java.lang.Thread.UncaughtExceptionHandler;
-import javax.enterprise.context.ApplicationScoped;
 
 /**
  * This class exists only for unit testing that the static method

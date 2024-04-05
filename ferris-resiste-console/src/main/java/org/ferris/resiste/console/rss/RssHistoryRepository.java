@@ -1,13 +1,13 @@
 package org.ferris.resiste.console.rss;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Optional;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import org.ferris.resiste.console.sql.SqlConnection;
 import org.slf4j.Logger;
 

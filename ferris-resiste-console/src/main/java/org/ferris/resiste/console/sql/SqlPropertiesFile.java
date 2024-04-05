@@ -1,7 +1,7 @@
 package org.ferris.resiste.console.sql;
 
+import jakarta.enterprise.inject.Vetoed;
 import java.io.File;
-import javax.enterprise.inject.Vetoed;
 
 /**
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan

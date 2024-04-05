@@ -1,9 +1,9 @@
 package org.ferris.resiste.console.email;
 
+import jakarta.enterprise.inject.Vetoed;
 import java.util.List;
 import java.util.Optional;
 import java.util.StringJoiner;
-import javax.enterprise.inject.Vetoed;
 
 /**
  *

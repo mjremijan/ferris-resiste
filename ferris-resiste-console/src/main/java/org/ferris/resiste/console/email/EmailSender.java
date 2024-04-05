@@ -1,17 +1,17 @@
 package org.ferris.resiste.console.email;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import java.util.Properties;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import org.ferris.resiste.console.retry.ExceptionRetry;
 import org.slf4j.Logger;
 
@@ -62,8 +62,7 @@ public class EmailSender {
 
             Session smtp = null;
             {
-                smtp = Session.getInstance(props, new Authenticator() {
-                    @Override
+                smtp = Session.getInstance(props, new Authenticator() {                    
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(
                               emailAccount.getUsername()

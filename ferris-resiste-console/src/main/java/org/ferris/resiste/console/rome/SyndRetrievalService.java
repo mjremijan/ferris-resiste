@@ -1,12 +1,12 @@
 package org.ferris.resiste.console.rome;
 
+import jakarta.annotation.Priority;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.annotation.Priority;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
 import static org.ferris.resiste.console.rome.SyndRetrievalEvent.RETRIEVE;
 import org.ferris.resiste.console.rss.RssFeed;
 import org.ferris.resiste.console.rss.RssFeedFactory;

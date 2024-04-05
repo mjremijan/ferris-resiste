@@ -1,13 +1,13 @@
 package org.ferris.resiste.console.exception;
 
+import jakarta.annotation.Priority;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.Arrays;
-import javax.annotation.Priority;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
 import org.ferris.resiste.console.email.EmailErrorEvent;
 import org.ferris.resiste.console.exit.ExitEvent;
 import org.ferris.resiste.console.main.StartupEvent;

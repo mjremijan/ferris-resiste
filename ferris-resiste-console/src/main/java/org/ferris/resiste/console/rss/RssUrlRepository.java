@@ -1,11 +1,11 @@
 package org.ferris.resiste.console.rss;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import org.ferris.resiste.console.conf.ConfDirectory;
 import org.slf4j.Logger;
 

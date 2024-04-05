@@ -1,11 +1,12 @@
 package org.ferris.resiste.console.application;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
+
 
 /**
  *

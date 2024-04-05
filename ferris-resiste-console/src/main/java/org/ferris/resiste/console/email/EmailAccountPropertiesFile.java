@@ -1,8 +1,8 @@
 package org.ferris.resiste.console.email;
 
+import jakarta.enterprise.inject.Vetoed;
+import jakarta.inject.Inject;
 import java.io.File;
-import javax.enterprise.inject.Vetoed;
-import javax.inject.Inject;
 import org.ferris.resiste.console.conf.ConfDirectory;
 import org.ferris.resiste.console.io.AbstractPropertiesFile;
 

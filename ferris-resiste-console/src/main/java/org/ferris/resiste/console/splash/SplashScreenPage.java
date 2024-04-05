@@ -1,10 +1,10 @@
 package org.ferris.resiste.console.splash;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Priority;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Priority;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
 import org.ferris.resiste.console.application.ApplicationDirectory;
 import org.ferris.resiste.console.data.DataDirectory;
 import org.ferris.resiste.console.io.Console;

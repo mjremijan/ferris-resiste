@@ -1,10 +1,10 @@
 package org.ferris.resiste.console.util.version;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
-import javax.enterprise.context.ApplicationScoped;
 import org.ferris.resiste.console.lang.StringUtils;
 
 /**

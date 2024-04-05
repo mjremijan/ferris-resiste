@@ -1,10 +1,10 @@
 package org.ferris.resiste.console.rss;
 
+import jakarta.enterprise.inject.Vetoed;
 import java.net.URL;
 import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.regex.Pattern;
-import javax.enterprise.inject.Vetoed;
 
 /**
  *

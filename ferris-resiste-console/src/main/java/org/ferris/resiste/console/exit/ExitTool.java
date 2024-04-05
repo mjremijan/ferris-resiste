@@ -1,6 +1,6 @@
 package org.ferris.resiste.console.exit;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class ExitTool {

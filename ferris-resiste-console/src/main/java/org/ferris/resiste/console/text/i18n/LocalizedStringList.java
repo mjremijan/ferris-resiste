@@ -1,7 +1,7 @@
 package org.ferris.resiste.console.text.i18n;
 
+import jakarta.enterprise.inject.Vetoed;
 import java.util.LinkedList;
-import javax.enterprise.inject.Vetoed;
 
 @Vetoed
 public class LocalizedStringList extends LinkedList<String> {

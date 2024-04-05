@@ -1,11 +1,11 @@
 package org.ferris.resiste.console.sql;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Inject;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
 import org.slf4j.Logger;
 
 /**

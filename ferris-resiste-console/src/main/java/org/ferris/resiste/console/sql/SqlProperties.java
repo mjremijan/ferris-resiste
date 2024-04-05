@@ -1,9 +1,9 @@
 package org.ferris.resiste.console.sql;
 
+import jakarta.enterprise.inject.Vetoed;
 import java.io.File;
 import java.util.Optional;
 import java.util.StringJoiner;
-import javax.enterprise.inject.Vetoed;
 import org.ferris.resiste.console.security.Rsa;
 import org.ferris.resiste.console.security.SecureProperties;
 

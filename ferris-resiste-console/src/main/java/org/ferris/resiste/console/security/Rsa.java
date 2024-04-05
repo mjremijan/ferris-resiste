@@ -1,5 +1,6 @@
 package org.ferris.resiste.console.security;
 
+import jakarta.enterprise.inject.Vetoed;
 import java.io.File;
 import java.nio.file.Files;
 import java.security.KeyFactory;
@@ -8,7 +9,6 @@ import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 import javax.crypto.Cipher;
-import javax.enterprise.inject.Vetoed;
 
 /**
  *

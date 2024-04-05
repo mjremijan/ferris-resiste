@@ -1,5 +1,6 @@
 package org.ferris.resiste.console.rss;
 
+import jakarta.enterprise.inject.Vetoed;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
@@ -7,7 +8,6 @@ import java.util.List;
 import java.util.StringJoiner;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import javax.enterprise.inject.Vetoed;
 
 /**
  *

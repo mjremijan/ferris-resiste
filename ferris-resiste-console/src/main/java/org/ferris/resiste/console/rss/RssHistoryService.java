@@ -1,12 +1,12 @@
 package org.ferris.resiste.console.rss;
 
 
+import jakarta.annotation.Priority;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
 import java.time.Instant;
 import java.util.Optional;
-import javax.annotation.Priority;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
 import static org.ferris.resiste.console.rss.RssHistoryEvent.CLEANUP;
 import static org.ferris.resiste.console.rss.RssHistoryEvent.STORE;
 import org.slf4j.Logger;
