@@ -10,7 +10,7 @@
           </mxCell>
         </object>
         <object label="&lt;div style=&quot;text-align: left&quot;&gt;&lt;span style=&quot;color: rgb(179 , 179 , 179)&quot;&gt;Resiste Application&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left&quot;&gt;&lt;span style=&quot;color: rgb(179 , 179 , 179)&quot;&gt;Container&lt;/span&gt;&lt;br&gt;&lt;/div&gt;" placeholders="1" c4Name="name" c4Type="ExecutionEnvironment" c4Application="applicationAndVersion" id="12">
-          <mxCell style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#ffffff;fontColor=#000000;align=left;arcSize=3;strokeColor=#B3B3B3;verticalAlign=bottom;shadow=0;dashed=1;" parent="1" vertex="1">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#fff2cc;align=left;arcSize=3;strokeColor=#d6b656;verticalAlign=bottom;shadow=0;dashed=1;" parent="1" vertex="1">
             <mxGeometry x="482" y="80" width="510" height="360" as="geometry" />
           </mxCell>
         </object>
