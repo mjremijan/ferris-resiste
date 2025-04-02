@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.annotation.Priority;
@@ -240,9 +241,14 @@ public class EmailDraftService {
         String title = Optional.ofNullable(StringUtils.trimToNull(sf.getTitle())).orElse(noTitle.toString());
         log.debug(String.format("TITLE = \"%s\"", title));
 
+        // UUID (Universally Unique Identifier) has a fixed length of 36 characters, including hyphens
+        // 15951b5b-aff7-468e-8c32-095e0adba8c0
+        String uuidPart = UUID.randomUUID().toString().substring(30);
+        
         // Subject
         String subject = StringUtils.abbreviate(title, 45);
         log.debug(String.format("SUBJECT = \"%s\"", subject));
+        subject = subject + " - "+ uuidPart;
 
         // Render
         Writer out = new StringWriter();
