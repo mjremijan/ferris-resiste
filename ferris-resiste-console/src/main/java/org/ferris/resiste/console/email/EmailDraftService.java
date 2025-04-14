@@ -7,13 +7,16 @@ import freemarker.template.TemplateExceptionHandler;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
@@ -190,6 +193,12 @@ public class EmailDraftService {
         // Images
         List<RssImage> images
             = se.getImages();
+        List<RssImage> uniqueByUrl = images.stream()
+            .collect(Collectors.collectingAndThen(
+                Collectors.toMap(RssImage::getUrl, Function.identity(), (p1, p2) -> p1),
+                map -> new ArrayList<>(map.values())
+            ));
+        
 
         // Media files
         List<RssMediaFile> mediaFiles
