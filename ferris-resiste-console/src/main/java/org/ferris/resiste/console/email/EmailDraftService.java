@@ -191,13 +191,12 @@ public class EmailDraftService {
             = version.getImplementationUrl();
 
         // Images
-        List<RssImage> images
-            = se.getImages();
-        List<RssImage> uniqueByUrl = images.stream()
-            .collect(Collectors.collectingAndThen(
-                Collectors.toMap(RssImage::getUrl, Function.identity(), (p1, p2) -> p1),
-                map -> new ArrayList<>(map.values())
-            ));
+        List<RssImage> imagesUniqueByUrl
+            = se.getImages().stream()
+                .collect(Collectors.collectingAndThen(
+                    Collectors.toMap(RssImage::getUrl, Function.identity(), (p1, p2) -> p1),
+                    map -> new ArrayList<>(map.values())
+                ));
         
 
         // Media files
@@ -223,7 +222,7 @@ public class EmailDraftService {
             root.put("linkText", linkText);
             root.put("projectFinalName", projectFinalName);
             root.put("projectUrl", projectUrl);
-            root.put("images", images);
+            root.put("images", imagesUniqueByUrl);
             root.put("mediaFiles", mediaFiles);
             root.put("feedId", feedId);
             root.put("entryId", entryId);
