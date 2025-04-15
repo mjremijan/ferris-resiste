@@ -190,25 +190,25 @@ public class EmailDraftService {
         String projectUrl
             = version.getImplementationUrl();
 
+        // FeedId
+        String feedId = se.getFeedId();
+        
+        // EntryId
+        String entryId = se.getEntryId();
+        
         // Images
+        se.getImages().forEach(i -> log.info(String.format("Pepper images %s \"%s\"", entryId, i.getUrl())));
         List<RssImage> imagesUniqueByUrl
             = se.getImages().stream()
                 .collect(Collectors.collectingAndThen(
                     Collectors.toMap(RssImage::getUrl, Function.identity(), (p1, p2) -> p1),
                     map -> new ArrayList<>(map.values())
                 ));
-        
+        imagesUniqueByUrl.forEach(i -> log.info(String.format("Sky images %s \"%s\"", entryId, i.getUrl())));
 
         // Media files
         List<RssMediaFile> mediaFiles
             = se.getMediaFiles();
-
-        // FeedId
-        String feedId = se.getFeedId();
-        
-        // EntryId
-        String entryId = se.getEntryId();
-
 
         // Render
         Writer out = new StringWriter();
