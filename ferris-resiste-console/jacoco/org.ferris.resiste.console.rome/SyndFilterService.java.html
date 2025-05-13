@@ -17,7 +17,7 @@ import org.slf4j.Logger;
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
 @ApplicationScoped
-<span class="fc" id="L20">public class SyndFilterService {</span>
+<span class="nc" id="L20">public class SyndFilterService {</span>
 
     @Inject
     protected Logger log;
@@ -31,43 +31,43 @@ import org.slf4j.Logger;
     protected void observeFilterByRegEx(
         @Observes @Priority(FILTER_BY_REGEX) SyndFilterEvent evnt
     ) {
-<span class="fc" id="L34">        log.info(String.format(&quot;Filter out RssFeed entries that don't match the RegEx the user defined for the RSS Url %s&quot;, evnt));</span>
+<span class="nc" id="L34">        log.info(String.format(&quot;Filter out RssFeed entries that don't match the RegEx the user defined for the RSS Url %s&quot;, evnt));</span>
         
         // Loop over all RssUrl objects
-<span class="fc" id="L37">        service.findAll().stream()</span>
+<span class="nc" id="L37">        service.findAll().stream()</span>
             // Find RssUrl  that have a pattern
-<span class="fc" id="L39">            .filter(u -&gt; u.getPattern().isPresent())</span>
+<span class="nc" id="L39">            .filter(u -&gt; u.getPattern().isPresent())</span>
             // Loop over RssUrl that have a pattern 
-<span class="fc" id="L41">            .forEach(u -&gt; {</span>
-<span class="fc" id="L42">                evnt.getFeeds().stream()</span>
+<span class="nc" id="L41">            .forEach(u -&gt; {</span>
+<span class="nc" id="L42">                evnt.getFeeds().stream()</span>
                     // Find RssFeed id matching RssUrl id
-<span class="fc" id="L44">                    .filter(f -&gt; f.getId().equals(u.getId()))</span>
+<span class="nc" id="L44">                    .filter(f -&gt; f.getId().equals(u.getId()))</span>
                     // Loop over all RssFeed.entries 
-<span class="fc" id="L46">                    .forEach(f -&gt; f.getEntries()</span>
+<span class="nc" id="L46">                    .forEach(f -&gt; f.getEntries()</span>
                         // Remove if pattern does not match title and does not match contents
-<span class="fc" id="L48">                        .removeIf(</span>
+<span class="nc" id="L48">                        .removeIf(</span>
                             e -&gt; { 
-<span class="fc" id="L50">                                boolean foundInTitle = u.getPattern().get().matcher(e.getTitle()).find();</span>
-<span class="fc" id="L51">                                boolean foundInContent = u.getPattern().get().matcher(e.getContents()).find();</span>
-<span class="fc bfc" id="L52" title="All 4 branches covered.">                                boolean b = ( foundInTitle == false &amp;&amp;  foundInContent == false);</span>
-<span class="fc bfc" id="L53" title="All 2 branches covered.">                                if (b) {</span>
-<span class="fc" id="L54">                                    log.info(String.format(</span>
+<span class="nc" id="L50">                                boolean foundInTitle = u.getPattern().get().matcher(e.getTitle()).find();</span>
+<span class="nc" id="L51">                                boolean foundInContent = u.getPattern().get().matcher(e.getContents()).find();</span>
+<span class="nc bnc" id="L52" title="All 4 branches missed.">                                boolean b = ( foundInTitle == false &amp;&amp;  foundInContent == false);</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">                                if (b) {</span>
+<span class="nc" id="L54">                                    log.info(String.format(</span>
                                         &quot;Entry does not match regex \&quot;%s\&quot; [Entry feedId=\&quot;%s\&quot;, entryId=\&quot;%s\&quot;, title=\&quot;%s\&quot;, contents=\&quot;%s\&quot;]%n&quot;
-<span class="fc" id="L56">                                        , u.getPattern().get().pattern()</span>
-<span class="fc" id="L57">                                        , e.getFeedId()</span>
-<span class="fc" id="L58">                                        , e.getEntryId()</span>
-<span class="fc" id="L59">                                        , e.getTitle()</span>
-<span class="fc" id="L60">                                        , e.getContents()</span>
+<span class="nc" id="L56">                                        , u.getPattern().get().pattern()</span>
+<span class="nc" id="L57">                                        , e.getFeedId()</span>
+<span class="nc" id="L58">                                        , e.getEntryId()</span>
+<span class="nc" id="L59">                                        , e.getTitle()</span>
+<span class="nc" id="L60">                                        , e.getContents()</span>
                                     ));
                                 }
-<span class="fc" id="L63">                                return b;</span>
+<span class="nc" id="L63">                                return b;</span>
                             }
                         )
                     )
                 ;
-<span class="fc" id="L68">            });</span>
+<span class="nc" id="L68">            });</span>
         ;
-<span class="fc" id="L70">    }</span>
+<span class="nc" id="L70">    }</span>
 
     protected void observeFilterByHistory(
         @Observes @Priority(FILTER_BY_HISTORY) SyndFilterEvent evnt

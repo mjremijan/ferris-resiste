@@ -12,15 +12,15 @@ import java.util.StringJoiner;
 abstract class RssConnection {
     protected URL url;
 
-<span class="fc" id="L15">    protected RssConnection(URL url) {</span>
-<span class="fc" id="L16">        this.url = url;</span>
-<span class="fc" id="L17">    }</span>
+<span class="nc" id="L15">    protected RssConnection(URL url) {</span>
+<span class="nc" id="L16">        this.url = url;</span>
+<span class="nc" id="L17">    }</span>
 
     @Override
     public String toString() {
-<span class="fc" id="L21">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[&quot; + getClass().getName() + &quot; &quot;, &quot;]&quot;);</span>
-<span class="pc bpc" id="L22" title="1 of 2 branches missed.">        sj.add(String.format(&quot;url:\&quot;%s\&quot;&quot;, (url == null) ? &quot;null&quot; : url));</span>
-<span class="fc" id="L23">        return sj.toString();</span>
+<span class="nc" id="L21">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[&quot; + getClass().getName() + &quot; &quot;, &quot;]&quot;);</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">        sj.add(String.format(&quot;url:\&quot;%s\&quot;&quot;, (url == null) ? &quot;null&quot; : url));</span>
+<span class="nc" id="L23">        return sj.toString();</span>
     }
 
     protected abstract InputStream getInputStream() throws IOException;

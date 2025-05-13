@@ -19,19 +19,19 @@ public class RssUrl {
 
     @Override
     public String toString() {
-<span class="fc" id="L22">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[RssUrl &quot;, &quot;]&quot;);</span>
-<span class="pc bpc" id="L23" title="1 of 2 branches missed.">        sj.add(String.format(&quot;id:%s&quot;, (id == null) ? &quot;null&quot; : id));</span>
-<span class="pc bpc" id="L24" title="1 of 2 branches missed.">        sj.add(String.format(&quot;url:%s&quot;, (url == null) ? &quot;null&quot; : url));</span>
-<span class="pc bpc" id="L25" title="1 of 2 branches missed.">        sj.add(String.format(&quot;connection:%s&quot;, (connection == null) ? &quot;null&quot; : connection));</span>
-<span class="fc bfc" id="L26" title="All 2 branches covered.">        sj.add(String.format(&quot;pattern:%s&quot;, (pattern.isEmpty()) ? &quot;null&quot; : pattern.get().toString()));</span>
-<span class="fc" id="L27">        return sj.toString();</span>
+<span class="nc" id="L22">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[RssUrl &quot;, &quot;]&quot;);</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        sj.add(String.format(&quot;id:%s&quot;, (id == null) ? &quot;null&quot; : id));</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        sj.add(String.format(&quot;url:%s&quot;, (url == null) ? &quot;null&quot; : url));</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        sj.add(String.format(&quot;connection:%s&quot;, (connection == null) ? &quot;null&quot; : connection));</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        sj.add(String.format(&quot;pattern:%s&quot;, (pattern.isEmpty()) ? &quot;null&quot; : pattern.get().toString()));</span>
+<span class="nc" id="L27">        return sj.toString();</span>
     }
 
-<span class="fc" id="L30">    public RssUrl(String id, String url, Optional&lt;Pattern&gt; pattern) {</span>
-<span class="fc" id="L31">        this.id = id;</span>
-<span class="fc" id="L32">        this.pattern = pattern;</span>
+<span class="nc" id="L30">    public RssUrl(String id, String url, Optional&lt;Pattern&gt; pattern) {</span>
+<span class="nc" id="L31">        this.id = id;</span>
+<span class="nc" id="L32">        this.pattern = pattern;</span>
         
-<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        if (url.startsWith(&quot;classpath://&quot;)) {</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (url.startsWith(&quot;classpath://&quot;)) {</span>
 <span class="nc" id="L35">            url = url.substring(12);</span>
 <span class="nc" id="L36">            this.url = getClass().getClassLoader().getResource(url);</span>
 <span class="nc bnc" id="L37" title="All 2 branches missed.">            if (this.url == null) {</span>
@@ -41,20 +41,20 @@ public class RssUrl {
         } 
         else {
             try {
-<span class="fc" id="L44">                this.url = new URL(url);</span>
-<span class="fc" id="L45">                connection = new RssConnectionForHttp(this.url);</span>
+<span class="nc" id="L44">                this.url = new URL(url);</span>
+<span class="nc" id="L45">                connection = new RssConnectionForHttp(this.url);</span>
 <span class="nc" id="L46">            } catch (Exception e) {</span>
 <span class="nc" id="L47">                throw new RuntimeException(</span>
 <span class="nc" id="L48">                      String.format(&quot;Problem creating a URL object for \&quot;%s\&quot;&quot;, url)</span>
                     , e
                 );
-<span class="fc" id="L51">            }</span>
+<span class="nc" id="L51">            }</span>
         }
         
-<span class="fc" id="L54">    }</span>
+<span class="nc" id="L54">    }</span>
 
     public String getId() {
-<span class="fc" id="L57">        return id;</span>
+<span class="nc" id="L57">        return id;</span>
     }
 
     public URL getUrl() {
@@ -66,7 +66,7 @@ public class RssUrl {
     }
     
     public Optional&lt;Pattern&gt; getPattern() {
-<span class="fc" id="L69">        return pattern;</span>
+<span class="nc" id="L69">        return pattern;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

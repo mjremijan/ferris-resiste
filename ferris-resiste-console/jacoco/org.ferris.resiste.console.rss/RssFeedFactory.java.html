@@ -92,46 +92,67 @@ import org.slf4j.Logger;
 <span class="nc" id="L92">                            = Optional.ofNullable(re.getForeignMarkup());</span>
 
                         // Images
-<span class="nc" id="L95">                        enclosures.ifPresent(</span>
-<span class="nc" id="L96">                            se -&gt; se.stream().filter(a -&gt; a.getType().toLowerCase().startsWith(&quot;image&quot;)).forEach(</span>
-<span class="nc" id="L97">                                b -&gt; e.addImage(new RssImage(b.getType(), b.getUrl())))</span>
-                        );
-<span class="nc" id="L99">                        foreignMarkups.ifPresent(</span>
-<span class="nc" id="L100">                            fm -&gt; fm.stream()</span>
-<span class="nc" id="L101">                                .filter(el -&gt; el.getName().toLowerCase().equals(&quot;thumbnail&quot;))</span>
-<span class="nc" id="L102">                                .map(el -&gt; el.getAttribute(&quot;url&quot;))</span>
-<span class="nc bnc" id="L103" title="All 2 branches missed.">                                .filter(at -&gt; at != null)</span>
-<span class="nc" id="L104">                                .map(at -&gt; StringUtils.trimToNull(at.getValue()))</span>
-<span class="nc bnc" id="L105" title="All 2 branches missed.">                                .filter(s -&gt; s != null)</span>
-<span class="nc" id="L106">                                .forEach(s -&gt; e.addImage(new RssImage(&quot;image/thumbnail&quot;, s)))</span>
-                        );
+                        {
+<span class="nc" id="L96">                            List&lt;RssImage&gt; images = new LinkedList&lt;&gt;();</span>
+<span class="nc" id="L97">                            enclosures.ifPresent(</span>
+<span class="nc" id="L98">                                se -&gt; se.stream().filter(a -&gt; a.getType().toLowerCase().startsWith(&quot;image&quot;)).forEach(</span>
+<span class="nc" id="L99">                                    b -&gt; images.add(new RssImage(b.getType(), b.getUrl())))</span>
+                            );
+<span class="nc" id="L101">                            List&lt;RssImage&gt; thumbnails = new LinkedList&lt;&gt;();</span>
+<span class="nc" id="L102">                            foreignMarkups.ifPresent(</span>
+<span class="nc" id="L103">                                fm -&gt; fm.stream()</span>
+<span class="nc" id="L104">                                    .filter(el -&gt; el.getName().toLowerCase().equals(&quot;thumbnail&quot;))</span>
+<span class="nc" id="L105">                                    .map(el -&gt; el.getAttribute(&quot;url&quot;))</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">                                    .filter(at -&gt; at != null)</span>
+<span class="nc" id="L107">                                    .map(at -&gt; StringUtils.trimToNull(at.getValue()))</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">                                    .filter(s -&gt; s != null)</span>
+<span class="nc" id="L109">                                    .forEach(s -&gt; thumbnails.add(new RssImage(&quot;image/thumbnail&quot;, s)))</span>
+                            );
+                           
+<span class="nc" id="L112">                            images.removeIf(img -&gt; {</span>
+                                // Get image url without extension...i.e no &quot;.jpg&quot;
+                                // https://cdn.mos.cms.futurecdn.net/5DUh8HXQKMsKtHTxKwXXgZ.jpg
+<span class="nc" id="L115">                                final String imgUrl </span>
+<span class="nc" id="L116">                                    = img.getUrl().substring(0, img.getUrl().lastIndexOf(&quot;.&quot;));</span>
+                                
+                                // See if any thumbnail starts with the same url.
+<span class="nc" id="L119">                                long count</span>
+<span class="nc" id="L120">                                    = thumbnails.stream().filter(th -&gt; th.getUrl().startsWith(imgUrl)).count();</span>
+                                
+                                // Remove image url and keep thumbnail if so.
+<span class="nc bnc" id="L123" title="All 2 branches missed.">                                return count &gt; 0;</span>
+                            });
 
+<span class="nc" id="L126">                            images.forEach(img -&gt; e.addImage(img));</span>
+<span class="nc" id="L127">                            thumbnails.forEach(img -&gt; e.addImage(img));</span>
+                        }
+                        
                         // Other media files
-<span class="nc" id="L110">                        enclosures.ifPresent(</span>
-<span class="nc bnc" id="L111" title="All 2 branches missed.">                            se -&gt; se.stream().filter(a -&gt; !a.getType().toLowerCase().startsWith(&quot;image&quot;)).forEach(</span>
-<span class="nc" id="L112">                                b -&gt; e.addMediaFile(new RssMediaFile(b.getType(), b.getUrl())))</span>
+<span class="nc" id="L131">                        enclosures.ifPresent(</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">                            se -&gt; se.stream().filter(a -&gt; !a.getType().toLowerCase().startsWith(&quot;image&quot;)).forEach(</span>
+<span class="nc" id="L133">                                b -&gt; e.addMediaFile(new RssMediaFile(b.getType(), b.getUrl())))</span>
                         );
 
                         // Content
-<span class="nc" id="L116">                        StringBuilder sp = new StringBuilder(&quot;&quot;);</span>
-<span class="nc bnc" id="L117" title="All 4 branches missed.">                        if (re.getContents() != null &amp;&amp; !re.getContents().isEmpty()) {</span>
-<span class="nc" id="L118">                            re.getContents().stream()</span>
-<span class="nc" id="L119">                                .forEach(sc -&gt; sp.append(sc.getValue()));</span>
-<span class="nc bnc" id="L120" title="All 2 branches missed.">                        } else if (re.getDescription() != null) {</span>
-<span class="nc" id="L121">                            sp.append(re.getDescription().getValue());</span>
+<span class="nc" id="L137">                        StringBuilder sp = new StringBuilder(&quot;&quot;);</span>
+<span class="nc bnc" id="L138" title="All 4 branches missed.">                        if (re.getContents() != null &amp;&amp; !re.getContents().isEmpty()) {</span>
+<span class="nc" id="L139">                            re.getContents().stream()</span>
+<span class="nc" id="L140">                                .forEach(sc -&gt; sp.append(sc.getValue()));</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">                        } else if (re.getDescription() != null) {</span>
+<span class="nc" id="L142">                            sp.append(re.getDescription().getValue());</span>
                         }
-<span class="nc" id="L123">                        e.setContents(sp.toString());</span>
+<span class="nc" id="L144">                        e.setContents(sp.toString());</span>
 
-<span class="nc" id="L125">                        return e;</span>
-<span class="nc" id="L126">                    }).collect(Collectors.toCollection(LinkedList::new))</span>
+<span class="nc" id="L146">                        return e;</span>
+<span class="nc" id="L147">                    }).collect(Collectors.toCollection(LinkedList::new))</span>
             );
 
-<span class="nc" id="L129">            return feed;</span>
-<span class="nc" id="L130">        } catch (FeedException e) {</span>
-<span class="nc" id="L131">            log.error(String.format(&quot;Error parsing RSS feed \&quot;%s\&quot;&quot;, feedUrl.toString()));</span>
-<span class="nc" id="L132">            log.error(String.format(&quot;%nRAW_XML%n%s&quot;, rawXml));</span>
-<span class="nc" id="L133">            throw new FeedException(</span>
-<span class="nc" id="L134">                String.format(&quot;URL=\&quot;%s\&quot;, RAW_XML=\&quot;%s\&quot;&quot;, feedUrl.toString(), rawXml),</span>
+<span class="nc" id="L150">            return feed;</span>
+<span class="nc" id="L151">        } catch (FeedException e) {</span>
+<span class="nc" id="L152">            log.error(String.format(&quot;Error parsing RSS feed \&quot;%s\&quot;&quot;, feedUrl.toString()));</span>
+<span class="nc" id="L153">            log.error(String.format(&quot;%nRAW_XML%n%s&quot;, rawXml));</span>
+<span class="nc" id="L154">            throw new FeedException(</span>
+<span class="nc" id="L155">                String.format(&quot;URL=\&quot;%s\&quot;, RAW_XML=\&quot;%s\&quot;&quot;, feedUrl.toString(), rawXml),</span>
                  e);
         }
     }

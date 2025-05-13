@@ -13,26 +13,26 @@ import org.slf4j.Logger;
  * @author Michael Remijan mjremijan@yahoo.com @mjremijan
  */
 @ApplicationScoped
-<span class="fc" id="L16">public class RssUrlFactory {</span>
+<span class="nc" id="L16">public class RssUrlFactory {</span>
 
     @Inject
     protected Logger log;
 
     public Optional&lt;RssUrl&gt; parse(String commaSeparatedFeedData) {
-<span class="fc" id="L22">        log.info(String.format(&quot;ENTER \&quot;%s\&quot;&quot;, commaSeparatedFeedData));</span>
+<span class="nc" id="L22">        log.info(String.format(&quot;ENTER \&quot;%s\&quot;&quot;, commaSeparatedFeedData));</span>
 
-<span class="fc" id="L24">        commaSeparatedFeedData = StringUtils.trimToEmpty(commaSeparatedFeedData);</span>
+<span class="nc" id="L24">        commaSeparatedFeedData = StringUtils.trimToEmpty(commaSeparatedFeedData);</span>
 
-<span class="pc bpc" id="L26" title="1 of 2 branches missed.">        if (commaSeparatedFeedData.isEmpty()) {</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        if (commaSeparatedFeedData.isEmpty()) {</span>
 <span class="nc" id="L27">            return Optional.empty();</span>
         }
 
-<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        if (commaSeparatedFeedData.startsWith(&quot;#&quot;)) {</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        if (commaSeparatedFeedData.startsWith(&quot;#&quot;)) {</span>
 <span class="nc" id="L31">            return Optional.empty();</span>
         }
 
-<span class="fc" id="L34">        Pattern p </span>
-<span class="fc" id="L35">            = Pattern.compile(&quot;^([^,]+),([^,]+)(,\\s*regex\\[\\[(.+)\\]\\]\\s*)?$&quot;, Pattern.MULTILINE);</span>
+<span class="nc" id="L34">        Pattern p </span>
+<span class="nc" id="L35">            = Pattern.compile(&quot;^([^,]+),([^,]+)(,\\s*regex\\[\\[(.+)\\]\\]\\s*)?$&quot;, Pattern.MULTILINE);</span>
         //    ^ asserts position at start of a line
         //    1st Capturing Group ([^,]+)
         //    Match a single character not present in the list below [^,]
@@ -59,44 +59,44 @@ import org.slf4j.Logger;
         //    \s matches any whitespace character (equivalent to [\r\n\t\f\v ])
         //    * matches the previous token between zero and unlimited times, as many times as possible, giving back as needed (greedy)
         //    $ asserts position at the end of a line
-<span class="fc" id="L62">        Matcher m = p.matcher(commaSeparatedFeedData);</span>
+<span class="nc" id="L62">        Matcher m = p.matcher(commaSeparatedFeedData);</span>
         
-<span class="pc bpc" id="L64" title="1 of 2 branches missed.">        if (!m.matches()) {</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (!m.matches()) {</span>
 <span class="nc" id="L65">            throw new RuntimeException(</span>
 <span class="nc" id="L66">                String.format(&quot;Line \&quot;%s\&quot; does not match regex pattern \&quot;%s\&quot;&quot;, commaSeparatedFeedData, p.pattern())</span>
             );
         }
                          
         // Regex pattern ensures this capturing group can't be null
-<span class="fc" id="L71">        String id = m.group(1).trim();</span>
-<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        if (id.isEmpty()) {</span>
+<span class="nc" id="L71">        String id = m.group(1).trim();</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (id.isEmpty()) {</span>
 <span class="nc" id="L73">            throw new RuntimeException(</span>
 <span class="nc" id="L74">                String.format(&quot;ID trimmed to empty: \&quot;%s\&quot;&quot;, commaSeparatedFeedData)</span>
             );
         }
 
         // Regex pattern ensures this capturing group can't be null
-<span class="fc" id="L79">        String url = m.group(2).trim();</span>
-<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        if (url.isEmpty()) {</span>
+<span class="nc" id="L79">        String url = m.group(2).trim();</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (url.isEmpty()) {</span>
 <span class="nc" id="L81">            throw new RuntimeException(</span>
 <span class="nc" id="L82">                String.format(&quot;URL trimmed to empty: \&quot;%s\&quot;&quot;, commaSeparatedFeedData)</span>
             );
         }
         
-<span class="fc" id="L86">        Optional&lt;Pattern&gt; pattern =  Optional.empty();   </span>
+<span class="nc" id="L86">        Optional&lt;Pattern&gt; pattern =  Optional.empty();   </span>
         // This regex pattern capturing group may be null
-<span class="fc" id="L88">        String userPattern = m.group(4);</span>
-<span class="fc bfc" id="L89" title="All 2 branches covered.">        if (userPattern != null) {            </span>
+<span class="nc" id="L88">        String userPattern = m.group(4);</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        if (userPattern != null) {            </span>
             try {
-<span class="fc" id="L91">                pattern = Optional.of(Pattern.compile(userPattern));</span>
+<span class="nc" id="L91">                pattern = Optional.of(Pattern.compile(userPattern));</span>
 <span class="nc" id="L92">            } catch (Exception e) {</span>
 <span class="nc" id="L93">                throw new RuntimeException(</span>
 <span class="nc" id="L94">                    String.format(&quot;User defined regex pattern \&quot;%s\&quot; failed to compile&quot;, userPattern)</span>
                 );
-<span class="fc" id="L96">            }</span>
+<span class="nc" id="L96">            }</span>
         }
 
-<span class="fc" id="L99">        return Optional.of(new RssUrl(id, url, pattern));</span>
+<span class="nc" id="L99">        return Optional.of(new RssUrl(id, url, pattern));</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -20,17 +20,17 @@ public class SyndFilterEvent {
 
     @Override
     public String toString() {
-<span class="fc" id="L23">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[SyndFilterEvent &quot;, &quot;]&quot;);</span>
-<span class="pc bpc" id="L24" title="1 of 2 branches missed.">        sj.add(String.format(&quot;feeds:%s&quot;, (feeds == null) ? &quot;null&quot; : feeds.size()));</span>
-<span class="fc" id="L25">        return sj.toString();</span>
+<span class="nc" id="L23">        StringJoiner sj = new StringJoiner(&quot;, &quot;, &quot;[SyndFilterEvent &quot;, &quot;]&quot;);</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        sj.add(String.format(&quot;feeds:%s&quot;, (feeds == null) ? &quot;null&quot; : feeds.size()));</span>
+<span class="nc" id="L25">        return sj.toString();</span>
     }
 
-<span class="fc" id="L28">    public SyndFilterEvent(List&lt;RssFeed&gt; feeds) {</span>
-<span class="fc" id="L29">        this.feeds = feeds;</span>
-<span class="fc" id="L30">    }</span>
+<span class="nc" id="L28">    public SyndFilterEvent(List&lt;RssFeed&gt; feeds) {</span>
+<span class="nc" id="L29">        this.feeds = feeds;</span>
+<span class="nc" id="L30">    }</span>
 
     public List&lt;RssFeed&gt; getFeeds() {
-<span class="fc" id="L33">        return feeds;</span>
+<span class="nc" id="L33">        return feeds;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
