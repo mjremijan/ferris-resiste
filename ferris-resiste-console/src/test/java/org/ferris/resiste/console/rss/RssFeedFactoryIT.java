@@ -69,16 +69,21 @@ public class RssFeedFactoryIT {
         Assert.assertEquals("Artemis – NASA", rssFeed.getTitle());
     }
 
+    
     @Test
-    public void testChristianityTodayRemote() throws Exception {
+    public void spaceDotComLocal() throws Exception {
+        
         RssUrl rssUrl
-            = new RssUrl("junitid"
-                    , "https://www.christiantoday.com/rss/feed", Optional.empty());
+            = new RssUrl("junitid", "classpath://space.com.xml", Optional.empty());
 
         RssFeed rssFeed
             = rssFeedFactory.build(rssUrl);
 
         Assert.assertEquals("junitid", rssFeed.getId());
-        Assert.assertEquals("Christian Today", rssFeed.getTitle());
+        Assert.assertEquals("Latest from Space.com", rssFeed.getTitle());
+        List<RssEntry> entries = rssFeed.getEntries();
+        RssEntry first = entries.get(0);
+        Assert.assertEquals("Europe's Proba-3 satellites ace landmark formation-flying test (video)", first.getTitle());
+        
     }
 }

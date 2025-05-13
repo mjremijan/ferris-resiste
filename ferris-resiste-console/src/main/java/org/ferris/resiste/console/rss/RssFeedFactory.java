@@ -92,20 +92,41 @@ public class RssFeedFactory {
                             = Optional.ofNullable(re.getForeignMarkup());
 
                         // Images
-                        enclosures.ifPresent(
-                            se -> se.stream().filter(a -> a.getType().toLowerCase().startsWith("image")).forEach(
-                                b -> e.addImage(new RssImage(b.getType(), b.getUrl())))
-                        );
-                        foreignMarkups.ifPresent(
-                            fm -> fm.stream()
-                                .filter(el -> el.getName().toLowerCase().equals("thumbnail"))
-                                .map(el -> el.getAttribute("url"))
-                                .filter(at -> at != null)
-                                .map(at -> StringUtils.trimToNull(at.getValue()))
-                                .filter(s -> s != null)
-                                .forEach(s -> e.addImage(new RssImage("image/thumbnail", s)))
-                        );
+                        {
+                            List<RssImage> images = new LinkedList<>();
+                            enclosures.ifPresent(
+                                se -> se.stream().filter(a -> a.getType().toLowerCase().startsWith("image")).forEach(
+                                    b -> images.add(new RssImage(b.getType(), b.getUrl())))
+                            );
+                            List<RssImage> thumbnails = new LinkedList<>();
+                            foreignMarkups.ifPresent(
+                                fm -> fm.stream()
+                                    .filter(el -> el.getName().toLowerCase().equals("thumbnail"))
+                                    .map(el -> el.getAttribute("url"))
+                                    .filter(at -> at != null)
+                                    .map(at -> StringUtils.trimToNull(at.getValue()))
+                                    .filter(s -> s != null)
+                                    .forEach(s -> thumbnails.add(new RssImage("image/thumbnail", s)))
+                            );
+                           
+                            images.removeIf(img -> {
+                                // Get image url without extension...i.e no ".jpg"
+                                // https://cdn.mos.cms.futurecdn.net/5DUh8HXQKMsKtHTxKwXXgZ.jpg
+                                final String imgUrl 
+                                    = img.getUrl().substring(0, img.getUrl().lastIndexOf("."));
+                                
+                                // See if any thumbnail starts with the same url.
+                                long count
+                                    = thumbnails.stream().filter(th -> th.getUrl().startsWith(imgUrl)).count();
+                                
+                                // Remove image url and keep thumbnail if so.
+                                return count > 0;
+                            });
 
+                            images.forEach(img -> e.addImage(img));
+                            thumbnails.forEach(img -> e.addImage(img));
+                        }
+                        
                         // Other media files
                         enclosures.ifPresent(
                             se -> se.stream().filter(a -> !a.getType().toLowerCase().startsWith("image")).forEach(
