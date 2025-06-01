@@ -34,6 +34,12 @@ public class EmailSender {
     {
         log.info(String.format("ENTER %s", draft));
 
+        EmailAccount emailAccount = emailAccountService.getEmailAccount();
+        if (!emailAccount.isSendingEnabled()) {
+            log.info(String.format("Sending email is DISABLED! Email not sent!"));
+            return;
+        }
+        
         try {
             // Create MimeMultipart
             MimeMultipart content = new MimeMultipart("related");
@@ -45,8 +51,7 @@ public class EmailSender {
                 content.addBodyPart(textPart);
             }
 
-            // properties
-            EmailAccount emailAccount = emailAccountService.getEmailAccount();
+            // properties            
             Properties props = new Properties();
             if (emailAccount.isSslEnabled()) {
                 props.setProperty("mail.smtp.auth", "true");

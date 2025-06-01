@@ -53,6 +53,7 @@ public class EmailAccount {
         setPassword(props);
         setEmailAddress(props);
         setSendToAddress(props);
+        setSendingEnabled(props);
         return this;
     }
 
@@ -131,5 +132,24 @@ public class EmailAccount {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringBuilder.getDefaultStyle(), false);
+    }
+    
+    protected boolean sendingEnabled;
+    
+    private void setSendingEnabled(Properties props) {
+        String boolStr = props.getProperty("sendingEnabled", null);
+        if (boolStr != null) {
+            if ("true".equalsIgnoreCase(boolStr)) {
+                sendingEnabled = Boolean.TRUE;
+            } else if ("false".equalsIgnoreCase(boolStr)) {
+                sendingEnabled = Boolean.FALSE;
+            } else {
+                sendingEnabled = true;
+            }
+        }
+    }
+    
+    public boolean isSendingEnabled() {
+        return sendingEnabled;
     }
 }
