@@ -1,0 +1,54 @@
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="https://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <atom:link href="https://www.space.com/feeds/all" rel="self" type="application/rss+xml"/>
+        <title>
+<![CDATA[ Latest from Space.com ]]>
+        </title>
+        <link>https://www.space.com</link>
+        <description>
+<![CDATA[ All the latest content from the Space.com team ]]>
+        </description>
+        <lastBuildDate>2025-05-12T22:00:00Z</lastBuildDate>
+        <language>en</language>
+        <item>
+            <title>
+<![CDATA[ Europe's Proba-3 satellites ace landmark formation-flying test (video) ]]>
+            </title>
+            <dc:content>
+<![CDATA[ <div class='jwplayer__widthsetter'><div class='jwplayer__wrapper'><div id='futr_botr_HBrHG91d_bQHItauA_div' class='future__jwplayer'><div id='botr_HBrHG91d_bQHItauA_div'></div></div></div></div> <p>A pair of spacecraft have demonstrated ultra-precise formation flying in orbit for the first time, marking a milestone with major implications for both science and future space missions.</p><p>The <a data-analytics-id="inline-link" href="https://www.space.com/22562-european-space-agency.html"><u>European Space Agency</u></a>'s (ESA) <a data-analytics-id="inline-link" href="https://www.space.com/proba-3-europe-artificial-eclipse-launch-satellites-india-sun"><u>Proba-3</u></a> mission, consisting of two spacecraft called the Occulter and the Coronagraph, flew in perfect formation at a distance of 150 meters (492 feet) from each other with millimeter precision, the agency announced in a May 8 <a data-analytics-id="inline-link" href="https://www.esa.int/Enabling_Support/Space_Engineering_Technology/Proba-3_achieves_precise_formation_flying" target="_blank"><u>statement</u></a>.</p><p>The pair autonomously maintained their relative position for several hours thanks to a series of sensors, including the Fine Lateral and Longitudinal Sensor (FLLS) laser instrument, a shadow position sensor, and camera-based systems, in combination with onboard software and small cold gas thrusters.</p> <figure class="van-image-figure inline-layout" data-bordeaux-image-check ><div class='image-full-width-wrapper'><div class='image-widthsetter' style="max-width:2000px;"><p class="vanilla-image-block" style="padding-top:56.25%;"><img id="5DUh8HXQKMsKtHTxKwXXgZ" name="1747071840.jpg" alt="diagram of two spacecraft orbiting earth, with the sun in the distance" src="https://cdn.mos.cms.futurecdn.net/5DUh8HXQKMsKtHTxKwXXgZ.jpg" mos="" align="middle" fullscreen="" width="2000" height="1125" attribution="" endorsement="" class=""></p></div></div><figcaption itemprop="caption description" class=" inline-layout"><span class="caption-text">Illustration showing the highly elliptical orbit of Europe’s two Proba-3 satellites, which as an apogee (or top of orbit) of around 60,000 kilometers and perigee of 600 km. Coronagraph observation based on forming an artificial eclipse between the two satellites as well as active formation flying experiments taking place toward apogee, with passive formation flying taking place as the satellites circle closer to Earth. </span><span class="credit" itemprop="copyrightHolder">(Image credit: ESA — P. Carril, 2013)</span></figcaption></figure> <p>"We are talking about millimetric accuracy in range, and sub-millimetric in the lateral position," Damien Galano, Proba-3 project manager, said in the ESA statement.</p><p>The successful test paves the way for the spacecraft to carry out their science objective: using the Occulter to block <a data-analytics-id="inline-link" href="https://www.space.com/58-the-sun-formation-facts-and-characteristics.html"><u>the sun</u></a> to create a total <a data-analytics-id="inline-link" href="https://www.space.com/15584-solar-eclipses.html"><u>solar eclipse</u></a> and allow the Coronagraph to study the sun in this unique state only occasionally seen from <a data-analytics-id="inline-link" href="https://www.space.com/54-earth-history-composition-and-atmosphere.html"><u>Earth</u></a>.</p><p>Scientists aim to use these artificial eclipses to unravel a number of mysteries, such as why the sun's <a data-analytics-id="inline-link" href="https://www.space.com/17160-sun-atmosphere.html"><u>corona</u></a>, or outer atmosphere, is so hot, what accelerates the <a data-analytics-id="inline-link" href="https://www.space.com/22215-solar-wind.html"><u>solar wind</u></a>, and how the sun flings material out into space during <a data-analytics-id="inline-link" href="https://www.space.com/coronal-mass-ejections-cme"><u>coronal mass ejections</u></a>.</p><p>But the breakthrough in demonstrating such exquisite levels of formation flying may well have bigger implications for future science and space applications beyond studying the sun. The precision formation technology could be used for enhancing Earth observation, docking spacecraft, using an occulter and observatory to search for <a data-analytics-id="inline-link" href="https://www.space.com/17738-exoplanets.html"><u>exoplanets</u></a>, and space-based <a data-analytics-id="inline-link" href="https://www.space.com/25088-gravitational-waves.html"><u>gravitational wave</u></a> detection.</p> <figure class="van-image-figure inline-layout" data-bordeaux-image-check ><div class='image-full-width-wrapper'><div class='image-widthsetter' style="max-width:1920px;"><p class="vanilla-image-block" style="padding-top:56.25%;"><img id="oqU7Vc578mzKEoNFAsyPmJ" name="Proba-3_infographic_Lining_up_with_the_Sun" alt="Diagram of Europe's two Proba-3 formation-flying satellites in space, with the sun in the background" src="https://cdn.mos.cms.futurecdn.net/oqU7Vc578mzKEoNFAsyPmJ.jpg" mos="" align="middle" fullscreen="" width="1920" height="1080" attribution="" endorsement="" class=""></p></div></div><figcaption itemprop="caption description" class=" inline-layout"><span class="caption-text">Diagram of Europe's two Proba-3 formation-flying satellites in action. </span><span class="credit" itemprop="copyrightHolder">(Image credit: ESA-F. Zonno)</span></figcaption></figure> <div class="fancy-box"><div class="fancy_box-title">Related stories</div><div class="fancy_box_body"><p class="fancy-box__body-text">— <a data-analytics-id="inline-link" href="https://www.space.com/proba-3-europe-artificial-eclipse-launch-satellites-india-sun">Europe's Proba-3 mission will create an 'artificial eclipse' to the study sun's corona</a></p><p class="fancy-box__body-text">— <a data-analytics-id="inline-link" href="https://www.space.com/15584-solar-eclipses.html">What is a solar eclipse?</a></p><p class="fancy-box__body-text">— <a data-analytics-id="inline-link" href="https://www.space.com/what-is-a-coronagraph.html">What is a coronagraph?</a></p></div></div> <p>The two Proba-3 spacecraft were <a data-analytics-id="inline-link" href="https://www.space.com/space-exploration/satellites/europes-proba-3-satellites-will-launch-early-dec-4-to-create-artificial-eclipses-in-space-watch-the-liftoff-live"><u>launched</u></a> by an Indian PSLV rocket in December into a highly elliptical orbit, which takes them as close as 373 miles (600 kilometers) to Earth and as distant as 37,612 miles (60,530 km). The pair form up as they move toward their farthest point from Earth, when the effects of Earth's gravitational pull is smaller, meaning formation flying can be maintained with very little propellant.</p><p>Next, the challenge will be getting the spacecraft's payloads ready and then aligning the pair with the sun to create <a data-analytics-id="inline-link" href="https://www.space.com/when-next-total-solar-eclipse-us"><u>total solar eclipses</u></a>.</p><p>"We can't wait to see the completion of the instrument calibration and the first processed image of the sun's corona," Galano said.</p> ]]>
+            </dc:content>
+            <link>https://www.space.com/space-exploration/satellites/europes-proba-3-satellites-ace-landmark-formation-flying-test-video</link>
+            <description>
+<![CDATA[ Europe's Proba-3 satellites have demonstrated ultra-precise formation flying in orbit for the first time, a milestone with big implications for both science and future space missions. ]]>
+            </description>
+            <guid isPermaLink="false">7Cm369EJE8WCfGmXPuE82V</guid>
+            <enclosure url="https://cdn.mos.cms.futurecdn.net/5DUh8HXQKMsKtHTxKwXXgZ.jpg" type="image/jpeg" length="0"/>
+            <pubDate>Mon, 12 May 2025 22:00:00 +0000</pubDate>
+            <category>
+<![CDATA[ Satellites ]]>
+            </category>
+            <category>
+<![CDATA[ Space Exploration ]]>
+            </category>
+            <author>
+<![CDATA[ andrew.w.jones@protonmail.com (Andrew Jones) ]]>
+            </author>
+            <dc:creator>
+<![CDATA[ Andrew Jones ]]>
+            </dc:creator>
+            <media:content type="image/jpeg" url="https://cdn.mos.cms.futurecdn.net/5DUh8HXQKMsKtHTxKwXXgZ.jpg">
+                <media:credit>
+<![CDATA[ ESA — P. Carril, 2013 ]]>
+                </media:credit>
+                <media:text>
+<![CDATA[ Illustration showing the highly elliptical orbit of Europe’s two Proba-3 satellites, which as an apogee (or top of orbit) of around 60,000 kilometers and perigee of 600 km. Coronagraph observation based on forming an artificial eclipse between the two satellites as well as active formation flying experiments taking place toward apogee, with passive formation flying taking place as the satellites circle closer to Earth. ]]>
+                </media:text>
+                <media:title type="plain">
+<![CDATA[ Illustration showing the highly elliptical orbit of Europe’s two Proba-3 satellites, which as an apogee (or top of orbit) of around 60,000 kilometers and perigee of 600 km. Coronagraph observation based on forming an artificial eclipse between the two satellites as well as active formation flying experiments taking place toward apogee, with passive formation flying taking place as the satellites circle closer to Earth. ]]>
+                </media:title>
+            </media:content>
+            <media:thumbnail url="https://cdn.mos.cms.futurecdn.net/5DUh8HXQKMsKtHTxKwXXgZ-1200-80.jpg"/>
+        </item>
+        
+    </channel>
+</rss>

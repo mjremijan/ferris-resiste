@@ -7,13 +7,16 @@ import freemarker.template.TemplateExceptionHandler;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
@@ -187,20 +190,25 @@ public class EmailDraftService {
         String projectUrl
             = version.getImplementationUrl();
 
-        // Images
-        List<RssImage> images
-            = se.getImages();
-
-        // Media files
-        List<RssMediaFile> mediaFiles
-            = se.getMediaFiles();
-
         // FeedId
         String feedId = se.getFeedId();
         
         // EntryId
         String entryId = se.getEntryId();
+        
+        // Images
+        se.getImages().forEach(i -> log.info(String.format("Pepper images %s \"%s\"", entryId, i.getUrl())));
+        List<RssImage> imagesUniqueByUrl
+            = se.getImages().stream()
+                .collect(Collectors.collectingAndThen(
+                    Collectors.toMap(RssImage::getUrl, Function.identity(), (p1, p2) -> p1),
+                    map -> new ArrayList<>(map.values())
+                ));
+        imagesUniqueByUrl.forEach(i -> log.info(String.format("Sky images %s \"%s\"", entryId, i.getUrl())));
 
+        // Media files
+        List<RssMediaFile> mediaFiles
+            = se.getMediaFiles();
 
         // Render
         Writer out = new StringWriter();
@@ -214,7 +222,7 @@ public class EmailDraftService {
             root.put("linkText", linkText);
             root.put("projectFinalName", projectFinalName);
             root.put("projectUrl", projectUrl);
-            root.put("images", images);
+            root.put("images", imagesUniqueByUrl);
             root.put("mediaFiles", mediaFiles);
             root.put("feedId", feedId);
             root.put("entryId", entryId);

@@ -18,7 +18,7 @@
 		
         <section name="Java">
             <p>
-                Resiste requires Java 11. The Windows and Linux downloads come embedded
+                Resiste requires Java 11+. The Windows and Linux downloads come embedded
                 with a Java 11, so Resiste does not depend on the system-level Java installation to run.  
             </p>
             <p>
@@ -100,7 +100,15 @@ emailAddress=FIRSTNAME LASTNAME &lt;ADDRESS@EMAIL.COM&gt;
 # email's TO field. Enter the value using
 # the format shown below.  For testing, it's a good 
 # idea to send it to yourself first.
-sendToAddress=FIRSTNAME LASTNAME &lt;ADDRESS@EMAIL.COM&gt;</source>            
+sendToAddress=FIRSTNAME LASTNAME &lt;ADDRESS@EMAIL.COM&gt;
+
+# @SINCE 1.2.1.15
+#  Toggle (true|false) actually sending the email. If 
+#  this value is set to false, everything else will be
+#  done except the email will not be sent. The default
+#  value is true if this property is not set or is not
+#  a valid "true" or "false" string
+sendingEnabled=true</source>            
         </section>
 		
         <section name="RSS URLs to Watch">
